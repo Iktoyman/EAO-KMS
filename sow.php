@@ -11,7 +11,7 @@
 	else
 		$team = $_GET['team'];
 
-	$get_teams = mysqli_query($ch_conn, "SELECT team_id, team_name FROM team WHERE team_id != 99");
+	$get_teams = mysqli_query($ch_conn, "SELECT team_id, team_name FROM team WHERE team_id NOT IN (98, 99)");
 	$teams = array();
 	while ($row = mysqli_fetch_array($get_teams))
 		$teams[] = $row;
@@ -109,13 +109,23 @@
 			<?php
 				echo "Number of Weekend Changes: " . sizeof($changes_ar1) . "<br>";
 				foreach ($ar1_statuses as $key => $val) {
-					if ($val > 0)
+					if ($val == 1) {
+						$res = mysqli_query($ch_conn, "SELECT i.item_id FROM items i, account a WHERE a.acct_id = i.account_id AND a.team_id = $team AND ((i.pht_start_datetime BETWEEN '$friday 00:00:00' AND '$monday 23:59:59') OR (i.pht_end_datetime BETWEEN '$friday 00:00:00' AND '$monday 23:59:59')) AND i.actions = 'Execute Change' AND i.status = '$key'");
+						$id = mysqli_fetch_assoc($res)['item_id'];
+						echo "- $key Changes: <a id='sow-details_link' onclick='showDetails($id)'>$val</a> <br>";
+					}
+					else if ($val > 1)
 						echo "- $key Changes: $val <br>";
 				}
 				echo "<br>";
 				echo "Number of Upcoming Changes: " . sizeof($changes_ar2) . "<br>";
 				foreach ($ar2_statuses as $key => $val) {
-					if ($val > 0)
+					if ($val == 1) {
+						$res = mysqli_query($ch_conn, "SELECT i.item_id FROM items i, account a WHERE a.acct_id = i.account_id AND a.team_id = $team AND ((i.pht_start_datetime BETWEEN CURDATE() AND '$sunday') OR (i.pht_end_datetime BETWEEN CURDATE() AND '$sunday')) AND i.actions = 'Execute Change' AND i.status = '$key'");
+						$id = mysqli_fetch_assoc($res)['item_id'];
+						echo "- $key Changes: <a id='sow-details_link' onclick='showDetails($id)'>$val</a> <br>";
+					}
+					else if ($val > 1)
 						echo "- $key Changes: $val <br>";
 				}
 			# of Weekend Changes <br>
