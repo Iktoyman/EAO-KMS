@@ -5,14 +5,36 @@
 	session_start();
 	require "establish_user.php";
 
+	if (!isset($_GET['activities'])) {
+		$action = 'Execute Change';
+	}
+	else {
+		if ($_GET['activities'] == 'changes')
+			$action = 'Execute Change';
+		else
+			$action = 'Import Transport';
+	}
+
 	$month_activities = array();
-	$get_activities = mysqli_query($ch_conn, "SELECT item_id, description, pht_start_datetime, pht_end_datetime FROM items WHERE MONTH(pht_start_datetime) = MONTH(NOW()) AND actions = 'Execute Change'");
+	$get_activities = mysqli_query($ch_conn, "SELECT item_id, description, pht_start_datetime, pht_end_datetime, status FROM items WHERE actions = '$action'");
 	$a = 0;
 	while ($row = mysqli_fetch_array($get_activities)) {
 		$month_activities[$a]['id'] = $row['item_id'];
-		$month_activities[$a]['title'] = $row['description'];
+		$month_activities[$a]['title'] = html_entity_decode($row['description']);
 		$month_activities[$a]['start'] = $row['pht_start_datetime'];
 		$month_activities[$a]['end'] = $row['pht_end_datetime'];
+		if ($row['status'] == 'Open')
+			$month_activities[$a]['className'] = 'cal_event_div-open';
+		else if ($row['status'] == 'In Progress')
+			$month_activities[$a]['className'] = 'cal_event_div-inpr';
+		else if ($row['status'] == 'Completed')
+			$month_activities[$a]['className'] = 'cal_event_div-comp';
+		else if ($row['status'] == 'Failed')
+			$month_activities[$a]['className'] = 'cal_event_div-fail';
+		else if ($row['status'] == 'Overdue')
+			$month_activities[$a]['className'] = 'cal_event_div-over';
+		else if ($row['status'] == 'Cancelled')
+			$month_activities[$a]['className'] = 'cal_event_div-canc';
 		$a++;
 	}
 
@@ -42,9 +64,18 @@
 				header: {
 					left: 'prev,next today',
 					center: 'title',
-					right: 'month,basicWeek,basicDay'
+					right: 'month,basicWeek,listWeek,listDay'
 				},
+				views: {
+					month: {
+						eventLimit: 5
+					}
+				},
+				timeFormat: 'HH:mmt',
+				columnFormat: 'dddd',
+				weekNumbers: true,				
 				editable: true,
+				eventLimit: true,
 				events: events,
 				eventClick: function(calEvent) {
 					showDetails(calEvent.id);
@@ -54,7 +85,8 @@
 			$('.fc-today-button').html("Today");
 			$('.fc-month-button').html("Month View");
 			$('.fc-basicWeek-button').html("Week View");
-			$('.fc-basicDay-button').html("Day View");
+			$('.fc-listWeek-button').html("List by Week");
+			$('.fc-listDay-button').html("List by Day");
 
 			console.log($('.fc-row.fc-week').height());
 		})
@@ -79,6 +111,11 @@
 		<div id="chg_calendar">
 
 		</div>
+		<hr>
+		<ul class='change-calendar-view-ul'>
+			<li><a href='calendar.php?activities=changes'> Change Activities </a></li>
+			<li><a href='calendar.php?activities=transports'> Transports </a></li>
+		</ul>
 	</div>
 <?php
 	require "account_modals.php";

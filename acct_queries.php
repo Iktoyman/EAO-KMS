@@ -139,8 +139,8 @@
 		$chg = mysqli_fetch_array($res);
 		if (html_entity_decode($chg['change_ticket_id']) != $_POST['chg_id'])
 			$chg_summary .= "Changed ticket ID from <b>" . $chg['change_ticket_id'] . "</b> to <b>" . $_POST['chg_id'] . "</b>.<br>";
-		if ($chg['description'] != $_POST['title'])
-			$chg_summary .= "Changed title from <b>" . $chg['description'] . "</b> to <b>" . $_POST['title'] . "</b>.<br>";
+		if ($chg['description'] != $title)
+			$chg_summary .= "Changed title from <b>" . $chg['description'] . "</b> to <b>" . $title . "</b>.<br>";
 		if ($chg['primary_resource'] != $_POST['primary_res'])
 			$chg_summary .= "Changed primary resource from <b>" . $chg['name'] . "</b> to <b>" . mysqli_fetch_assoc(mysqli_query($ch_conn, "SELECT CONCAT(first_name, ' ', last_name) AS name FROM users WHERE user_id = " . $_POST['primary_res']))['name'] . "</b>.<br>";
 		$sr = mysqli_fetch_array(mysqli_query($ch_conn, "SELECT user_id FROM activity_sec_resources WHERE item_id = " . $id));

@@ -5,6 +5,7 @@
 	$res = mysqli_query($ch_conn, $qry);
 	while ($row = mysqli_fetch_array($res)) {
 		mysqli_query($ch_conn, "UPDATE items SET status = 'Overdue' WHERE item_id = " . $row['item_id']);
+		mysqli_query($ch_conn, "INSERT INTO item_notes(item_id, note_date, note_details, note_uploader) VALUES(".$row['item_id'].", NOW(), 'Change has now passed scheduled end date/time and is now Overdue.', 285)");
 
 		$usr_qry = "SELECT CONCAT(u.username, ', ', u2.username) AS recipients FROM users u, users u2, items i WHERE i.uploader_id = u.user_id AND i.primary_resource = u2.user_id AND i.item_id = " . $row['item_id'];
 		$to = mysqli_fetch_assoc(mysqli_query($ch_conn, $usr_qry))['recipients'];
