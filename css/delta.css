@@ -527,7 +527,7 @@ td #acct_table_num {
 	border-right: 1px solid #ddd;
 }
 
-.account_details_table td > a, #show_notes_link, #add-note_btn, #edit-change_btn, #save-change_btn, #choose-status_btn, #cancel-changes_btn, #det_kms a {
+.account_details_table td > a, #show_notes_link, #add-note_btn, #edit-change_btn, #save-change_btn, #choose-status_btn, #cancel-changes_btn, #sow-details_link, .fc-list-item-title, #det_kms a {
 	color: rgb(000, 201, 255);
 	cursor: hand;
 }
@@ -651,9 +651,55 @@ td #acct_table_num {
 	font-size: 0.7vw;
 }
 
+.fc-content-skeleton table td{
+	padding: 0.1%;
+}
+
+.fc-content-skeleton table {
+	border: 5px solid rgb(68, 68, 68);
+}
+
+.fc-content {
+	padding: 0.5% 1%;
+	font-size: 0.6vw;
+}
+
+.cal_event_div-open div{
+	background-color: rgb(000, 201, 255);
+}
+
+.cal_event_div-inpr div{
+	background-color: yellow;
+}
+
+.cal_event_div-comp div{
+	background-color: green;
+	color: white;
+}
+
+.cal_event_div-fail div{
+	background-color: #e50000;
+	color: white;
+}
+
+.cal_event_div-canc div{
+	background-color: #888;
+	color: white;
+}
+
+.cal_event_div-over div{
+	background-color: #f97e31;
+	color: white;
+}
+
 #chg_calendar {
 	margin-top: 5%;
 	height: 90%;
+	overflow: auto;
+}
+
+#chg_calendar .fc-view-container {
+	margin: 0.5%;
 }
 
 #chg_calendar .fc-scroller .fc-day-grid-container {
@@ -683,6 +729,25 @@ td #acct_table_num {
 
 #chg_calendar .fc-day-header {
 	padding: 1%;
+}
+
+.change-calendar-view-ul {
+	text-align: center;
+	position: fixed;
+	bottom: 2.5%;
+	width: 100%;
+}
+
+.change-calendar-view-ul li{
+	display: inline;
+	list-style: none;
+	margin: 0 2.5%;
+	font-size: 0.8vw;
+}
+
+.change-calendar-view-ul li > a {
+	cursor: hand;
+	color: rgb(000, 201, 255);
 }
 
 .change-list-view-ul {
