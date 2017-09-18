@@ -1,0 +1,41 @@
+
+.formStyle{
+	background-color: #E3E3E3;
+	margin-top: 5%;
+	margin-left: 20%;
+	margin-right: 20%;
+	padding: 40px;
+	padding-left: 130px;
+	padding-right: 130px;
+	font-family: "Haettenschweiler";
+	font-size: 25px;
+	box-shadow: 0px 0px 45px #888888;
+}
+
+.formtdStyle{
+	padding: 20px;
+	letter-spacing: 2px;
+	width: 250px;
+}
+
+input, select{
+	width: 600px;
+	padding-left: 30px;
+}
+
+.submitButtonStyle{
+	background-color: #ffcc00; /* Green */
+    border: 1px white;
+    color: black;
+    padding: 3px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.submitButtonStyle:hover{
+	box-shadow: 0px 0px 30px #888888;
+}

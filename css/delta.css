@@ -1,0 +1,809 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:500');
+
+body {
+	font-family: 'Lato';
+	letter-spacing: 0.025vw;
+	position: relative;
+	background-color: #444;
+	padding: 0.25vw 1vw;
+	color: white;
+	width: 100%;
+	height: 99%;
+}
+
+.loading {
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.65);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99999;
+	display: none;
+}
+
+#loading-img {
+	width: 10%;
+	position: absolute;
+	margin: 15% 45%;
+}
+
+#loading-label {
+	font-family: 'Ubuntu', sans-serif;
+	width: 100%;
+	position: absolute;
+	margin: 25% 0;
+	text-align: center;
+	font-weight: bold;
+	font-style: black;
+	font-size: 1.25vw;
+}
+
+a {
+	color: yellow;
+}
+
+a:hover {
+	color: white;
+}
+
+/* HOME PAGE */
+h1 {
+	margin-bottom: -0.5%;
+}
+
+hr {
+	margin-bottom: 0.5%;
+}
+
+textarea {
+	resize: none;
+	font-size: 0.65vw;
+}
+
+.welcome_message {
+	float: right;
+	font-size: 0.9vw;
+	margin-top: 1%;
+}
+
+.logout {
+	float: right;
+}
+
+/* CREATE ITEM MODAL */
+
+.modal-dialog {
+	margin-top: 0;
+	margin-bottom: 0;
+	height: 100% !important;
+	overflow: hidden;
+}
+
+.create_modal {
+	padding-top: 0.1%;
+	position: absolute;
+	height: 97%;
+	width: 75%;
+	margin: 1% 12.5%;
+	overflow: auto;
+}
+
+.required-field {
+	border-color: red;
+}
+
+.modal-body .close {
+	float: right;
+	right: 1%;
+	width: 2%; 
+	background-color: #eee; 
+	position: absolute;
+}
+
+.create_modal input, .create_modal select {
+	height: 1.5vw;
+	padding: 0.25vw;
+	font-size: 0.7vw;
+}
+
+.create_modal select {
+	width: 75%;
+}
+
+.create_modal #secondary_res, .create_modal #secondary_res2, .create_modal #os_dd, .create_modal #sp_dd, .create_modal #db_dd {
+	height: 1.5vw;
+	width: 75%;
+	padding: 0.25vw;
+	font-size: 0.7vw;
+	text-align: left;
+	background-color: #fff;
+	color: black;
+	border: 1px solid #afafaf;
+}
+
+.create_modal .sec_res_dropdown, .create_modal .sec_res_dropdown2, .create_modal .os_dropdown, .create_modal .db_dropdown, .create_modal .sp_dropdown {
+	font-size: 0.7vw;
+	padding: 0 0.25vw;
+	width: 23.3%;
+	max-height: 36.5%;
+	position: absolute;
+	background-color: white;
+	border: 0.5px solid #bbf;
+	overflow: auto;
+	z-index: 9999;
+}
+
+.sec_res_dropdown li, .sec_res_dropdown2 li, .os_dropdown li, .db_dropdown li, .sp_dropdown li {
+	margin-left: -15%;
+	line-height: 1vw;
+	list-style: none;
+}
+
+.sec_res_dropdown #sec_res_chkbox, .sec_res_dropdown2 #sec_res_chkbox, #edit-sec_res_chkbox, .os_dropdown #os_chkbox, .db_dropdown #db_chkbox, .sp_dropdown #sp_chkbox, #edit-pipeline {
+	margin-top: 7.5px;
+	margin-right: 2%;
+	line-height: 1vw;
+	height: 0.7vw;
+	padding: 0;
+}
+
+.create_modal .glyphicon-triangle-bottom {
+	transform: scale(0.5, 1);
+	float: right;
+	margin-top: 1px;
+}
+
+.modal-title {
+	font-size: 1vw;
+}
+
+.divider_text {
+	background-color: white;
+	font-size: 0.5vw;
+	color: #aaa;
+	position: absolute;
+	margin-top: 1% !important;
+}
+
+.db_os_sp_tr {
+	display: none;
+}
+
+.tech_tr {
+	display: none;
+}
+
+.time_options_tr {
+	display: none;
+}
+
+
+#chg_desc, #reference {
+	width: 80%;
+}
+
+.create_modal #chg_ticket_id, .create_modal #sids, .create_modal #servers, .create_modal #account, .create_modal #notes, .create_modal #actions, .create_modal #primary_res, .create_modal #secondary_res, .create_modal #secondary_res2, .create_modal #reference, .create_modal #kms_id {
+	width: 85%;
+}
+
+.datepicker {
+	z-index: 99999999999 !important;
+}
+
+#datepicker1, #datepicker2, #datepicker3, #datepicker4, #sched_timepicker1, #sched_timepicker2, #sched_timepicker3, #sched_timepicker4 {
+	width: 40%;
+}
+
+.ui-timepicker-wrapper {
+	width: 8vw !important;
+}
+
+.create_form_table {
+	color: black;
+}
+
+.create_form_table td {
+	font-size: 0.75vw;
+	border: 1px solid white !important;
+	vertical-align: center;
+}
+
+.create_form_table #activity_dropdown {
+	visibility: hidden;
+}
+
+.divider_tr hr{
+	margin: 0;
+
+}
+
+#form_status_div {
+	text-align: center;
+}
+
+#form_status_dropdown {
+	width: 25%;
+} 
+
+#save_btn {
+	position: absolute;
+	float: right;
+	right: 1.5%;
+	margin: -6.5% 0% 2.5% 0%;
+}
+
+#save_btn:hover{
+	cursor: hand;
+	height: 80px;
+	width: 80px;
+}
+
+.asterisk {
+	font-weight: bold;
+	color: red;
+}
+
+/* MY ACCOUNTS MODAL */
+.modal-dialog {
+	height: 90%;
+	width: 100%;
+}
+
+.my_accounts_modal {
+	position: absolute; 
+	margin: 1% 1.5%; 
+	width: 95%;
+	max-height: 95%;
+	overflow: auto;
+}
+
+.my_accounts_table {
+	width: 100%;
+	max-height: 90%;
+	margin: 0 auto;
+	color: black;
+	font-size: 0.7vw;
+}
+
+.my_accounts_table thead td{
+	text-align: center;
+	border-left: 1px solid #ccc;
+	background-color: #666;
+	color: white;
+	font-weight: bold;
+}
+
+.my_accounts_table td {
+	border-left: 1px solid #ccc;
+	width: 7%;
+	text-align: center;
+	font-size: 0.8vw;
+	padding: 20%;
+}
+
+.my_accounts_table #acct_table_td1 {
+	background-color: #fff;
+}
+
+.my_accounts_table #acct_table_td2 {
+	background-color: #cdddf7;
+}
+
+
+td #acct_table_num {
+	display: block;
+	margin: 0 auto;
+}
+
+.my_accounts_table thead .account_col {
+	width: 14%;
+	height: 10%;
+	background-color: #666;
+	font-size: 1.5vw;
+}
+
+.my_accounts_table tbody .account_col {
+	background-color: rgb(000, 201, 255);
+	text-align: left;
+	color: white;
+}
+
+.account_col #acct_abbreviation {
+	font-size: 0.9vw;
+}
+
+.account_col #acct_name {
+	font-size: 0.6vw;
+}
+
+.header_div {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 0 1%;
+	background-color: black;
+	width: 100%;
+	height: 6.5%;
+	border-bottom: 2px solid white;
+}
+
+.header_name_div {
+	position: absolute;
+	height: 100%;
+	width: 25%;
+	display: inline-block;
+	padding: 0.25%;
+	border-right: 1px solid #666;
+}
+
+.header_navbar_div {
+	position: absolute;
+	left: 26.5%;
+	height: 100%;
+	width: 50%;
+	padding: 1%;
+	display: inline-block;
+}
+
+.header_navbar_div a {
+	cursor: hand;
+}
+
+.header_navbar_div .glyphicon-triangle-bottom {
+	transform: scale(0.5, 1); 
+}
+
+.header_user_div {
+	position: absolute;
+	height: 100%;
+	width: 23%;
+	background-color: yellow;
+	right: 0;
+	display: inline-block;
+}
+
+.header_name {
+	font-weight: bold;
+	letter-spacing: 0.45vw;
+	font-size: 1.75vw;
+}
+
+.header_span {
+	position: relative;
+	float: right;
+	top: 0.75vw;
+	font-size: 0.7vw;
+	letter-spacing: 0.1vw;
+}
+
+#header_acct-dropdown {
+	font-size: 1vw;
+	letter-spacing: 0.2vw;
+}
+
+#header_acct-dropdown-div {
+	background-color: black;
+	position: absolute;
+	top: 105%;
+	left: -1%;
+	background-color: #efefef;
+	width: 40%;
+	max-height: 300px;
+	z-index: 999999999;
+	overflow: auto;
+	border: 1px solid #323232;
+	border-bottom-left-radius: 0.25vw;
+	border-bottom-right-radius: 0.25vw;
+}
+
+#header_add-list {
+	background-color: black;
+	margin-bottom: 0;
+}
+
+#header_add-list li {
+	background-color: black;
+	list-style: none;
+	margin-left: -10%;
+}
+
+#header_add-list a {
+	font-size: 0.7vw;
+	line-height: 1vw;
+}
+
+.body_div {
+	height: 90%;
+	margin-top: 3.75%;
+}
+
+.account_name_div {
+	height: 5%;
+	font-size: 1.5vw;
+}
+
+.account_details_div {
+	margin-top: 1%;
+	height: 92.5%;
+	border-left: 1.5px solid #eee;
+}
+
+.account_details_top {
+}
+
+.account_details_top #cur_status, .account_details_top #cur_type, .account_details_top #cur_week, .account_details_top #cur_month {
+	font-style: italic;
+	font-size: 0.6vw;
+}
+
+.account_details_dropdown_div {
+	position: absolute;
+	top: 15%;
+	right: 1%;
+	width: 15%;
+	color: black;
+}
+
+.account_details_dropdown_div select {
+	float: right;
+	width: 100%;
+	line-height: 1.25vw;
+	border-radius: 0.25vw;
+	font-size: 0.75vw;
+	padding: 0.25vw;
+}
+
+.account_details_div .nav-tabs > li > a {
+	border-right: 1px solid #eee;
+	border-top: 1px solid #eee;
+	width: 200px;
+	text-align: center;
+	border-top-left-radius: 0px;
+	font-size: 0.75vw;
+}
+
+.account_details_div .nav-tabs > li > a:hover{
+	color: black;
+	background-color: #eee;
+	cursor: hand;
+}
+
+.account_details_div_tab {
+	height: 95%;
+	background-color: #fff;
+	border-bottom-left-radius: 0.5vw;
+	border-bottom-right-radius: 0.5vw;
+	color: black;
+	overflow: auto;
+}
+
+.account_details_div_tab h4 {
+	font-size: 1vw;
+}
+
+.account_details_div_tab .tab-pane {
+	padding: 0.5%;
+}
+
+.account_details_item_container {
+	height: 25%;
+	margin-top: 1%;
+	margin-bottom: 0.5%;
+	margin-left: 1%;
+}
+
+.account_details_item {
+	text-align: center;
+	display: inline-block;	
+	width: 10%;
+	height: 100%;
+	padding: 0.5%;;
+	border-radius: 0.3vw;
+	-moz-box-shadow: inset 0 0 15px #555;
+	-webkit-box-shadow: inset 0 0 15px #555;
+	box-shadow: inset 0 0 15px #555;
+	background-color: #ddd;
+	margin: 0 2.5% 0 0;
+	float: left;
+}
+
+.account_details_item #account_details_item_label {
+	max-height: 10%;
+	font-size: 0.9vw;
+	line-height: 1vw;
+}
+
+.account_details_item #account_details_item_number {
+	margin-top: 20%;
+	font-size: 2vw;
+	text-align: center;
+}
+
+.account_details_table td {
+	font-size: 0.65vw;
+	color: black;
+	border-right: 1px solid #ddd;
+}
+
+.account_details_table td > a, #show_notes_link, #add-note_btn, #edit-change_btn, #save-change_btn, #choose-status_btn, #cancel-changes_btn, #det_kms a {
+	color: rgb(000, 201, 255);
+	cursor: hand;
+}
+
+#det_notes_td p, #det_notes_td td, #notes_tbody td {
+	line-height: 150%;
+	color: black !important;
+	font-size: 0.6vw;
+}
+
+#show_notes_link, #det_notes_td a, #notes_tbody a {
+	color: rgb(0, 201, 255) !important;
+}
+
+#det_notes_td {
+	height: 20%;
+}
+
+#ticket_control_td {
+	border: 1px solid #ddd;
+	width: 33%;
+}
+
+.account_details_table thead {
+	background-color: #4286f4; 
+}
+
+
+/* Show Details Modal */
+#show_dets_link, #show_notes_link {
+	cursor: hand;
+}
+
+.create_form_table .show_details {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.show_details_table {
+	font-style: italic;
+	font-size: 0.8vw;
+	text-align: left;
+	/*text-decoration: underline;*/
+	width: 16.5% !important;
+}
+
+.show_details_table_label {
+	width: 16.5%;
+	font-weight: bold;
+	background-color: #eee;
+}
+
+.show_details_table_input {
+	width: 80%;
+}
+
+.show_details {
+	color: black;
+	border-left: 1px solid #ddd;
+	border-right: 5px solid #eee;
+}
+
+.show_details td {
+	width: 16.5%;
+	font-size: 0.75vw;
+	vertical-align: center;
+}
+
+.show_details_table {
+	width: 33.3% !important;
+}
+
+.notes_modal {
+	width: 45%;
+	margin: 5% auto;
+	height: 75%;
+	overflow: auto;
+}
+
+.notes_modal .modal-header, .add_notes_modal .modal-header {
+	text-align: center;
+}
+
+.notes_modal .modal-body {
+	padding-bottom: 1%;
+}
+
+.notes_modal .notes_table {
+	color: black;
+	font-size: 0.7vw;
+}
+
+.notes_modal .notes_table thead > td {
+	background-color: #ddd;
+}
+
+.add_notes_modal {
+	width: 35%;
+	margin: 12.5% auto;
+	height: 40%;
+}
+
+.add_notes_modal #add-note_textarea {
+	width: 98%;
+	height: 60%;
+	margin-top: 2%;
+	line-height: 1.25vw;
+	font-size: 0.75vw;
+	padding: 1%;
+}
+
+.add_notes_modal .modal-footer {
+	position: absolute;
+	padding: 2%;
+	width: 100%;
+	height: 17.5%;
+	bottom: 0;
+}
+
+.add_notes_modal button {
+	font-size: 0.7vw;
+}
+
+#chg_calendar {
+	margin-top: 5%;
+	height: 90%;
+}
+
+#chg_calendar .fc-scroller .fc-day-grid-container {
+	height: 90% !important;
+}
+
+#chg_calendar h2 {
+	font-size: 1.5vw;
+}
+
+#chg_calendar td, #chg_calendar th{
+	color: black;
+	font-size: 0.75vw;
+}
+
+#chg_calendar .fc-content-skeleton tbody {
+	padding: 1%;
+}
+
+#chg_calendar td .fc-event-container {
+	margin: 0.5% !important;
+}
+
+#chg_calendar td > a {
+	color: rgb(0, 201, 255);
+}
+
+#chg_calendar .fc-day-header {
+	padding: 1%;
+}
+
+.change-list-view-ul {
+	text-align: center;
+	position: fixed;
+	bottom: 2.5%;
+	width: 100%;
+}
+
+.change-list-view-ul li{
+	display: inline;
+	list-style: none;
+	margin: 0 2.5%;
+	font-size: 0.7vw;
+}
+
+.change-list-view-status-btn, .change-list-view-date-btn {
+	cursor: hand;
+	color: rgb(000, 201, 255);
+}
+
+.change-list {
+	font-size: 0.7vw;
+}
+
+.change-list th {
+	font-size: 0.8vw;
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+}
+
+.change-list tbody > tr:hover {
+	color: black;
+}
+
+.change-list td {
+	padding: 2%;
+}
+
+.change-list td > a, .change-list th, .change-list a {
+	color: rgb(0, 201, 255);
+	cursor: hand;
+}
+
+.change-list-filter {
+	display: none;
+}
+
+.change-list .status-inprogress {
+	color: rgb(255, 237, 000);
+}
+
+.change-list .status-completed {
+	color: rgb(100, 255, 000);
+}
+
+.change-list .status-failed {
+	color: red;
+	font-weight: bold;
+}
+
+.change-list .status-overdue {
+	color: orange;
+	font-weight: bold;
+}
+
+#change-list-thead {
+	margin-bottom: 0;
+}
+
+#change-list-tbody-div {
+	max-height: 65%;
+	overflow: auto;
+	border-bottom: 1px solid white;
+	margin-bottom: 1%;
+}
+
+#sow-tbody-div {
+	max-height: 50%;
+	overflow: auto;
+	border-bottom: 1px solid white;
+	margin-bottom: 1%;
+}	
+
+#change-list-thead-tr .glyphicon {
+	float: right;
+}
+
+.sorted, .rev-sorted {
+	background-color: #555;
+}
+
+#change-list-thead-tr input {
+	line-height: 75%;
+	padding: 1%;
+	font-size: 0.6vw;
+	width: 75%;
+	color: black;
+}
+
+#chg_calendar .fc-button-group {
+	display: inline-block !important;
+}
+
+::-webkit-scrollbar {
+    width: 0.75vw;
+    padding: 1%;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.7); 
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-track-piece {
+	background-color: #333;
+	border-radius: 6px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 6px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.9); 
+}

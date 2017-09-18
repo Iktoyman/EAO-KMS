@@ -1,0 +1,88 @@
+
+.header {
+    background-color: #EFEFEF;
+    color: #525050;
+    padding: 15px;
+    font-family: "Century Gothic";
+    width: 100%;
+}
+
+.progressHeader{
+    padding-top: 10px;
+    text-align: center;
+   font-family: "Century Gothic";
+   font-size: 50px;
+}
+
+
+.detailHeading{
+    font-family: "Century Gothic";
+    font-size: 50px;
+}
+
+.titleStyle{
+    font-family: "Century Gothic";
+    font-size: 20px;
+    color: black;
+}
+
+.titleStyle:hover{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+.tableTdStyle{
+    padding: 30px;
+    cursor: pointer;
+}
+
+#eaoAccliDiv, #nestleOnboardDiv, #techTrainingDiv, #nestleExamsDiv, #nestleSpecTrainDiv, #acceleratingUDiv, #certificationsDiv{
+    display: none;
+}
+
+table.GeneratedTable {
+  width: 75%;
+  background-color: #ffffff;
+  border-collapse: collapse;
+  border-width: 2px;
+  border-color: #ffcc00;
+  border-style: solid;
+  color: #000000;
+}
+
+table.GeneratedTable td, table.GeneratedTable th {
+  border-width: 2px;
+  border-color: #ffcc00;
+  border-style: solid;
+  padding: 8px;
+}
+
+table.GeneratedTable thead {
+  background-color: #ffcc00;
+}
+
+#IRM, #PM, #EM, #ADKB, #CM, #ST, #KPM, #BJO, #CRR, #TSP{
+    display: none;
+}
+
+.nestleSpecTrainStyle{
+    font-family: "Haettenschweiler";
+    font-size: 25px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-decoration-style: none;
+}
+
+.nestleSpecTrainStyle:hover{
+    text-decoration: none;
+}
+
+#division{
+    background-color: red;
+}
+
+#genStyle{
+  background-color: #E3E3E3;
+  padding: 20px;
+}
