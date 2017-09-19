@@ -53,8 +53,16 @@ function showDetails(id) {
 		//console.log(data['server']);
 		if (data['server'] == " ")
 			document.getElementById('det_servers').innerHTML = "N/A";
-		else	
-			document.getElementById('det_servers').innerHTML = data['server'];
+		else {
+			if (data['server'].length > 128) {
+				var server_start = data['server'].substr(0, 128);
+				var server_rest = data['server'].substr(128);
+				document.getElementById('det_servers').innerHTML = server_start + "<span id='read-more_span' style='display: none'>" + server_rest + "</span><a id='more-less-btn' onclick='readMoreServers()'>&nbsp; ...Read More</a>";
+				//document.getElementById('det_servers').innerHTML += "<br>" + server_rest;
+			}
+			else 
+				document.getElementById('det_servers').innerHTML = data['server'];
+		}
 		document.getElementById('det_os').innerHTML = data['os'];
 		document.getElementById('det_db').innerHTML = data['db'];
 		document.getElementById('det_sp').innerHTML = data['sp'];
@@ -643,4 +651,15 @@ function resetModal() {
 		$('#cancel-changes_btn').parent().css('display', 'none');
 		$('#choose-status_btn').parent().css('display', 'table-cell');
 	//}
+}
+
+function readMoreServers() {
+	if ($('#read-more_span').css("display") == 'inline') {
+		$('#read-more_span').css("display", "none");
+		$('#more-less-btn').html('&nbsp; ...Read More');
+	}
+	else {
+		$('#read-more_span').css("display", "inline");
+		$('#more-less-btn').html('&nbsp; Read Less');
+	}
 }

@@ -16,26 +16,34 @@
 	}
 
 	$month_activities = array();
-	$get_activities = mysqli_query($ch_conn, "SELECT item_id, description, pht_start_datetime, pht_end_datetime, status FROM items WHERE actions = '$action'");
+	$get_dates = mysqli_query($ch_conn, "SELECT DISTINCT DATE(pht_start_datetime) AS dates FROM items WHERE actions = '$action' ORDER BY dates ASC");
 	$a = 0;
-	while ($row = mysqli_fetch_array($get_activities)) {
-		$month_activities[$a]['id'] = $row['item_id'];
-		$month_activities[$a]['title'] = html_entity_decode($row['description']);
-		$month_activities[$a]['start'] = $row['pht_start_datetime'];
-		$month_activities[$a]['end'] = $row['pht_end_datetime'];
-		if ($row['status'] == 'Open')
-			$month_activities[$a]['className'] = 'cal_event_div-open';
-		else if ($row['status'] == 'In Progress')
-			$month_activities[$a]['className'] = 'cal_event_div-inpr';
-		else if ($row['status'] == 'Completed')
-			$month_activities[$a]['className'] = 'cal_event_div-comp';
-		else if ($row['status'] == 'Failed')
-			$month_activities[$a]['className'] = 'cal_event_div-fail';
-		else if ($row['status'] == 'Overdue')
-			$month_activities[$a]['className'] = 'cal_event_div-over';
-		else if ($row['status'] == 'Cancelled')
-			$month_activities[$a]['className'] = 'cal_event_div-canc';
-		$a++;
+	while ($date_row = mysqli_fetch_array($get_dates)) {
+		$reference_date = $date_row['dates'];
+		$get_activities = mysqli_query($ch_conn, "SELECT item_id, description, pht_start_datetime, pht_end_datetime, status FROM items WHERE actions = '$action' AND DATE(pht_start_datetime) = '$reference_date' ORDER BY pht_start_datetime, description ASC");
+		$disp = 0;
+		while ($row = mysqli_fetch_array($get_activities)) {
+			$month_activities[$a]['id'] = $row['item_id'];
+			$month_activities[$a]['title'] = html_entity_decode($row['description']);
+			$month_activities[$a]['start'] = $row['pht_start_datetime'];
+			$month_activities[$a]['end'] = $row['pht_end_datetime'];
+			if ($row['status'] == 'Open')
+				$month_activities[$a]['className'] = 'cal_event_div-open';
+			else if ($row['status'] == 'In Progress')
+				$month_activities[$a]['className'] = 'cal_event_div-inpr';
+			else if ($row['status'] == 'Completed')
+				$month_activities[$a]['className'] = 'cal_event_div-comp';
+			else if ($row['status'] == 'Failed')
+				$month_activities[$a]['className'] = 'cal_event_div-fail';
+			else if ($row['status'] == 'Overdue')
+				$month_activities[$a]['className'] = 'cal_event_div-over';
+			else if ($row['status'] == 'Cancelled')
+				$month_activities[$a]['className'] = 'cal_event_div-canc';
+			if ($disp > 4) 
+				$month_activities[$a]['className'] .= ' event-excess';
+			$disp++;
+			$a++;
+		}
 	}
 
 	// GET TIMEZONES ARRAY
@@ -46,13 +54,13 @@
 <html>
 <head>
 	<title> Project Delta - Change Calendar</title>
-	<link href="js/fullcalendar/fullcalendar.print.css" type="text/css" rel="stylesheet">
+	<link href="js/fullcalendar/fullcalendar.print.css" type="text/css" rel="stylesheet" media="print">
 	<?php
 		require "head.php";
 	?>
 	<script type="text/javascript" src="js/account.js"></script>
 	<script type="text/javascript" src="js/moment/min/moment.min.js"></script>
-	<script type="text/javascript" src="js/fullcalendar/fullcalendar.min.js"></script>
+	<script type="text/javascript" src="js/fullcalendar/fullcalendar.js"></script>
 	<link href="js/fullcalendar/fullcalendar.min.css" type="text/css" rel="stylesheet">
 
 	<script>
@@ -66,16 +74,12 @@
 					center: 'title',
 					right: 'month,basicWeek,listWeek,listDay'
 				},
-				views: {
-					month: {
-						eventLimit: 5
-					}
-				},
 				timeFormat: 'HH:mmt',
 				columnFormat: 'dddd',
 				weekNumbers: true,				
 				editable: true,
 				eventLimit: true,
+				navLinks: true,
 				events: events,
 				eventClick: function(calEvent) {
 					showDetails(calEvent.id);
@@ -88,7 +92,8 @@
 			$('.fc-listWeek-button').html("List by Week");
 			$('.fc-listDay-button').html("List by Day");
 
-			console.log($('.fc-row.fc-week').height());
+			//$('.event-excess').css("display", 'none');
+
 		})
 	</script>
 </head>
