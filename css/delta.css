@@ -527,7 +527,7 @@ td #acct_table_num {
 	border-right: 1px solid #ddd;
 }
 
-.account_details_table td > a, #show_notes_link, #add-note_btn, #edit-change_btn, #save-change_btn, #choose-status_btn, #cancel-changes_btn, #sow-details_link, .fc-list-item-title, #det_kms a {
+.account_details_table td > a, #show_notes_link, #add-note_btn, #edit-change_btn, #save-change_btn, #choose-status_btn, #cancel-changes_btn, #more-less-btn, #sow-details_link, .fc-list-item-title, #det_kms a {
 	color: rgb(000, 201, 255);
 	cursor: hand;
 }
