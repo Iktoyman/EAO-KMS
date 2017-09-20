@@ -7,12 +7,17 @@
 
 	if (!isset($_GET['activities'])) {
 		$action = 'Execute Change';
+		$eventlimit_flag = false;
 	}
 	else {
-		if ($_GET['activities'] == 'changes')
+		if ($_GET['activities'] == 'changes') {
 			$action = 'Execute Change';
-		else
+			$eventlimit_flag = false;
+		}
+		else {
 			$action = 'Import Transport';
+			$eventlimit_flag = true;
+		}
 	}
 
 	$month_activities = array();
@@ -65,6 +70,8 @@
 
 	<script>
 		var events = <?php echo json_encode($month_activities); ?>;
+		var limit = <?php echo json_encode($eventlimit_flag); ?>;
+		var action = '<?php echo $action; ?>';
 
 		$(document).ready(function() {
 			$('#chg_calendar').fullCalendar({
@@ -72,15 +79,22 @@
 				header: {
 					left: 'prev,next today',
 					center: 'title',
-					right: 'month,basicWeek,listWeek,listDay'
+					right: 'basicWeek,listWeek,listDay,month'
 				},
+				defaultView: 'basicWeek',
+				height: 650,
 				timeFormat: 'HH:mmt',
 				columnFormat: 'dddd',
 				weekNumbers: true,				
 				editable: true,
-				eventLimit: true,
+				eventLimit: limit,
 				navLinks: true,
 				events: events,
+				views: {
+					basic: {
+						eventLimit: 10
+					}
+				},
 				eventClick: function(calEvent) {
 					showDetails(calEvent.id);
 				}
@@ -104,23 +118,23 @@
 			<a href="../delta"> <span class="header_name"> CHANGE TRACKER </span> </a>
 		</div>
 		<div class="header_navbar_div">
-			
+			<a id="header_acct-dropdown"> Actions <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
+			<div id="header_acct-dropdown-div">
+				<ul id='header_add-list'>
+					<li><a href='calendar.php?activities=changes'> Change Activities </a></li>
+					<li><a href='calendar.php?activities=transports'> Transports </a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="header_user_div">
 
 		</div>	
 
 	</div>
-
 	<div class="body_div">
 		<div id="chg_calendar">
 
 		</div>
-		<hr>
-		<ul class='change-calendar-view-ul'>
-			<li><a href='calendar.php?activities=changes'> Change Activities </a></li>
-			<li><a href='calendar.php?activities=transports'> Transports </a></li>
-		</ul>
 	</div>
 <?php
 	require "account_modals.php";

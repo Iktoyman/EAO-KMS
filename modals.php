@@ -201,13 +201,13 @@
 						<tr class="cust_sched_tr">
 							<td> Planned Start Schedule <br>(Customer Time) <span class="asterisk">*</span> </td>
 							<td>
-								<input type='text' class='datepicker-here' id='datepicker3' data-language='en' name="cu_sdate" placeholder="MM/DD/YYYY"/> &nbsp;
-								<input type='text' name='cu_stime' id='sched_timepicker3' placeholder="HH:SS" />
+								<input type='text' class='datepicker-here' id='datepicker3' data-language='en' name="cu_sdate" placeholder="MM/DD/YYYY" /> &nbsp;
+								<input type='text' name='cu_stime' id='sched_timepicker3' placeholder="HH:SS" onchange="convertTimezone()"/>
 							</td>
 							<td> Planned End Schedule <br>(Customer Time) <span class="asterisk">*</span> </td>
 							<td>
-								<input type='text' class='datepicker-here' id='datepicker4' data-language='en' name="cu_edate" placeholder="MM/DD/YYYY"/> &nbsp;
-								<input type='text' name='cu_etime' id='sched_timepicker4' placeholder="HH:SS" />
+								<input type='text' class='datepicker-here' id='datepicker4' data-language='en' name="cu_edate" placeholder="MM/DD/YYYY" /> &nbsp;
+								<input type='text' name='cu_etime' id='sched_timepicker4' placeholder="HH:SS" onchange="convertTimezone()"/>
 							</td>
 						</tr>
 

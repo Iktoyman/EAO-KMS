@@ -651,12 +651,44 @@ td #acct_table_num {
 	font-size: 0.7vw;
 }
 
+.fc-day, .fc-day-header, .fc-week-number, .fc-list-table, .fc-head-container {
+	background-color: white !important;
+}
+
+.fc-day-header a {
+	color: rgb(0, 201, 255);
+}
+
 .fc-content-skeleton table td{
 	padding: 0.1%;
 }
 
+.fc-more {
+	cursor: hand;
+	color: rgb(000, 201, 255);
+	font-size: 0.8vw;
+	font-weight: bold
+}
+
+.fc-popover .fc-header {
+	background-color: #555 !important;
+}
+
+.fc-popover {
+	height: 40%;
+}
+
+.fc-more-popover {
+	width: 75%;
+}
+
+.fc-popover .fc-event-container {
+	max-height: 75%;
+	overflow: auto;
+}
+
 .fc-content-skeleton table {
-	border: 5px solid rgb(68, 68, 68);
+	border: 3px solid rgb(68, 68, 68);
 }
 
 .fc-content {
@@ -666,10 +698,12 @@ td #acct_table_num {
 
 .cal_event_div-open div{
 	background-color: rgb(000, 201, 255);
+	color: black;
 }
 
 .cal_event_div-inpr div{
 	background-color: yellow;
+	color: black;
 }
 
 .cal_event_div-comp div{
@@ -695,15 +729,14 @@ td #acct_table_num {
 #chg_calendar {
 	margin-top: 5%;
 	height: 90%;
-	overflow: auto;
 }
 
 #chg_calendar .fc-view-container {
 	margin: 0.5%;
 }
 
-#chg_calendar .fc-scroller .fc-day-grid-container {
-	height: 90% !important;
+#chg_calendar .fc-body .fc-scroller .fc-day-grid-container {
+	height: 500px !important;
 }
 
 #chg_calendar h2 {
@@ -819,10 +852,24 @@ td #acct_table_num {
 }
 
 #change-list-tbody-div {
-	max-height: 65%;
+	max-height: 60%;
 	overflow: auto;
 	border-bottom: 1px solid white;
 	margin-bottom: 1%;
+}
+
+#change-list-tbody #show-more_row {
+	text-align: right;
+}
+
+#change-list-tbody #show-more_row:hover {
+	background-color: #444;
+}
+
+#change-list_showlabel {
+	margin-top: -0.5%;
+	font-size: 0.8vw;
+	float: right;
 }
 
 #sow-tbody-div {
