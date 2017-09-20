@@ -271,6 +271,7 @@ $(document).ready(function() {
 			+ "<option value='Completed'> Completed </option>"
 			+ "<option value='Cancelled'> Cancelled </option>"
 			+ "<option value='Failed'> Failed </option>"
+			+ "<option value='Overdue'> Overdue </option>"
 			+ "</select>";
 		$('#edit-status_select').val(status);
 		// Dropdowns
@@ -438,6 +439,9 @@ $(document).ready(function() {
 			+ "<option value='Cancelled'> Cancelled </option>"
 			+ "<option value='Failed'> Failed </option>"
 			+ "</select>";
+		$('#choose-status_select').val(status_buffer);
+		$('#choose-status_btn').parent().css("display", "none");
+		$('#cancel-changes_btn').parent().css("display", "table-cell");
 	});
 
 	$('#cancel-changes_btn').on('click', function() {

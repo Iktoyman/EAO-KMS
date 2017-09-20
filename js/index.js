@@ -3,6 +3,7 @@ var os = [];
 var db = [];
 var sp = [];
 var check_kms_result = false;
+var row_limit = 24;
 
 // Initialize Time Pickers
 $(function() {
@@ -280,6 +281,17 @@ function checkDate() {
 
 // Dropdown behavior
 $(document).ready(function() {
+	$('#datepicker3').datepicker({
+		onSelect: function(formattedDate, date, inst) {
+			convertTimezone();
+		}
+	});
+
+	$('#datepicker4').datepicker({
+		onSelect: function(formattedDate, date, inst) {
+			convertTimezone();
+		}
+	});
 
 	$('.sec_res_dropdown').hide();
 	$('.os_dropdown').hide();
@@ -528,6 +540,7 @@ $(document).ready(function() {
 
 	$('.change-list-view-date-btn').on('click', function() {
 		var id = $(this).attr('id');
+		row_limit = 24;
 		if (id == 'chg-view-month')
 			var date_filter = 'filter_month';
 		else if (id == 'chg-view-week')
@@ -552,6 +565,7 @@ $(document).ready(function() {
 				changes = data;
 				$('#change-list-tbody').html("");
 				for (var x = 0; x < changes.length; x++) {
+					$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
 					if (changes[x]['status'] == 'In Progress')
 						var stat_hl = "status-inprogress";
 					else if (changes[x]['status'] == 'Completed')
@@ -574,6 +588,13 @@ $(document).ready(function() {
 					+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
 					+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
 					+ "</tr>";
+					if (x == row_limit) {
+						var next_row = x + 1;
+						document.getElementById('change-list-tbody').innerHTML += "<tr>"
+						+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+						+ "</tr>";
+						break;
+					}
 				}
 				$('.loading').css("display", "none");
 			});
@@ -600,6 +621,7 @@ function sortColumn(id) {
 	}
 	
 	for (var x = 0; x < changes.length; x++) {
+		$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
 		if (changes[x]['status'] == 'In Progress')
 			var stat_hl = "status-inprogress";
 		else if (changes[x]['status'] == 'Completed')
@@ -622,11 +644,19 @@ function sortColumn(id) {
 		+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
 		+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
 		+ "</tr>";
+		if (x == row_limit) {
+			var next_row = x + 1;
+			document.getElementById('change-list-tbody').innerHTML += "<tr>"
+			+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+			+ "</tr>";
+			break;
+		}
 	}
 }
 
 function filterColumn(id) {
 	var text = $('#chg-list-th-' + id).val();
+	row_limit = 24;
 
 	if (id == 1)
 		var action = 'filter_id';
@@ -651,6 +681,7 @@ function filterColumn(id) {
 			changes = data;
 			$('#change-list-tbody').html("");
 			for (var x = 0; x < changes.length; x++) {
+				$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
 				if (changes[x]['status'] == 'In Progress')
 					var stat_hl = "status-inprogress";
 				else if (changes[x]['status'] == 'Completed')
@@ -673,6 +704,13 @@ function filterColumn(id) {
 				+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
 				+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
 				+ "</tr>";
+				if (x == row_limit) {
+					var next_row = x + 1;
+					document.getElementById('change-list-tbody').innerHTML += "<tr>"
+					+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+					+ "</tr>";
+					break;
+				}
 			}
 			$('.loading').css("display", "none");
 		});
@@ -710,3 +748,45 @@ function convertTimezone() {
 	$('#sched_timepicker2').val(moment(cust_date2 + " " + cust_time2).utcOffset('+' + pht_offset_str).format('hh:mma'));
 }
 
+function showMoreChanges(row_num) {
+	var row_limit = row_num + 24;
+	if (row_limit - changes.length <= 0)
+		var loop_limit = row_limit;
+	else 
+		var loop_limit = changes.length - 1;
+
+	$('#show-more_row').remove();
+	for (var x = row_num; x <= loop_limit; x++) {
+		$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
+		console.log(x + " " + changes[x]);
+		if (changes[x]['status'] == 'In Progress')
+			var stat_hl = "status-inprogress";
+		else if (changes[x]['status'] == 'Completed')
+			var stat_hl = "status-completed";
+		else if (changes[x]['status'] == 'Failed')
+			var stat_hl = "status-failed";
+		else if (changes[x]['status'] == 'Overdue')
+			var stat_hl = "status-overdue";
+		else 
+			var stat_hl = "";
+		document.getElementById('change-list-tbody').innerHTML += "<tr>"
+		+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
+		+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
+		+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
+				//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
+		+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
+		+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
+		+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
+		+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
+		+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
+		+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
+		+ "</tr>";
+		if (x == row_limit) {
+			var next_row = x + 1;
+			document.getElementById('change-list-tbody').innerHTML += "<tr id='show-more_row'>"
+			+ "<td colspan=8> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+			+ "</tr>";
+			break;
+		}
+	}
+}

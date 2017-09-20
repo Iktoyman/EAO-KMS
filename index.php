@@ -111,6 +111,7 @@
 	<table class="table table-hover change-list" style="font-size: 0.7vw">
 		<tbody id='change-list-tbody'>
 		<?php
+			$row_limit = 24;
 			for ($x = 0; $x < sizeof($changes); $x++) {
 				echo "<tr>";
 				echo "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" . $changes[$x]['item_id'] .")'>" . $changes[$x]['change_ticket_id'] . "</a></td>";
@@ -138,11 +139,19 @@
 					$stat_hl = "";
 				echo "<td class='".$stat_hl."' id='chg_list-status'>" . $changes[$x]['status'] . "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(".$changes[$x]['item_id'].")'>View Notes</a></i></td>";
 				echo "</tr>";
+				if ($x == $row_limit) {
+					$next_row = $x + 1;
+					echo "<tr><td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" . $next_row . ")'>Show more</a></td></tr>";
+					break;
+				}
 			}
 		?>
 		</tbody>
 	</table>
 	</div>
+	<?php
+		echo "<span id='change-list_showlabel'> Showing " . ($x + 1) . " of " . sizeof($changes) . "</span><br>";
+	?>
 
 	<ul class="change-list-view-ul">
 		<li><a class='change-list-view-status-btn' id='chg-view-all'> All Changes </a></li>
