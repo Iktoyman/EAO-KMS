@@ -481,6 +481,34 @@ $(document).ready(function() {
 			}
 	});
 
+	$('body').on('click', function() {
+		$('#header_user-dropdown-div').hide();
+		$('#menu-dropdown-div').hide();
+	});
+
+	$('#header_user-dropdown-div').hide();
+	$('#menu-dropdown-div').hide();
+
+	$('#user-dropdown').on('click', function(event) {
+		$('#header_user-dropdown-div').toggle();
+		$('#menu-dropdown-div').hide();
+		event.stopPropagation();
+	});
+
+	$('#menu-dropdown').on('click', function(event) {
+		$('#menu-dropdown-div').toggle();
+		$('#header_user-dropdown-div').hide();
+		event.stopPropagation();
+	});
+
+	$('#header_user-dropdown-div').on('click', function(event) {
+		event.stopPropagation();
+	});
+
+	$('#menu-dropdown-div').on('click', function(event) {
+		event.stopPropagation();
+	});
+
 });
 
 function toggleSecResDropdown() {

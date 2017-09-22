@@ -281,6 +281,7 @@ function checkDate() {
 
 // Dropdown behavior
 $(document).ready(function() {
+
 	$('#datepicker3').datepicker({
 		onSelect: function(formattedDate, date, inst) {
 			convertTimezone();
@@ -351,6 +352,12 @@ $(document).ready(function() {
 
 	$('.sp_dropdown').on('click', function(event) {
 		event.stopPropagation();
+	});
+
+	$('#my-uploads_link').on('click', function() {
+		$('.loading').css("display", "block");
+		filterColumn(0);
+		$('#header_user-dropdown-div').hide();
 	});
 
 	tinymce.init({
@@ -658,7 +665,9 @@ function filterColumn(id) {
 	var text = $('#chg-list-th-' + id).val();
 	row_limit = 24;
 
-	if (id == 1)
+	if (id == 0)
+		var action = 'filter_uploader';
+	else if (id == 1)
 		var action = 'filter_id';
 	else if (id == 2)
 		var action = 'filter_acct';

@@ -82,7 +82,7 @@
 					right: 'basicWeek,listWeek,listDay,month'
 				},
 				defaultView: 'basicWeek',
-				height: 650,
+				height: 600,
 				timeFormat: 'HH:mmt',
 				columnFormat: 'dddd',
 				weekNumbers: true,				
@@ -106,8 +106,6 @@
 			$('.fc-listWeek-button').html("List by Week");
 			$('.fc-listDay-button').html("List by Day");
 
-			//$('.event-excess').css("display", 'none');
-
 		})
 	</script>
 </head>
@@ -115,7 +113,7 @@
 <body>
 	<div class="header_div">
 		<div class="header_name_div">
-			<a href="../delta"> <span class="header_name"> CHANGE TRACKER </span> </a>
+			<a href="../delta"> <span class="header-title"> PROJECT DELTA </span> </a>
 		</div>
 		<div class="header_navbar_div">
 			<a id="header_acct-dropdown"> Actions <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
@@ -126,7 +124,31 @@
 				</ul>
 			</div>
 		</div>
+
 		<div class="header_user_div">
+			<a id='user-dropdown'>
+				<span class="glyphicon glyphicon-user welcome_message user-btn" style="padding: 1%"></span>
+			</a>
+			<a id='menu-dropdown'>
+				<span class="glyphicon glyphicon-th welcome_message menu-btn"></span>
+			</a>
+			<div id="header_user-dropdown-div">
+				<ul id='header_user-dropdown-list'>
+					<li style="padding: 0"> Welcome, <?php echo $_SESSION['user_fullname']; ?>! </li>
+					<li><hr></li>
+					<!-- <li><a id='my-uploads_link'> My Uploads </a></li> -->
+					<li><a href='../logout.php'> Logout </a></li>
+				</ul>
+			</div>
+			<div id="menu-dropdown-div">
+				<ul id='menu-dropdown-list'>
+					<li align=center><b> TOOLS </b></li>
+					<li><hr></li>
+					<li><a href='../'> EAO - KMS </a></li>
+					<li><a href='http://16.146.6.254:7080/apollo/home.php'> Apollo </a></li>
+					<li><a href='https://ent302.sharepoint.hpe.com/teams/EAOPH-Quality/Shared%20Documents/Forms/AllItems.aspx?RootFolder=%2fteams%2fEAOPH%2dQuality%2fShared%20Documents%2f40%20EAO%20RST%20Scorecard%20Tools&FolderCTID=0x012000877D17965246E0459CBE002116CCE1F8'> AQUA </a></li>
+				</ul>
+			</div>
 
 		</div>	
 
@@ -134,6 +156,16 @@
 	<div class="body_div">
 		<div id="chg_calendar">
 
+		</div>
+		<div class="chg_calendar_legend-div">
+			<ul class="chg_calendar_legend-list">
+				<li> <span style="background-color: rgb(000, 201, 255); padding: 0.1%; border-radius: 0.15vw; border: 1px solid white"> &nbsp;&nbsp;&nbsp;&nbsp; </span> &nbsp; Open Changes </li>
+				<li> <span style="background-color: yellow; padding: 0.1%; border-radius: 0.15vw; border: 1px solid white"> &nbsp;&nbsp;&nbsp;&nbsp; </span> &nbsp; Changes in Progress </li>
+				<li> <span style="background-color: green; padding: 0.1%; border-radius: 0.15vw; border: 1px solid white"> &nbsp;&nbsp;&nbsp;&nbsp; </span> &nbsp; Completed Changes </li>
+				<li> <span style="background-color: #f97e31; padding: 0.1%; border-radius: 0.15vw; border: 1px solid white"> &nbsp;&nbsp;&nbsp;&nbsp; </span> &nbsp; Overdue Changes </li>
+				<li> <span style="background-color: #e50000; padding: 0.1%; border-radius: 0.15vw; border: 1px solid white"> &nbsp;&nbsp;&nbsp;&nbsp; </span> &nbsp; Failed Changes </li>
+				<li> <span style="background-color: #888; padding: 0.1%; border-radius: 0.15vw; border: 1px solid white"> &nbsp;&nbsp;&nbsp;&nbsp; </span> &nbsp; Cancelled Changes </li>
+			</ul>
 		</div>
 	</div>
 <?php

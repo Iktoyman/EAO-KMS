@@ -49,7 +49,7 @@
 
 <html>
 <head>
-	<title> Project Delta - SAT2 Change Tracker </title>
+	<title> Project Delta - Change Tracker </title>
 	<?php
 		include "head.php";
 	?>
@@ -67,88 +67,114 @@
 		<img id='loading-img' src='https://mcyprian.fedorapeople.org/loading.gif'>
 		<h3 id='loading-label'> Loading ... </h3>
 	</div>
-	<h1> CHANGE TRACKER 
-		<span class='welcome_message'> Welcome, <?php echo $_SESSION['user_fullname']; ?>! </span>
-	</h1>
-	<hr>
-	<span class='logout'> <a href='../logout.php'> Logout </a></span>
-	<a href='#' data-toggle='modal' data-target='#new_item'> New Item </a> <br>
-	<!-- <a href='#'> Search </a> <br> -->
-	<a href='#' data-toggle='modal' data-target='#my_accounts'> My Accounts </a> <br>
-	<a href='calendar.php'> Change Calendar </a> <br>
-	<a href='sow.php'> Start of Week </a><br><br>
-	<!-- <a href='#'> View per Type </a> <br>
-	<a href='#'> View by Status </a> <br> -->
-	<table class="table table-hover change-list" id='change-list-thead' style="font-size: 0.7vw">
-		<thead>
-		<tr id='change-list-thead-tr'>
-			<th class='change-list-th' id='1' width=8.5%> <span id='1-label'>Change ID</span> 
-				<input type="text" class="change-list-filter" id='chg-list-th-1' onkeyup='filterColumn(1)'>
-				<a class='glyphicon glyphicon-search filter-btn'></a></th>
-			<th class='change-list-th' id='2' width=16.5%> <span id='2-label'>Account</span>
-				<input type="text" class="change-list-filter" id='chg-list-th-2' onkeyup='filterColumn(2)'>
-				<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
-				<a class="glyphicon glyphicon-filter filter-btn"></a></th>
-			<th class='change-list-th' id='4' width=24.75%> <span id='4-label'>Title</span> 
-				<input type="text" class="change-list-filter" id='chg-list-th-4' onkeyup='filterColumn(4)'>
-				<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
-				<a class="glyphicon glyphicon-filter filter-btn"></a></th>
-			<th class='change-list-th' id='8' width=15%> <span id='8-label'> Resources </span>
-					
-			<th class='change-list-th' id='5' width=12.5%> Planned Start 
-				<a class="glyphicon glyphicon-sort-by-attributes sort-btn"></th>
-			<th class='change-list-th' id='6' width=12.5%> Planned End 
-				<a class="glyphicon glyphicon-sort-by-attributes sort-btn"></th>
-			<th class='change-list-th' id='7' > <span id='7-label'>Status</span> 
-				<input type="text" class="change-list-filter" id='chg-list-th-7' onkeyup='filterColumn(7)'>
-				<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
-				<a class="glyphicon glyphicon-filter filter-btn"></a></th>
-		</tr>
-		</thead>
-	</table>
 
-	<div id='change-list-tbody-div'>	
-	<table class="table table-hover change-list" style="font-size: 0.7vw">
-		<tbody id='change-list-tbody'>
-		<?php
-			$row_limit = 24;
-			for ($x = 0; $x < sizeof($changes); $x++) {
-				echo "<tr>";
-				echo "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" . $changes[$x]['item_id'] .")'>" . $changes[$x]['change_ticket_id'] . "</a></td>";
-				echo "<td width=6% id='chg_list-aa'>" . $changes[$x]['acct_abbrev'] . "</td>";
-				echo "<td width=10.5% id='chg_list-an'>" . $changes[$x]['acct_name'] . "</td>";
-				//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
-				echo "<td width=25% id='chg_list-cd'>" . $changes[$x]['description'] . "</td>";
-				echo "<td width=15% id='chg_list-res'>" . $changes[$x]['name'] . "</td>";
-				if ($changes[$x]['pht_start_datetime'] == 'Dec 31, 2999 - 12:00AM' && $changes[$x]['pht_end_datetime'] == 'Dec 31, 2999 - 11:59PM') {
-					echo "<td width=25.5% colspan=2 id='chg_list-st'> - No schedule yet: Tentatively planned for the future - </td>";
-				}
-				else {
-					echo "<td width=12.75% id='chg_list-st'>" . $changes[$x]['pht_start_datetime'] . "</td>";
-					echo "<td width=12.75% id='chg_list-et'>" . $changes[$x]['pht_end_datetime'] . "</td>";
-				}
-				if ($changes[$x]['status'] == 'In Progress')
-					$stat_hl = "status-inprogress";
-				else if ($changes[$x]['status'] == 'Completed')
-					$stat_hl = "status-completed";
-				else if ($changes[$x]['status'] == 'Failed')
-					$stat_hl = "status-failed";
-				else if ($changes[$x]['status'] == 'Overdue')
-					$stat_hl = "status-overdue";
-				else 
-					$stat_hl = "";
-				echo "<td class='".$stat_hl."' id='chg_list-status'>" . $changes[$x]['status'] . "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(".$changes[$x]['item_id'].")'>View Notes</a></i></td>";
-				echo "</tr>";
-				if ($x == $row_limit) {
-					$next_row = $x + 1;
-					echo "<tr><td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" . $next_row . ")'>Show more</a></td></tr>";
-					break;
-				}
-			}
-		?>
-		</tbody>
-	</table>
+	<div class="header_div">
+		<div class="header_name_div">
+			<span class="glyphicon glyphicon-menu-hamburger header-sidebar-btn"></span> 
+			<span class="header-title"> PROJECT DELTA </span>
+		</div>
+		<a id='user-dropdown'>
+			<span class="glyphicon glyphicon-user welcome_message"></span>
+		</a>
+		<a id='menu-dropdown'>
+			<span class="glyphicon glyphicon-th welcome_message"></span>
+		</a>
 	</div>
+
+	<div id="header_user-dropdown-div">
+		<ul id='header_user-dropdown-list'>
+			<li style="padding: 0"> Welcome, <?php echo $_SESSION['user_fullname']; ?>! </li>
+			<li><hr></li>
+			<li><a id='my-uploads_link'> My Uploads </a></li>
+			<li><a href='../logout.php'> Logout </a></li>
+		</ul>
+	</div>
+	<div id="menu-dropdown-div">
+		<ul id='menu-dropdown-list'>
+			<li align=center><b> TOOLS </b></li>
+			<li><hr></li>
+			<li><a href='../'> EAO - KMS </a></li>
+			<li><a href='http://16.146.6.254:7080/apollo/home.php'> Apollo </a></li>
+			<li><a href='https://ent302.sharepoint.hpe.com/teams/EAOPH-Quality/Shared%20Documents/Forms/AllItems.aspx?RootFolder=%2fteams%2fEAOPH%2dQuality%2fShared%20Documents%2f40%20EAO%20RST%20Scorecard%20Tools&FolderCTID=0x012000877D17965246E0459CBE002116CCE1F8'> AQUA </a></li>
+		</ul>
+	</div>
+
+	<div class="body_div">
+		<a class="home-links" href='#' data-toggle='modal' data-target='#new_item'> New Item </a> <br>
+		<a class="home-links" href='#' data-toggle='modal' data-target='#my_accounts'> My Accounts </a> <br>
+		<a class="home-links" href='calendar.php'> Change Calendar </a> <br>
+		<a class="home-links" href='sow.php'> Start of Week </a><br><br>
+
+		<table class="table table-hover change-list" id='change-list-thead' style="font-size: 0.7vw">
+			<thead>
+			<tr id='change-list-thead-tr'>
+				<th class='change-list-th' id='1' width=8.5%> <span id='1-label'>Change ID</span> 
+					<input type="text" class="change-list-filter" id='chg-list-th-1' onkeyup='filterColumn(1)'>
+					<a class='glyphicon glyphicon-search filter-btn'></a></th>
+				<th class='change-list-th' id='2' width=16.5%> <span id='2-label'>Account</span>
+					<input type="text" class="change-list-filter" id='chg-list-th-2' onkeyup='filterColumn(2)'>
+					<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
+					<a class="glyphicon glyphicon-filter filter-btn"></a></th>
+				<th class='change-list-th' id='4' width=24.75%> <span id='4-label'>Title</span> 
+					<input type="text" class="change-list-filter" id='chg-list-th-4' onkeyup='filterColumn(4)'>
+					<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
+					<a class="glyphicon glyphicon-filter filter-btn"></a></th>
+				<th class='change-list-th' id='8' width=15%> <span id='8-label'> Resources </span>
+						
+				<th class='change-list-th' id='5' width=12.5%> Planned Start 
+					<a class="glyphicon glyphicon-sort-by-attributes sort-btn"></th>
+				<th class='change-list-th' id='6' width=12.5%> Planned End 
+					<a class="glyphicon glyphicon-sort-by-attributes sort-btn"></th>
+				<th class='change-list-th' id='7' > <span id='7-label'>Status</span> 
+					<input type="text" class="change-list-filter" id='chg-list-th-7' onkeyup='filterColumn(7)'>
+					<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
+					<a class="glyphicon glyphicon-filter filter-btn"></a></th>
+			</tr>
+			</thead>
+		</table>
+
+		<div id='change-list-tbody-div'>	
+		<table class="table table-hover change-list" style="font-size: 0.7vw">
+			<tbody id='change-list-tbody'>
+			<?php
+				$row_limit = 24;
+				for ($x = 0; $x < sizeof($changes); $x++) {
+					echo "<tr>";
+					echo "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" . $changes[$x]['item_id'] .")'>" . $changes[$x]['change_ticket_id'] . "</a></td>";
+					echo "<td width=6% id='chg_list-aa'>" . $changes[$x]['acct_abbrev'] . "</td>";
+					echo "<td width=10.5% id='chg_list-an'>" . $changes[$x]['acct_name'] . "</td>";
+					//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
+					echo "<td width=25% id='chg_list-cd'>" . $changes[$x]['description'] . "</td>";
+					echo "<td width=15% id='chg_list-res'>" . $changes[$x]['name'] . "</td>";
+					if ($changes[$x]['pht_start_datetime'] == 'Dec 31, 2999 - 12:00AM' && $changes[$x]['pht_end_datetime'] == 'Dec 31, 2999 - 11:59PM') {
+						echo "<td width=25.5% colspan=2 id='chg_list-st'> - No schedule yet: Tentatively planned for the future - </td>";
+					}
+					else {
+						echo "<td width=12.75% id='chg_list-st'>" . $changes[$x]['pht_start_datetime'] . "</td>";
+						echo "<td width=12.75% id='chg_list-et'>" . $changes[$x]['pht_end_datetime'] . "</td>";
+					}
+					if ($changes[$x]['status'] == 'In Progress')
+						$stat_hl = "status-inprogress";
+					else if ($changes[$x]['status'] == 'Completed')
+						$stat_hl = "status-completed";
+					else if ($changes[$x]['status'] == 'Failed')
+						$stat_hl = "status-failed";
+					else if ($changes[$x]['status'] == 'Overdue')
+						$stat_hl = "status-overdue";
+					else 
+						$stat_hl = "";
+					echo "<td class='".$stat_hl."' id='chg_list-status'>" . $changes[$x]['status'] . "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(".$changes[$x]['item_id'].")'>View Notes</a></i></td>";
+					echo "</tr>";
+					if ($x == $row_limit) {
+						$next_row = $x + 1;
+						echo "<tr><td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" . $next_row . ")'>Show more</a></td></tr>";
+						break;
+					}
+				}
+			?>
+			</tbody>
+		</table>
+		</div>
 	<?php
 		echo "<span id='change-list_showlabel'> Showing " . ($x + 1) . " of " . sizeof($changes) . "</span><br>";
 	?>
@@ -164,6 +190,7 @@
 		<li><a class='change-list-view-date-btn' id='chg-view-pipeline'> Forward Schedule of Changes </a></li>
 	</ul>
 	<!--<hr style="margin: 1% 0 0 0">-->
+	</div>
 
 </body>
 
