@@ -53,7 +53,7 @@
 <body>
 	<div class="header_div">
 		<div class="header_name_div">
-			<a href="../delta"> <span class="header_name"> CHANGE TRACKER </span> </a>
+			<a href="../delta"> <span class="header-title"> PROJECT DELTA </span> </a>
 		</div>
 		<div class="header_navbar_div">
 			<a id="header_acct-dropdown"> Accounts <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
@@ -67,19 +67,37 @@
 			</div>
 		</div>
 		<div class="header_user_div">
+			<a id='user-dropdown'>
+				<span class="glyphicon glyphicon-user welcome_message user-btn" style="padding: 1%"></span>
+			</a>
+			<a id='menu-dropdown'>
+				<span class="glyphicon glyphicon-th welcome_message menu-btn"></span>
+			</a>
+
+			<div id="header_user-dropdown-div">
+				<ul id='header_user-dropdown-list'>
+					<li style="padding: 0"> Welcome, <?php echo $_SESSION['user_fullname']; ?>! </li>
+					<li><hr></li>
+					<!-- <li><a id='my-uploads_link'> My Uploads </a></li> -->
+					<li><a href='../logout.php'> Logout </a></li>
+				</ul>
+			</div>
+			<div id="menu-dropdown-div">
+				<ul id='menu-dropdown-list'>
+					<li align=center><b> TOOLS </b></li>
+					<li><hr></li>
+					<li><a href='../'> EAO - KMS </a></li>
+					<li><a href='http://16.146.6.254:7080/apollo/home.php'> Apollo </a></li>
+					<li><a href='https://ent302.sharepoint.hpe.com/teams/EAOPH-Quality/Shared%20Documents/Forms/AllItems.aspx?RootFolder=%2fteams%2fEAOPH%2dQuality%2fShared%20Documents%2f40%20EAO%20RST%20Scorecard%20Tools&FolderCTID=0x012000877D17965246E0459CBE002116CCE1F8'> AQUA </a></li>
+				</ul>
+			</div>
 
 		</div>	
-		<!--
-		<h3> 
-			<a href="../delta"> <span class="header_name"> CHANGE TRACKER </span> </a>
-			<span class="header_span"> <?php echo $_SESSION['user_fullname']; ?> | <a href="../logout.php"> Logout </a> </span>
-		</h3>
-		-->
 	</div>
 
 	<div class="body_div">
 		<div class="account_name_div">
-		<?php echo "<b>" . $a_abbrev . "</b> - <i>" . $a_name ."</i>"; ?>
+		<?php echo "<b style='font-family:Montserrat'>" . $a_abbrev . "</b> - <i>" . $a_name ."</i>"; ?>
 		</div>
 
 		<div class="account_details_div">

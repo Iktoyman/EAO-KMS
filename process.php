@@ -205,5 +205,24 @@
 
 			echo json_encode($ar);
 		}
+		else if ($_POST['action'] == 'filter_uploader') {
+			$ar = array();
+
+			$res = mysqli_query($ch_conn, "SELECT i.item_id, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u WHERE i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id = " . $_SESSION['ct_team'] . " AND i.uploader_id = " . $_SESSION['ct_uid'] . " ORDER BY i.pht_start_datetime DESC");
+			$x = 0;
+			while ($row = mysqli_fetch_array($res)) {
+				$ar[$x] = $row;
+				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
+				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
+				$sr_ar = array();
+				while ($sr_row = mysqli_fetch_array($sec_res_result))
+					$sr_ar[] = $sr_row['name'];
+					$sr = implode('; ', $sr_ar);
+					$ar[$x]['name'] .= $sr;
+				$x++;
+			}
+
+			echo json_encode($ar);
+		}
 	}
 ?>

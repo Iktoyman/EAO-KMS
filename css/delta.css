@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:900');
 @import url('https://fonts.googleapis.com/css?family=Ubuntu:500');
 
 body {
@@ -46,15 +47,28 @@ a {
 
 a:hover {
 	color: white;
+	cursor: hand;
 }
 
 /* HOME PAGE */
 h1 {
+	margin-top: 0.5%;
 	margin-bottom: -0.5%;
 }
 
+.header-title {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 2vw;
+	color: white;
+}
+
 hr {
+	margin-top: 0.75%;
 	margin-bottom: 0.5%;
+}
+
+.home-links {
+	font-size: 0.8vw;
 }
 
 textarea {
@@ -62,10 +76,21 @@ textarea {
 	font-size: 0.65vw;
 }
 
+#user-dropdown:hover {
+	cursor: hand;
+}
+
 .welcome_message {
+	text-align: center;
 	float: right;
-	font-size: 0.9vw;
-	margin-top: 1%;
+	font-size: 1.25vw;
+	padding: 0.5%;
+	border: 1px solid white;
+	margin-top: 0.25%;
+	margin-left: 1%;
+	border-radius: 2vw;
+	color: #444;
+	background-color: white;
 }
 
 .logout {
@@ -332,19 +357,26 @@ td #acct_table_num {
 .header_name_div {
 	position: absolute;
 	height: 100%;
-	width: 25%;
+	width: 22.5%;
 	display: inline-block;
 	padding: 0.25%;
 	border-right: 1px solid #666;
 }
 
+.header-sidebar-btn {
+	font-size: 1.35vw;
+	margin-right: 5%;
+	transform: scale(1.5, 1);
+}
+
 .header_navbar_div {
 	position: absolute;
-	left: 26.5%;
+	left: 24%;
 	height: 100%;
 	width: 50%;
 	padding: 1%;
 	display: inline-block;
+	color: white;
 }
 
 .header_navbar_div a {
@@ -359,9 +391,64 @@ td #acct_table_num {
 	position: absolute;
 	height: 100%;
 	width: 23%;
-	background-color: yellow;
 	right: 0;
 	display: inline-block;
+}
+
+.user-btn {
+	font-size: 1.5vw;
+	padding: 50%;
+	margin-top: 1.75%;
+	margin-right: 2%;
+}
+
+.menu-btn {
+	font-size: 1.25vw;
+	padding: 1.75%;
+	margin-top: 1.75%;
+	margin-right: 2%;
+	text-align: center;
+}
+
+#header_user-dropdown-div {
+	width: 12.5%;
+	min-height: 10%;
+	position: fixed;
+	top: 6.5%;
+	right: 1%;
+	text-align: right;
+	border: 1px solid white;
+	background-color: #444;
+	border-radius: 0.25vw;
+	padding: 0.25%;
+	z-index: 10;
+}
+
+#menu-dropdown-div {
+	width: 10%;
+	min-height: 10%;
+	position: fixed;
+	top: 6.5%;
+	right: 4.5%;
+	text-align: right;
+	border: 1px solid white;
+	background-color: #444;
+	border-radius: 0.25vw;
+	padding: 0.25%;
+	z-index: 10;
+}
+
+#header_user-dropdown-list, #menu-dropdown-list {
+	list-style: none;
+	line-height: 200%;
+	width: 100%;
+	margin: 0;
+	font-size: 0.7vw;
+	padding: 0;
+}
+
+#header_user-dropdown-list a, #menu-dropdown-div a {
+	color: white;
 }
 
 .header_name {
@@ -381,6 +468,7 @@ td #acct_table_num {
 #header_acct-dropdown {
 	font-size: 1vw;
 	letter-spacing: 0.2vw;
+	color: white;
 }
 
 #header_acct-dropdown-div {
@@ -393,7 +481,8 @@ td #acct_table_num {
 	max-height: 300px;
 	z-index: 999999999;
 	overflow: auto;
-	border: 1px solid #323232;
+	border-bottom: 2px solid #323232;
+	line-height: 200%;
 	border-bottom-left-radius: 0.25vw;
 	border-bottom-right-radius: 0.25vw;
 }
@@ -412,6 +501,7 @@ td #acct_table_num {
 #header_add-list a {
 	font-size: 0.7vw;
 	line-height: 1vw;
+	color: white;
 }
 
 .body_div {
@@ -651,6 +741,14 @@ td #acct_table_num {
 	font-size: 0.7vw;
 }
 
+.fc-toolbar{
+	font-size: 0.7vw;
+}
+
+.fc-center h2 {
+	font-size: 1.2vw !important;
+}
+
 .fc-day, .fc-day-header, .fc-week-number, .fc-list-table, .fc-head-container {
 	background-color: white !important;
 }
@@ -727,8 +825,21 @@ td #acct_table_num {
 }
 
 #chg_calendar {
-	margin-top: 5%;
-	height: 90%;
+	margin-top: 3%;
+	height: 95%;
+}
+
+.chg_calendar_legend-div {
+	font-size: 0.8vw;
+	width: 100%;
+	text-align: center;
+}
+
+.chg_calendar_legend-list li {
+	list-style: none;
+	display: inline;
+	margin-right: 5%;
+	font-size: 0.7vw;
 }
 
 #chg_calendar .fc-view-container {
@@ -786,6 +897,7 @@ td #acct_table_num {
 .change-list-view-ul {
 	text-align: center;
 	position: fixed;
+	margin-left: -2.25%;
 	bottom: 2.5%;
 	width: 100%;
 }
@@ -803,7 +915,7 @@ td #acct_table_num {
 }
 
 .change-list {
-	font-size: 0.7vw;
+	font-size: 0.6vw !important;
 }
 
 .change-list th {
@@ -852,7 +964,7 @@ td #acct_table_num {
 }
 
 #change-list-tbody-div {
-	max-height: 60%;
+	max-height: 65%;
 	overflow: auto;
 	border-bottom: 1px solid white;
 	margin-bottom: 1%;
@@ -870,6 +982,10 @@ td #acct_table_num {
 	margin-top: -0.5%;
 	font-size: 0.8vw;
 	float: right;
+}
+
+.sow_details_div {
+	font-size: 0.7vw;
 }
 
 #sow-tbody-div {
