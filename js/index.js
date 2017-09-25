@@ -587,36 +587,42 @@ $(document).ready(function() {
 			.done(function(data) {
 				changes = data;
 				$('#change-list-tbody').html("");
-				for (var x = 0; x < changes.length; x++) {
-					$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
-					if (changes[x]['status'] == 'In Progress')
-						var stat_hl = "status-inprogress";
-					else if (changes[x]['status'] == 'Completed')
-						var stat_hl = "status-completed";
-					else if (changes[x]['status'] == 'Failed')
-						var stat_hl = "status-failed";
-					else if (changes[x]['status'] == 'Overdue')
-						var stat_hl = "status-overdue";
-					else 
-						var stat_hl = "";
-					document.getElementById('change-list-tbody').innerHTML += "<tr>"
-					+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-					+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-					+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
-							//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
-					+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-					+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-					+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-					+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
-					+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
-					+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
-					+ "</tr>";
-					if (x == row_limit) {
-						var next_row = x + 1;
+				if (changes.length == 0) {
+					$('#change-list_showlabel').html("");
+					document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=8> No change items found </td></tr>";
+				}
+				else {
+					for (var x = 0; x < changes.length; x++) {
+						$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
+						if (changes[x]['status'] == 'In Progress')
+							var stat_hl = "status-inprogress";
+						else if (changes[x]['status'] == 'Completed')
+							var stat_hl = "status-completed";
+						else if (changes[x]['status'] == 'Failed')
+							var stat_hl = "status-failed";
+						else if (changes[x]['status'] == 'Overdue')
+							var stat_hl = "status-overdue";
+						else 
+							var stat_hl = "";
 						document.getElementById('change-list-tbody').innerHTML += "<tr>"
-						+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+						+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
+						+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
+						+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
+								//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
+						+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
+						+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
+						+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
+						+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
+						+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
+						+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
 						+ "</tr>";
-						break;
+						if (x == row_limit) {
+							var next_row = x + 1;
+							document.getElementById('change-list-tbody').innerHTML += "<tr>"
+							+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+							+ "</tr>";
+							break;
+						}
 					}
 				}
 				$('.loading').css("display", "none");
@@ -705,36 +711,42 @@ function filterColumn(id) {
 		.done(function(data) {
 			changes = data;
 			$('#change-list-tbody').html("");
-			for (var x = 0; x < changes.length; x++) {
-				$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
-				if (changes[x]['status'] == 'In Progress')
-					var stat_hl = "status-inprogress";
-				else if (changes[x]['status'] == 'Completed')
-					var stat_hl = "status-completed";
-				else if (changes[x]['status'] == 'Failed')
-					var stat_hl = "status-failed";
-				else if (changes[x]['status'] == 'Overdue')
-					var stat_hl = "status-overdue";
-				else 
-					var stat_hl = "";
-				document.getElementById('change-list-tbody').innerHTML += "<tr>"
-				+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-				+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-				+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
-						//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
-				+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-				+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-				+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-				+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
-				+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
-				+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
-				+ "</tr>";
-				if (x == row_limit) {
-					var next_row = x + 1;
+			if (changes.length == 0) {
+				$('#change-list_showlabel').html("");
+				document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=8> No change items found </td></tr>";
+			}
+			else {
+				for (var x = 0; x < changes.length; x++) {
+					$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
+					if (changes[x]['status'] == 'In Progress')
+						var stat_hl = "status-inprogress";
+					else if (changes[x]['status'] == 'Completed')
+						var stat_hl = "status-completed";
+					else if (changes[x]['status'] == 'Failed')
+						var stat_hl = "status-failed";
+					else if (changes[x]['status'] == 'Overdue')
+						var stat_hl = "status-overdue";
+					else 
+						var stat_hl = "";
 					document.getElementById('change-list-tbody').innerHTML += "<tr>"
-					+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+					+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
+					+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
+					+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
+							//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
+					+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
+					+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
+					+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
+					+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
+					+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
+					+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
 					+ "</tr>";
-					break;
+					if (x == row_limit) {
+						var next_row = x + 1;
+						document.getElementById('change-list-tbody').innerHTML += "<tr>"
+						+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+						+ "</tr>";
+						break;
+					}
 				}
 			}
 			$('.loading').css("display", "none");
