@@ -206,3 +206,7 @@
 </div>
 
 <!-- END ADD NOTES MODAL -->
+
+<form action='set_trigger.php' method='POST' id='trigger_event_form'>
+	<input type='hidden' name='e' id='trigger_e' value=''>
+</form> 

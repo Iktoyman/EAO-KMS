@@ -509,6 +509,33 @@ $(document).ready(function() {
 		event.stopPropagation();
 	});
 
+	$('#header-sidebar-btnlink').on('click', function() {
+		$('.sidebar-div-container').css("display", "block");
+		$('.sidebar-div').animate({"margin-left": '+=22.5%'});
+	});
+
+	$('#header-sidebar-btnlink-open').on('click', function() {
+		$('.sidebar-div').animate({"margin-left": '-=22.5%'});
+		setTimeout(function(){
+			$('.sidebar-div-container').css("display", "none");
+		}, 500);
+	});
+
+	$('#new-item_link').on('click', function() {
+		$('.sidebar-div').animate({"margin-left": '-=22.5%'});
+		setTimeout(function(){
+			$('.sidebar-div-container').css("display", "none");
+		}, 500);
+		$('#new_item').modal('toggle');
+	});
+
+	$('#my-accounts_link').on('click', function() {
+		$('.sidebar-div').animate({"margin-left": '-=22.5%'});
+		setTimeout(function(){
+			$('.sidebar-div-container').css("display", "none");
+		}, 500);
+		$('#my_accounts').modal('toggle');
+	});
 });
 
 function toggleSecResDropdown() {
@@ -694,4 +721,9 @@ function readMoreServers() {
 		$('#read-more_span').css("display", "inline");
 		$('#more-less-btn').html('&nbsp; Read Less');
 	}
+}
+
+function triggerHomeEvent(event) {
+	$('#trigger_e').val(event);
+	$('#trigger_event_form').submit();
 }

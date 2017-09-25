@@ -5,6 +5,14 @@
 	session_start();
 	require "establish_user.php";
 
+	// GET variable
+	if (isset($_SESSION['e'])) {
+		$event = $_SESSION['e'];
+		unset($_SESSION['e']);
+	}
+	else
+		$event = '';
+
 	// GET ALL ACCOUNT ARRAY
 	$get_all_accounts = mysqli_query($ch_conn, "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY acct_abbrev");
 	$all_accounts = array();
@@ -55,6 +63,7 @@
 	?>
 	<script>
 		var changes = <?php echo json_encode($changes); ?>;
+		var trigger_event = <?php echo json_encode($event); ?>;
 		//console.log(changes);
 	</script>
 	<script type="text/javascript" src="js/tinymce/tinymce.min.js"></script>
@@ -68,10 +77,27 @@
 		<h3 id='loading-label'> Loading ... </h3>
 	</div>
 
+	<div class="sidebar-div-container">
+		<div class="sidebar-div">
+			<div class="sidebar-header-div">
+				<a id='header-sidebar-btnlink-open'><span class="glyphicon glyphicon-menu-hamburger header-sidebar-btn"></span></a>
+				<span class="header-title"> PROJECT DELTA </span>	
+			</div>
+			<div class="sidebar-body-div">
+				<ul>
+					<li> <a id='new-item_link'> NEW ITEM </a> </li>
+					<li> <a id='my-accounts_link'> MY ACCOUNTS </a> </li>
+					<li> <a href='calendar.php'> CHANGE CALENDAR </a> </li>
+					<li> <a href='sow.php'> START OF WEEK </a> </li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
 	<div class="header_div">
 		<div class="header_name_div">
-			<span class="glyphicon glyphicon-menu-hamburger header-sidebar-btn"></span> 
-			<span class="header-title"> PROJECT DELTA </span>
+			<a id='header-sidebar-btnlink'><span class="glyphicon glyphicon-menu-hamburger header-sidebar-btn"></span></a>
+			<a href='../delta'> <span class="header-title"> PROJECT DELTA </span> </a>
 		</div>
 		<a id='user-dropdown'>
 			<span class="glyphicon glyphicon-user welcome_message"></span>
@@ -100,12 +126,8 @@
 	</div>
 
 	<div class="body_div">
-		<a class="home-links" href='#' data-toggle='modal' data-target='#new_item'> New Item </a> <br>
-		<a class="home-links" href='#' data-toggle='modal' data-target='#my_accounts'> My Accounts </a> <br>
-		<a class="home-links" href='calendar.php'> Change Calendar </a> <br>
-		<a class="home-links" href='sow.php'> Start of Week </a><br><br>
 
-		<table class="table table-hover change-list" id='change-list-thead' style="font-size: 0.7vw">
+		<table class="table table-hover change-list home-change-list" id='change-list-thead' style="font-size: 0.7vw">
 			<thead>
 			<tr id='change-list-thead-tr'>
 				<th class='change-list-th' id='1' width=8.5%> <span id='1-label'>Change ID</span> 

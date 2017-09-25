@@ -281,6 +281,22 @@ function checkDate() {
 
 // Dropdown behavior
 $(document).ready(function() {
+	if (trigger_event == 'new_item') {
+		setTimeout(function() {
+			$('#new_item').modal('toggle');
+		}, 500);
+	}
+	else if (trigger_event == 'my_accounts') {
+		setTimeout(function() {
+			$('#my_accounts').modal('toggle');
+		}, 500);
+	}
+	else if (trigger_event == 'my_uploads') {
+		setTimeout(function() {
+			filterColumn(0);
+		}, 500);
+	}
+
 
 	$('#datepicker3').datepicker({
 		onSelect: function(formattedDate, date, inst) {
