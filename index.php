@@ -14,14 +14,31 @@
 		$event = '';
 
 	// GET ALL ACCOUNT ARRAY
-	$get_all_accounts = mysqli_query($ch_conn, "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY acct_abbrev");
+	$managed_teams_ids = array();
+	$managed_teams_names = array();
+	if ($_SESSION['ct_team'] == 99) {
+		$managed_teams_res = mysqli_query($ch_conn, "SELECT mr.team_id, t.team_name FROM manager_responsibility mr, team t WHERE mr.team_id = t.team_id AND mr.user_id = " . $_SESSION['ct_uid'] . " ORDER BY mr.team_id");
+		while ($mt_id = mysqli_fetch_array($managed_teams_res)) {
+			$managed_teams_ids[] = $mt_id['team_id'];
+			$managed_teams_names[] = $mt_id['team_name'];
+		}
+		$get_all_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $managed_teams_ids[0] . " ORDER BY acct_abbrev";
+	}
+	else 
+		$get_all_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY acct_abbrev";
+	$get_all_accounts = mysqli_query($ch_conn, $get_all_accounts_qry);
 	$all_accounts = array();
 	while ($acct_row = mysqli_fetch_array($get_all_accounts)) {
 		$all_accounts[] = $acct_row; 
 	}
 
 	// GET ACCOUNTS WITH CHANGES ARRAY
-	$get_accounts = mysqli_query($ch_conn, "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " AND acct_id IN (SELECT DISTINCT account_id FROM items) ORDER BY acct_abbrev");
+	if ($_SESSION['ct_team'] == 99) {
+		$get_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id IN (" . implode(', ', $managed_teams_ids) . ") AND acct_id IN (SELECT DISTINCT account_id FROM items) ORDER BY acct_abbrev";
+	}
+	else
+		$get_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " AND acct_id IN (SELECT DISTINCT account_id FROM items) ORDER BY acct_abbrev";
+	$get_accounts = mysqli_query($ch_conn, $get_accounts_qry);
 	$accounts = array();
 	while ($acct_row = mysqli_fetch_array($get_accounts)) {
 		$accounts[] = $acct_row; 
@@ -35,8 +52,11 @@
 
 	// Get Changes
 	$changes = array();
-	//$chg_res = mysqli_query($ch_conn, "SELECT i.item_id, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.status FROM items i, account a WHERE i.account_id = a.acct_id ORDER BY i.pht_start_datetime DESC");
-	$chg_res = mysqli_query($ch_conn, "SELECT i.item_id, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u WHERE i.account_id = a.acct_id AND i.primary_resource = u.user_id AND a.team_id = " . $_SESSION['ct_team'] . " ORDER BY i.pht_start_datetime DESC");
+	if ($_SESSION['ct_team'] == 99)
+		$chg_qry = "SELECT i.item_id, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u WHERE i.account_id = a.acct_id AND i.primary_resource = u.user_id AND a.team_id IN (" . implode(', ', $managed_teams_ids) . ") ORDER BY i.pht_start_datetime DESC";
+	else 
+		$chg_qry = "SELECT i.item_id, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u WHERE i.account_id = a.acct_id AND i.primary_resource = u.user_id AND a.team_id = " . $_SESSION['ct_team'] . " ORDER BY i.pht_start_datetime DESC";
+	$chg_res = mysqli_query($ch_conn, $chg_qry);
 	$a = 0;
 	while ($chg_row = mysqli_fetch_array($chg_res)) {
 		$changes[$a] = $chg_row;
@@ -62,6 +82,7 @@
 		include "head.php";
 	?>
 	<script>
+		var managed_teams = <?php echo json_encode($managed_teams_ids); ?>;
 		var changes = <?php echo json_encode($changes); ?>;
 		var trigger_event = <?php echo json_encode($event); ?>;
 		//console.log(changes);

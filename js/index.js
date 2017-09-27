@@ -127,6 +127,10 @@ function clickSaveBtn() {
 		//chg[18] = document.getElementById('notes').value;
 		chg[19] = document.getElementById('primary_res').value;
 		chg[20] = kms_id;
+		if ($('#change_ready').is(":checked"))
+			var is_approved = 1;
+		else
+			var is_approved = 0;
 
 		if (chg[6] == 'Execute Change')
 			var chg_act = document.getElementById('activity_dropdown').value;
@@ -178,7 +182,8 @@ function clickSaveBtn() {
 					os: os,
 					db: db,
 					sp: sp,
-					kms_id: chg[20]
+					kms_id: chg[20],
+					approved: is_approved
 				}
 			})
 			.done(function(msg) {
@@ -826,4 +831,31 @@ function showMoreChanges(row_num) {
 			break;
 		}
 	}
+}
+
+function selectTeam() {
+	var team = $('#team').val();
+	$('#account').find('option').remove().end().append('<option value=""> -- Select Account -- </option>').val('');
+
+	$.ajax({
+		type: "POST",
+		url: "process.php",
+		data: {
+			action: 'get_accounts_by_team',
+			team: team
+		},
+		dataType: 'json'
+	})
+	.done(function(data) {
+		for (var x = 0; x < data.length; x++) {
+			$('#account').append($('<option>', {
+				value: data[x][0],
+				text: data[x][1] + " - " + data[x][2]
+			}));
+		}
+	});
+}
+
+function sample() {
+	console.log($('#change_ready').is(":checked"));
 }

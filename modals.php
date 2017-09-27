@@ -88,6 +88,23 @@
 							<td colspan=4 style="text-align: center;"> <hr> </td>
 						</tr>
 
+						<?php
+							if ($_SESSION['ct_team'] != 99 || sizeof($managed_teams_ids) <= 1) {
+								echo "<tr style='display:none'>";
+							}
+							else
+								echo "<tr>";
+							echo "<td> Team </td>";
+							echo "<td>";
+								echo "<select name='team' id='team' onchange='selectTeam()'>";
+									for ($i = 0; $i < sizeof($managed_teams_ids); $i++) {
+										echo "<option value=" . $managed_teams_ids[$i] . "> " . $managed_teams_names[$i] . "</option>";
+									}
+								echo "</select>";
+							echo "</td>";
+							echo "</tr>";
+						?>
+
 						<tr>
 							<td> Account <span class="asterisk">*</span></td>
 							<td> 
@@ -262,18 +279,21 @@
 						</tr> 
 
 						<tr>
-							<td colspan=4> 
-								<div id="form_status_div">
-									Status <span class="asterisk">*</span>&nbsp;&nbsp;
+							<td>
+								Status <span class="asterisk">*</span>&nbsp;&nbsp;
+							</td>
+							<td>
 									<select name="status" id="form_status_dropdown">
-										<!-- <option value=""> -- Select Status -- </option> -->
 										<option value="Open"> Open </option>
 										<option value="In Progress"> In Progress </option>
 										<option value="Completed"> Completed </option>
 										<option value="Cancelled"> Cancelled </option>
 										<option value="Failed"> Failed </option>
 									</select>
-								</div>
+							</td>
+							<td colspan=2>
+								Is this change <b>Approved</b> and <b>Ready for Implementation</b>?&nbsp;&nbsp;
+								<input type='checkbox' name='change_ready' id='change_ready'>
 							</td>
 						</tr>
 

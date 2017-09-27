@@ -6,8 +6,12 @@
 	require "establish_user.php";
 
 	// Set team
-	if (!isset($_GET['team']))
-		$team = $_SESSION['ct_team'];
+	if (!isset($_GET['team'])) {
+		if ($_SESSION['ct_team'] != 99)
+			$team = $_SESSION['ct_team'];
+		else
+			$team = 1;
+	}
 	else
 		$team = $_GET['team'];
 
@@ -108,7 +112,7 @@
 	</div>
 
 	<div class="body_div">
-		<h3 style='font-family: "Montserrat"'> Start of Week </h3><hr>
+		<h3 style='font-family: "Montserrat"'> Start of Week - <?php echo $teams[$team - 1]['team_name']; ?></h3><hr>
 			<span style='font-size: 0.9vw; font-weight: bold'> Summary of Changes </span><br>
 			<div class='sow_details_div'>
 			<?php

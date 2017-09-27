@@ -6,13 +6,13 @@
 <div class="header_navbar_div">
 	<a id="header_acct-dropdown">
 		<?php
-			if ($_SERVER['PHP_SELF'] == '/delta/calendar.php') {
+			if (strpos($_SERVER['PHP_SELF'], 'calendar.php') !== false) {
 				echo "Actions";
 			}
-			else if ($_SERVER['PHP_SELF'] == '/delta/sow.php') {
+			else if (strpos($_SERVER['PHP_SELF'], 'sow.php') !== false) {
 				echo "Teams";
 			}
-			else if ($_SERVER['PHP_SELF'] == '/delta/account.php') {
+			else if (strpos($_SERVER['PHP_SELF'], 'account') !== false) {
 				echo "Accounts";
 			}
 		?> 
@@ -21,15 +21,15 @@
 	<div id="header_acct-dropdown-div">
 		<ul id='header_add-list'>
 		<?php
-			if ($_SERVER['PHP_SELF'] == '/delta/calendar.php') {
+			if (strpos($_SERVER['PHP_SELF'], 'calendar.php') !== false) {
 				echo "<li><a href='calendar.php?activities=changes'> Change Activities </a></li>";
 				echo "<li><a href='calendar.php?activities=transports'> Transports </a></li>";
 			}
-			else if ($_SERVER['PHP_SELF'] == '/delta/sow.php') {
+			else if (strpos($_SERVER['PHP_SELF'], 'sow.php') !== false) {
 				for ($x = 0; $x < sizeof($teams); $x++)
 					echo "<li><a href='sow.php?team=".$teams[$x]['team_id']."'>" . $teams[$x]['team_name'] . "</a></li>";
 			}
-			else if ($_SERVER['PHP_SELF'] == '/delta/account.php') {
+			else if (strpos($_SERVER['PHP_SELF'], 'account') !== false) {
 				for ($x = 0; $x < sizeof($accounts); $x++)
 					echo "<li><a href='account.php?id=".$accounts[$x]['acct_id']."'>" . $accounts[$x]['acct_abbrev'] . " - " . $accounts[$x]['acct_name'] . "</a></li>";
 			}

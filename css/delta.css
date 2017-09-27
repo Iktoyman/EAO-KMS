@@ -222,7 +222,7 @@ textarea {
 	list-style: none;
 }
 
-.sec_res_dropdown #sec_res_chkbox, .sec_res_dropdown2 #sec_res_chkbox, #edit-sec_res_chkbox, .os_dropdown #os_chkbox, .db_dropdown #db_chkbox, .sp_dropdown #sp_chkbox, #edit-pipeline {
+.sec_res_dropdown #sec_res_chkbox, .sec_res_dropdown2 #sec_res_chkbox, #edit-sec_res_chkbox, .os_dropdown #os_chkbox, .db_dropdown #db_chkbox, .sp_dropdown #sp_chkbox, #edit-pipeline, #change_ready, #edit-change_ready {
 	margin-top: 7.5px;
 	margin-right: 2%;
 	line-height: 1vw;
@@ -299,14 +299,6 @@ textarea {
 	margin: 0;
 
 }
-
-#form_status_div {
-	text-align: center;
-}
-
-#form_status_dropdown {
-	width: 25%;
-} 
 
 #save_btn {
 	position: absolute;
@@ -714,7 +706,7 @@ td #acct_table_num {
 
 .show_details_table {
 	font-style: italic;
-	font-size: 0.8vw;
+	font-size: 0.7vw;
 	text-align: left;
 	/*text-decoration: underline;*/
 	width: 16.5% !important;
@@ -822,6 +814,10 @@ td #acct_table_num {
 	color: rgb(000, 201, 255);
 	font-size: 0.8vw;
 	font-weight: bold
+}
+
+.fc-more:hover {
+	color: black;
 }
 
 .fc-popover .fc-header {

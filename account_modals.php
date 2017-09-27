@@ -120,8 +120,9 @@
 
 					<tr>
 						<td class="show_details_table_label"> Status </td>
-						<td colspan=3 class="show_details_table" id='det_status_td'><span id="det_status"> </span></td>
-						<td colspan=2> </td>
+						<td colspan=2 class="show_details_table" id='det_status_td'><span id="det_status"> </span></td>
+						<td class="show_details_table_label"> Ready for Implementation? </td>
+						<td colspan=2 class="show_details_table" id='det_approved_td'><span id='det_approved'> </span></td>
 					</tr>
 
 					<tr>

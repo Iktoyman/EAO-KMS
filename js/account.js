@@ -80,6 +80,7 @@ function showDetails(id) {
 		document.getElementById('det_status').innerHTML = data['status'];
 		var note = _.unescape(data['note']);
 		document.getElementById('det_notes').innerHTML = note;
+		document.getElementById('det_approved').innerHTML = data['is_approved'];
 
 		$('#opened_note_chg_id').val(data['change_ticket_id']);
 		$('#opened_note_title').val(data['description']);
@@ -274,6 +275,17 @@ $(document).ready(function() {
 			+ "<option value='Overdue'> Overdue </option>"
 			+ "</select>";
 		$('#edit-status_select').val(status);
+
+		var approved = $('#det_approved').html();
+		$('#det_approved').html("Approved and Ready for Implementation?&nbsp;&nbsp;");
+		$('#det_approved').append($('<input>', {
+			type: 'checkbox',
+			id: 'edit-change_ready',
+			name: 'edit-change_ready'
+		}));
+		if (approved == 'Yes')
+			$('#edit-change_ready').prop("checked", true);
+
 		// Dropdowns
 		/*
 		var chg_type = $('#det_chg_type').html();
@@ -380,6 +392,10 @@ $(document).ready(function() {
 		var title = $('#det_chg_desc_input').val();
 		var primary_res = $('#det_presource_select').val();
 		var status = $('#edit-status_select').val();
+		if ($('#edit-change_ready').is(":checked"))
+			var is_approved = 1;
+		else
+			var is_approved = 0;
 
 		var time1 = convertTo24($('#edit-timepicker1').val());
 		var time2 = convertTo24($('#edit-timepicker2').val());
@@ -413,7 +429,8 @@ $(document).ready(function() {
 					date3: cu_start,
 					date4: cu_end,
 					timezone: timezone,
-					status: status
+					status: status,
+					is_approved: is_approved
 				}
 			})
 			.done(function() {

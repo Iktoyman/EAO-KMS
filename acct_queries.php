@@ -4,7 +4,7 @@
 	session_start();
 
 	if ($_POST['action'] == 'show_details') {
-		$chg = mysqli_fetch_array(mysqli_query($ch_conn, "SELECT i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, a.acct_id, CONCAT(a.acct_abbrev, ' - ', a.acct_name) AS account, i.primary_resource, CONCAT(u.last_name, ', ', u.first_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference, i.status FROM users u, items i, account a WHERE i.account_id = a.acct_id AND i.primary_resource = u.user_id AND i.item_id = " . $_POST['id']));
+		$chg = mysqli_fetch_array(mysqli_query($ch_conn, "SELECT i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, a.acct_id, CONCAT(a.acct_abbrev, ' - ', a.acct_name) AS account, i.primary_resource, CONCAT(u.last_name, ', ', u.first_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference, i.status, i.is_approved FROM users u, items i, account a WHERE i.account_id = a.acct_id AND i.primary_resource = u.user_id AND i.item_id = " . $_POST['id']));
 
 		$sec_res = mysqli_query($ch_conn, "SELECT CONCAT(u.last_name, ', ', u.first_name) AS name FROM users u, activity_sec_resources asr WHERE u.user_id = asr.user_id AND asr.item_id = " . $_POST['id']);
 		while ($sr_row = mysqli_fetch_assoc($sec_res))
@@ -64,6 +64,11 @@
 		$note_qry = mysqli_query($ch_conn, "SELECT i.note_date, i.note_details, CONCAT(u.first_name, ' ', u.last_name) AS name FROM item_notes i, users u WHERE i.note_uploader = u.user_id AND i.item_id = " . $_POST['id'] . " ORDER BY note_date DESC LIMIT 1");
 		$note_row = mysqli_fetch_array($note_qry);
 		$chg['note'] = date("[M d, Y - h:i A]", strtotime($note_row['note_date'])) . " by " . $note_row['name'] . "<br><br>" . $note_row['note_details'];
+
+		if ($chg['is_approved'] == 1)
+			$chg['is_approved'] = 'Yes';
+		else
+			$chg['is_approved'] = 'No';
 
 		/*
 		$chg['can_edit'] = 0;
@@ -135,7 +140,7 @@
 		$sr = array();
 
 		$chg_summary = "Summary:<br>";
-		$res = mysqli_query($ch_conn, "SELECT i.change_ticket_id, i.description, i.primary_resource, CONCAT(u.first_name, ' ', u.last_name) AS name, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.status FROM items i, users u WHERE i.primary_resource = u.user_id AND i.item_id = " . $id);
+		$res = mysqli_query($ch_conn, "SELECT i.change_ticket_id, i.description, i.primary_resource, CONCAT(u.first_name, ' ', u.last_name) AS name, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.status, i.is_approved FROM items i, users u WHERE i.primary_resource = u.user_id AND i.item_id = " . $id);
 		$chg = mysqli_fetch_array($res);
 		if (html_entity_decode($chg['change_ticket_id']) != $_POST['chg_id'])
 			$chg_summary .= "Changed ticket ID from <b>" . $chg['change_ticket_id'] . "</b> to <b>" . $_POST['chg_id'] . "</b>.<br>";
@@ -164,7 +169,12 @@
 				$chg_summary .= "Changed timezone from <b>" . $chg['customer_timezone'] . "</b> to <b>" . $_POST['timezone'] . "</b>.<br>";
 		}
 		if ($chg['status'] != $_POST['status'])
-			$chg_summary .= "Changed status from <b>" . $chg['status'] . "</b> to <b>" . $_POST['status'] . "</b>.<br>";	
+			$chg_summary .= "Changed status from <b>" . $chg['status'] . "</b> to <b>" . $_POST['status'] . "</b>.<br>";
+		if ($chg['is_approved'] != $_POST['is_approved'] && $_POST['is_approved'])
+			$chg_summary .= "Change has been marked as <b>Approved and Ready for Implementation</b><br>";	
+		else if ($chg['is_approved'] != $_POST['is_approved'] && !$_POST['is_approved'])
+			$chg_summary .= "Change has been marked as <b>Not Ready for Implementation</b><br>";
+
 		$note = htmlentities(mysqli_real_escape_string($ch_conn, $chg_summary), ENT_QUOTES, 'UTF-8');
 
 		mysqli_query($ch_conn, "INSERT INTO item_notes(item_id, note_date, note_details, note_uploader) VALUES(" . $id . ", NOW(), '" . $note . "', " . $_SESSION['ct_uid'] . ")");
