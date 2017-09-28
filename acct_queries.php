@@ -179,7 +179,7 @@
 
 		mysqli_query($ch_conn, "INSERT INTO item_notes(item_id, note_date, note_details, note_uploader) VALUES(" . $id . ", NOW(), '" . $note . "', " . $_SESSION['ct_uid'] . ")");
 
-		mysqli_query($ch_conn, "UPDATE items SET change_ticket_id = '" . $_POST['chg_id'] . "', description = '" . $title . "', primary_resource = " . $_POST['primary_res'] . ", pht_start_datetime = '" . $_POST['date1'] . "', pht_end_datetime = '" . $_POST['date2'] . "', customer_start_datetime = '" . $_POST['date3'] . "', customer_end_datetime = '" . $_POST['date4'] . "', customer_timezone = '" . $_POST['timezone'] . "', status = '" . $_POST['status'] . "' WHERE item_id = " . $id);
+		mysqli_query($ch_conn, "UPDATE items SET change_ticket_id = '" . $_POST['chg_id'] . "', description = '" . $title . "', primary_resource = " . $_POST['primary_res'] . ", pht_start_datetime = '" . $_POST['date1'] . "', pht_end_datetime = '" . $_POST['date2'] . "', customer_start_datetime = '" . $_POST['date3'] . "', customer_end_datetime = '" . $_POST['date4'] . "', customer_timezone = '" . $_POST['timezone'] . "', status = '" . $_POST['status'] . "', is_approved = " . $_POST['is_approved'] . " WHERE item_id = " . $id);
 		mysqli_query($ch_conn, "DELETE FROM activity_sec_resources WHERE item_id = " . $id);
 
 		foreach($_POST['sec_res'] as $selected) {
@@ -210,6 +210,14 @@
 		mysqli_query($ch_conn, "DELETE FROM item_sp WHERE item_id = " . $id);
 		mysqli_query($ch_conn, "DELETE FROM item_notes WHERE item_id = " . $id);
 		mysqli_query($ch_conn, "DELETE FROM items WHERE item_id = " . $id);
+	}
+	else if ($_POST['action'] == 'retrieve_team') {
+		$id = $_POST['id'];
+
+		$res = mysqli_query($ch_conn, "SELECT a.team_id FROM account a, items i WHERE i.account_id = a.acct_id AND i.item_id = " . $id);
+		$team = mysqli_fetch_assoc($res)['team_id'];
+
+		echo json_encode($team);
 	}
 	else {
 		$ar = array();

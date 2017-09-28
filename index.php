@@ -53,9 +53,9 @@
 	// Get Changes
 	$changes = array();
 	if ($_SESSION['ct_team'] == 99)
-		$chg_qry = "SELECT i.item_id, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u WHERE i.account_id = a.acct_id AND i.primary_resource = u.user_id AND a.team_id IN (" . implode(', ', $managed_teams_ids) . ") ORDER BY i.pht_start_datetime DESC";
+		$chg_qry = "SELECT i.item_id, i.change_ticket_id, t.team_name, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE i.account_id = a.acct_id AND a.team_id = t.team_id AND i.primary_resource = u.user_id AND a.team_id IN (" . implode(', ', $managed_teams_ids) . ") ORDER BY i.pht_start_datetime DESC";
 	else 
-		$chg_qry = "SELECT i.item_id, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u WHERE i.account_id = a.acct_id AND i.primary_resource = u.user_id AND a.team_id = " . $_SESSION['ct_team'] . " ORDER BY i.pht_start_datetime DESC";
+		$chg_qry = "SELECT i.item_id, i.change_ticket_id, t.team_name, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE i.account_id = a.acct_id AND a.team_id = t.team_id AND i.primary_resource = u.user_id AND a.team_id = " . $_SESSION['ct_team'] . " ORDER BY i.pht_start_datetime DESC";
 	$chg_res = mysqli_query($ch_conn, $chg_qry);
 	$a = 0;
 	while ($chg_row = mysqli_fetch_array($chg_res)) {
@@ -154,22 +154,24 @@
 				<th class='change-list-th' id='1' width=8.5%> <span id='1-label'>Change ID</span> 
 					<input type="text" class="change-list-filter" id='chg-list-th-1' onkeyup='filterColumn(1)'>
 					<a class='glyphicon glyphicon-search filter-btn'></a></th>
-				<th class='change-list-th' id='2' width=16.5%> <span id='2-label'>Account</span>
-					<input type="text" class="change-list-filter" id='chg-list-th-2' onkeyup='filterColumn(2)'>
+				<th class='change-list-th' width=6.5%> Team </th>
+
+				<th class='change-list-th' id='3' width=14%> <span id='3-label'>Account</span>
+					<input type="text" class="change-list-filter" id='chg-list-th-3' onkeyup='filterColumn(3)'>
 					<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
 					<a class="glyphicon glyphicon-filter filter-btn"></a></th>
-				<th class='change-list-th' id='4' width=24.75%> <span id='4-label'>Title</span> 
-					<input type="text" class="change-list-filter" id='chg-list-th-4' onkeyup='filterColumn(4)'>
+				<th class='change-list-th' id='5' width=24.75%> <span id='5-label'>Title</span> 
+					<input type="text" class="change-list-filter" id='chg-list-th-5' onkeyup='filterColumn(5)'>
 					<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
 					<a class="glyphicon glyphicon-filter filter-btn"></a></th>
-				<th class='change-list-th' id='8' width=15%> <span id='8-label'> Resources </span>
+				<th class='change-list-th' id='6' width=13.5%> <span id='6-label'> Resources </span>
 						
-				<th class='change-list-th' id='5' width=12.5%> Planned Start 
+				<th class='change-list-th' id='7' width=10%> Planned Start 
 					<a class="glyphicon glyphicon-sort-by-attributes sort-btn"></th>
-				<th class='change-list-th' id='6' width=12.5%> Planned End 
+				<th class='change-list-th' id='8' width=10%> Planned End 
 					<a class="glyphicon glyphicon-sort-by-attributes sort-btn"></th>
-				<th class='change-list-th' id='7' > <span id='7-label'>Status</span> 
-					<input type="text" class="change-list-filter" id='chg-list-th-7' onkeyup='filterColumn(7)'>
+				<th class='change-list-th' id='9' > <span id='8-label'>Status</span> 
+					<input type="text" class="change-list-filter" id='chg-list-th-9' onkeyup='filterColumn(9)'>
 					<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
 					<a class="glyphicon glyphicon-filter filter-btn"></a></th>
 			</tr>
@@ -184,17 +186,18 @@
 				for ($x = 0; $x < sizeof($changes); $x++) {
 					echo "<tr>";
 					echo "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" . $changes[$x]['item_id'] .")'>" . $changes[$x]['change_ticket_id'] . "</a></td>";
+					echo "<td width=6.5%>" . $changes[$x]['team_name'] . "</td>";
 					echo "<td width=6% id='chg_list-aa'>" . $changes[$x]['acct_abbrev'] . "</td>";
-					echo "<td width=10.5% id='chg_list-an'>" . $changes[$x]['acct_name'] . "</td>";
+					echo "<td width=8% id='chg_list-an'>" . $changes[$x]['acct_name'] . "</td>";
 					//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
 					echo "<td width=25% id='chg_list-cd'>" . $changes[$x]['description'] . "</td>";
-					echo "<td width=15% id='chg_list-res'>" . $changes[$x]['name'] . "</td>";
+					echo "<td width=13.5% id='chg_list-res'>" . $changes[$x]['name'] . "</td>";
 					if ($changes[$x]['pht_start_datetime'] == 'Dec 31, 2999 - 12:00AM' && $changes[$x]['pht_end_datetime'] == 'Dec 31, 2999 - 11:59PM') {
 						echo "<td width=25.5% colspan=2 id='chg_list-st'> - No schedule yet: Tentatively planned for the future - </td>";
 					}
 					else {
-						echo "<td width=12.75% id='chg_list-st'>" . $changes[$x]['pht_start_datetime'] . "</td>";
-						echo "<td width=12.75% id='chg_list-et'>" . $changes[$x]['pht_end_datetime'] . "</td>";
+						echo "<td width=10.25% id='chg_list-st'>" . $changes[$x]['pht_start_datetime'] . "</td>";
+						echo "<td width=10.25% id='chg_list-et'>" . $changes[$x]['pht_end_datetime'] . "</td>";
 					}
 					if ($changes[$x]['status'] == 'In Progress')
 						$stat_hl = "status-inprogress";
@@ -210,7 +213,7 @@
 					echo "</tr>";
 					if ($x == $row_limit) {
 						$next_row = $x + 1;
-						echo "<tr><td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" . $next_row . ")'>Show more</a></td></tr>";
+						echo "<tr><td colspan=9 id='show-more_row'> <a onclick='showMoreChanges(" . $next_row . ")'>Show more</a></td></tr>";
 						break;
 					}
 				}

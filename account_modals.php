@@ -1,5 +1,9 @@
 <?php
 	$change_types = ['Normal Minor', 'Normal Normal', 'Normal Major', 'Normal Urgent', 'Standard', 'Emergency'];
+	$teams = array();
+	$teams_res = mysqli_query($ch_conn, "SELECT team_id, team_name FROM team WHERE team_id NOT IN (98, 99)");
+	while ($team_row = mysqli_fetch_array($teams_res))
+		$teams[] = $team_row;
 
 	$get_all_accounts = mysqli_query($ch_conn, "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team']);
 	$all_accounts = array();
@@ -8,9 +12,14 @@
 	}
 
 	$resources = array();
-	$res_res = mysqli_query($ch_conn, "SELECT user_id, CONCAT(last_name, ', ', first_name) AS name FROM users WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY last_name");
-	while ($res_row = mysqli_fetch_array($res_res)) 
-		$resources[] = $res_row;
+	foreach ($teams as $key => $val) {
+		$resources[$teams[$key]['team_id']][0]['user_id'] = $_SESSION['ct_uid'];
+		$resources[$teams[$key]['team_id']][0]['name'] = $_SESSION['last_name'] . ", " . $_SESSION['first_name'];
+		$res_result = mysqli_query($ch_conn, "SELECT user_id, CONCAT(last_name, ', ', first_name) AS name FROM users WHERE team_id = " . $teams[$key]['team_id'] . " AND user_id != " . $_SESSION['ct_uid'] . " ORDER BY name");
+		while ($res_row = mysqli_fetch_array($res_result)) {
+			$resources[$teams[$key]['team_id']][] = $res_row;
+		}
+	}
 
 ?>
 <script>

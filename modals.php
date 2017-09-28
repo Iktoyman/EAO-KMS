@@ -5,7 +5,12 @@
 		$activities[] = $act_row;
 
 	$resources = array();
-	$res_res = mysqli_query($ch_conn, "SELECT user_id, CONCAT(last_name, ', ', first_name) AS name FROM users WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY last_name");
+	$resources[0]['user_id'] = $_SESSION['ct_uid'];
+	$resources[0]['name'] = $_SESSION['last_name'] . ", " . $_SESSION['first_name'];
+	if ($_SESSION['ct_team'] == 99)
+		$res_res = mysqli_query($ch_conn, "SELECT user_id, CONCAT(last_name, ', ', first_name) AS name FROM users WHERE team_id = " . $managed_teams_ids[0] . " ORDER BY last_name");
+	else
+		$res_res = mysqli_query($ch_conn, "SELECT user_id, CONCAT(last_name, ', ', first_name) AS name FROM users WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY last_name");
 	while ($res_row = mysqli_fetch_array($res_res)) 
 		$resources[] = $res_row;
 

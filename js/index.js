@@ -563,7 +563,7 @@ $(document).ready(function() {
 		$('#chg-list-th-7').val(stat);
 
 		$('.loading').css("display", "block");
-		filterColumn(7);
+		filterColumn(8);
 	});
 
 	$('.change-list-view-date-btn').on('click', function() {
@@ -610,21 +610,22 @@ $(document).ready(function() {
 						else 
 							var stat_hl = "";
 						document.getElementById('change-list-tbody').innerHTML += "<tr>"
-						+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-						+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-						+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
+						+ "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
+						+ "<td width=6.5%>" + changes[x]['team_name'] + "</td>"
+						+ "<td width=6% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
+						+ "<td width=8% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
 								//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
 						+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-						+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-						+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-						+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
+						+ "<td width=13.5% id='chg_list-res'>" + changes[x]['name'] + "</td>"
+						+ "<td width=10.25% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
+						+ "<td width=10.25% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
 						+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
 						+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
 						+ "</tr>";
 						if (x == row_limit) {
 							var next_row = x + 1;
 							document.getElementById('change-list-tbody').innerHTML += "<tr>"
-							+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+							+ "<td colspan=9 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
 							+ "</tr>";
 							break;
 						}
@@ -641,15 +642,31 @@ $(document).ready(function() {
 });
 
 function sortColumn(id) {
+	$('.loading').css("display", "block");
 	$('#change-list-tbody').html("");
-	changes.sort(function(a,b) {
-		if (a[id] == b[id])
-			return 0;
-		if (a[id] > b[id])
-			return 1;
-		if (a[id] < b[id])
-			return -1;
-	});
+	if (id == 7 || id == 8) {
+		changes.sort(function(a,b) {
+			var date_a = moment(a[id], 'MMM DD, YYYY - hh:mmA');
+			var date_b = moment(b[id], 'MMM DD, YYYY - hh:mmA');
+			
+			if (moment(date_a).isSame(date_b))
+				return 0;
+			if (moment(date_a).isAfter(date_b))
+				return 1;
+			if (moment(date_a).isBefore(date_b))
+				return -1;
+		});
+	}
+	else {
+		changes.sort(function(a,b) {
+			if (a[id] == b[id])
+				return 0;
+			if (a[id] > b[id])
+				return 1;
+			if (a[id] < b[id])
+				return -1;
+		});
+	}
 	if ($('#' + id).hasClass("rev-sorted")) {
 		changes.reverse();
 	}
@@ -667,25 +684,27 @@ function sortColumn(id) {
 		else 
 			var stat_hl = "";
 		document.getElementById('change-list-tbody').innerHTML += "<tr>"
-		+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-		+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-		+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
+		+ "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
+		+ "<td width=6.5%>" + changes[x]['team_name'] + "</td>"
+		+ "<td width=6% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
+		+ "<td width=8% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
 				//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
 		+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-		+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-		+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-		+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
+		+ "<td width=13.5% id='chg_list-res'>" + changes[x]['name'] + "</td>"
+		+ "<td width=10.25% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
+		+ "<td width=10.25% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
 		+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
 		+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
 		+ "</tr>";
 		if (x == row_limit) {
 			var next_row = x + 1;
 			document.getElementById('change-list-tbody').innerHTML += "<tr>"
-			+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+			+ "<td colspan=9 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
 			+ "</tr>";
 			break;
 		}
 	}
+	$('.loading').css("display", "none");
 }
 
 function filterColumn(id) {
@@ -696,11 +715,11 @@ function filterColumn(id) {
 		var action = 'filter_uploader';
 	else if (id == 1)
 		var action = 'filter_id';
-	else if (id == 2)
+	else if (id == 3)
 		var action = 'filter_acct';
-	else if (id == 4)
+	else if (id == 5)
 		var action = 'filter_title';
-	else if (id == 7)
+	else if (id == 8)
 		var action = 'filter_status';
 
 	setTimeout(function() {
@@ -734,21 +753,22 @@ function filterColumn(id) {
 					else 
 						var stat_hl = "";
 					document.getElementById('change-list-tbody').innerHTML += "<tr>"
-					+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-					+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-					+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
+					+ "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
+					+ "<td width=6.5%>" + changes[x]['team_name'] + "</td>"
+					+ "<td width=6% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
+					+ "<td width=8% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
 							//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
 					+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-					+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-					+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-					+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
+					+ "<td width=13.5% id='chg_list-res'>" + changes[x]['name'] + "</td>"
+					+ "<td width=10.25% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
+					+ "<td width=10.25% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
 					+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
 					+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
 					+ "</tr>";
 					if (x == row_limit) {
 						var next_row = x + 1;
 						document.getElementById('change-list-tbody').innerHTML += "<tr>"
-						+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+						+ "<td colspan=9 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
 						+ "</tr>";
 						break;
 					}
@@ -813,20 +833,21 @@ function showMoreChanges(row_num) {
 			var stat_hl = "";
 		document.getElementById('change-list-tbody').innerHTML += "<tr>"
 		+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-		+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-		+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
+		+ "<td width=6.5%>" + changes[x]['team_name'] + "</td>"
+		+ "<td width=6% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
+		+ "<td width=8% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
 				//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
 		+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-		+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-		+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-		+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
+		+ "<td width=13.5% id='chg_list-res'>" + changes[x]['name'] + "</td>"
+		+ "<td width=10.25% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
+		+ "<td width=10.25% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
 		+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
 		+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
 		+ "</tr>";
 		if (x == row_limit) {
 			var next_row = x + 1;
 			document.getElementById('change-list-tbody').innerHTML += "<tr id='show-more_row'>"
-			+ "<td colspan=8> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+			+ "<td colspan=9> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
 			+ "</tr>";
 			break;
 		}
@@ -836,6 +857,9 @@ function showMoreChanges(row_num) {
 function selectTeam() {
 	var team = $('#team').val();
 	$('#account').find('option').remove().end().append('<option value=""> -- Select Account -- </option>').val('');
+	$('#primary_res').find('option').remove().end().append('<option value=""> -- Select Primary Resource -- </option>').val('');
+	$('.sec_res_dropdown ul').html("");
+	$('#sr_dropdown_text').html(" -- Select Secondary Resource(s) -- ");
 
 	$.ajax({
 		type: "POST",
@@ -854,8 +878,24 @@ function selectTeam() {
 			}));
 		}
 	});
-}
 
-function sample() {
-	console.log($('#change_ready').is(":checked"));
+	$.ajax({
+		type: "POST",
+		url: "process.php",
+		data: {
+			action: 'get_resources_by_team',
+			team: team
+		},
+		dataType: 'json'
+	})
+	.done(function(data) {
+		for (var x = 0; x < data.length; x++) {
+			$('#primary_res').append($('<option>', {
+				value: data[x][0],
+				text: data[x][1]
+			}));
+
+			$('.sec_res_dropdown ul').append("<li><input type='checkbox' class='sec_res_chkbox' id='sec_res_chkbox' name='sec_resources[]' value=" + data[x][0] + " onchange='checkBoxes_resources()'>" + data[x][1] + " </li>");
+		}
+	});
 }
