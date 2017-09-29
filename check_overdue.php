@@ -7,8 +7,14 @@
 		mysqli_query($ch_conn, "UPDATE items SET status = 'Overdue' WHERE item_id = " . $row['item_id']);
 		mysqli_query($ch_conn, "INSERT INTO item_notes(item_id, note_date, note_details, note_uploader) VALUES(".$row['item_id'].", NOW(), 'Change has now passed scheduled end date/time and is now Overdue.', 285)");
 
-		$usr_qry = "SELECT CONCAT(u.username, ', ', u2.username) AS recipients FROM users u, users u2, items i WHERE i.uploader_id = u.user_id AND i.primary_resource = u2.user_id AND i.item_id = " . $row['item_id'];
-		$to = mysqli_fetch_assoc(mysqli_query($ch_conn, $usr_qry))['recipients'];
+		$usr_qry = "SELECT u.username AS recipient1, u2.username AS recipient2 FROM users u, users u2, items i WHERE i.uploader_id = u.user_id AND i.primary_resource = u2.user_id AND i.item_id = " . $row['item_id'];
+		$to_row = mysqli_fetch_row(mysqli_query($ch_conn, $usr_qry));
+		if ($to_row[0] == $to_row[1]) {
+			$to = $to_row[0];
+		}
+		else {
+			$to = implode(', ', $to_row);
+		}
 		//$to2 = 'eric-xavier.car.rosales@hpe.com';
 		$subj = "[DELTA] Reminder to Complete: " . $row['change_ticket_id'];
 		$headers = "From: ito-dcs-phils-eao-kms@hpe.com\r\nReply-To: ito-dcs-phils-eao-kms@hpe.com\r\nCC: eric-xavier.car.rosales@hpe.com, ito-dcs-phils-eao-kms@hpe.com";
@@ -23,6 +29,7 @@
 
 		ini_set("SMTP", "smtp1.hp.com");
 		mail($to, $subj, $body, $headers);
+		//echo $to . "<br>";
 		//echo $subj . "<br>";
 	}
 ?>

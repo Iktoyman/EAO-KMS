@@ -344,7 +344,7 @@
 					<?php
 						for($a = 0; $a < sizeof($accounts); $a++) {
 							echo "<tr>";
-							echo "<td class='account_col'> <span id='acct_abbreviation'> <a href=account.php?id=" . $accounts[$a]['acct_id'] . "><b>" . $accounts[$a]['acct_abbrev'] . " </b></a></span><br>";
+							echo "<td class='account_col'> <span id='acct_abbreviation'> <a href=account.php?id=" . $accounts[$a]['acct_abbrev'] . "><b>" . $accounts[$a]['acct_abbrev'] . " </b></a></span><br>";
 							echo "<span id='acct_name'><i> " . $accounts[$a]['acct_name'] . " </i></span></td>";
 							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['total'] . "</span></td>";
 							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['open'] . "</span></td>";

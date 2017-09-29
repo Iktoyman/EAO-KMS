@@ -24,8 +24,10 @@
 		}
 		$get_all_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $managed_teams_ids[0] . " ORDER BY acct_abbrev";
 	}
-	else 
+	else {
 		$get_all_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY acct_abbrev";
+		$managed_teams_ids[] = $_SESSION['ct_team'];
+	}
 	$get_all_accounts = mysqli_query($ch_conn, $get_all_accounts_qry);
 	$all_accounts = array();
 	while ($acct_row = mysqli_fetch_array($get_all_accounts)) {
@@ -33,11 +35,7 @@
 	}
 
 	// GET ACCOUNTS WITH CHANGES ARRAY
-	if ($_SESSION['ct_team'] == 99) {
-		$get_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id IN (" . implode(', ', $managed_teams_ids) . ") AND acct_id IN (SELECT DISTINCT account_id FROM items) ORDER BY acct_abbrev";
-	}
-	else
-		$get_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " AND acct_id IN (SELECT DISTINCT account_id FROM items) ORDER BY acct_abbrev";
+	$get_accounts_qry = "SELECT a.acct_abbrev, a.acct_name FROM account a, items i WHERE a.acct_id = i.account_id AND a.team_id IN (" . implode(', ', $managed_teams_ids) . ") AND a.acct_id IN (SELECT DISTINCT account_id FROM items) GROUP BY a.acct_abbrev ORDER BY a.acct_abbrev";
 	$get_accounts = mysqli_query($ch_conn, $get_accounts_qry);
 	$accounts = array();
 	while ($acct_row = mysqli_fetch_array($get_accounts)) {
@@ -107,7 +105,7 @@
 			<div class="sidebar-body-div">
 				<ul>
 					<li> <a id='new-item_link'> NEW ITEM </a> </li>
-					<li> <a id='my-accounts_link'> MY ACCOUNTS </a> </li>
+					<li> <a id='my-accounts_link'> TEAM ACCOUNT CHANGES </a> </li>
 					<li> <a href='calendar.php'> CHANGE CALENDAR </a> </li>
 					<li> <a href='sow.php'> START OF WEEK </a> </li>
 				</ul>
@@ -170,7 +168,7 @@
 					<a class="glyphicon glyphicon-sort-by-attributes sort-btn"></th>
 				<th class='change-list-th' id='8' width=10%> Planned End 
 					<a class="glyphicon glyphicon-sort-by-attributes sort-btn"></th>
-				<th class='change-list-th' id='9' > <span id='8-label'>Status</span> 
+				<th class='change-list-th' id='9' > <span id='9-label'>Status</span> 
 					<input type="text" class="change-list-filter" id='chg-list-th-9' onkeyup='filterColumn(9)'>
 					<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
 					<a class="glyphicon glyphicon-filter filter-btn"></a></th>

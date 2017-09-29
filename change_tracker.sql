@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2017 at 09:42 AM
+-- Generation Time: Sep 29, 2017 at 03:37 PM
 -- Server version: 5.7.16-log
 -- PHP Version: 7.0.13
 
@@ -230,7 +230,9 @@ INSERT INTO `account` (`acct_id`, `acct_abbrev`, `acct_name`, `team_id`) VALUES
 (189, 'HRS', 'HRS', 5),
 (190, 'HRS', 'HRS', 6),
 (191, 'HEC', 'HEC', 5),
-(192, 'HEC', 'HEC', 6);
+(192, 'HEC', 'HEC', 6),
+(193, 'CAT', 'Compagnie d\'Affretement et de Transport', 5),
+(194, 'CAT', 'Compagnie d\'Affretement et de Transport', 6);
 
 -- --------------------------------------------------------
 
@@ -622,7 +624,6 @@ INSERT INTO `activity_sec_resources` (`asr_id`, `user_id`, `item_id`) VALUES
 (514, 12, 314),
 (518, 7, 318),
 (521, 16, 320),
-(522, 12, 302),
 (524, 16, 321),
 (526, 16, 323),
 (527, 10, 322),
@@ -632,9 +633,6 @@ INSERT INTO `activity_sec_resources` (`asr_id`, `user_id`, `item_id`) VALUES
 (533, 13, 299),
 (534, 45, 299),
 (535, 16, 327),
-(539, 4, 328),
-(540, 24, 328),
-(541, 26, 328),
 (545, 48, 330),
 (546, 10, 329),
 (547, 34, 331),
@@ -659,21 +657,45 @@ INSERT INTO `activity_sec_resources` (`asr_id`, `user_id`, `item_id`) VALUES
 (571, 12, 347),
 (572, 27, 348),
 (573, 229, 349),
-(575, 213, 351),
-(576, 218, 352),
 (577, 12, 353),
 (578, 25, 350),
 (579, 12, 354),
-(580, 12, 355),
 (581, 16, 356),
 (582, 4, 357),
 (583, 281, 358),
-(584, 15, 359),
 (585, 13, 170),
 (586, 12, 317),
 (587, 12, 316),
 (588, 12, 315),
-(589, 26, 266);
+(589, 26, 266),
+(595, 16, 361),
+(596, 4, 328),
+(597, 44, 328),
+(598, 4, 362),
+(599, 27, 362),
+(600, 4, 363),
+(601, 27, 363),
+(602, 4, 364),
+(603, 27, 364),
+(604, 4, 365),
+(605, 27, 365),
+(606, 12, 355),
+(607, 12, 366),
+(610, 27, 368),
+(611, 16, 369),
+(612, 16, 370),
+(613, 15, 371),
+(614, 15, 372),
+(615, 4, 359),
+(616, 213, 351),
+(617, 218, 352),
+(630, 23, 378),
+(631, 13, 302),
+(632, 16, 302),
+(633, 15, 367),
+(634, 258, 375),
+(635, 23, 379),
+(637, 241, 376);
 
 -- --------------------------------------------------------
 
@@ -1049,7 +1071,7 @@ INSERT INTO `items` (`item_id`, `uploader_id`, `upload_date`, `change_ticket_id`
 (325, 7, '2017-09-22 15:27:19', 'N-C01015653', 'Standard', ' [APPROVED URGENT] 1 Urgent Change to be moved 9/22/2017, 11:00 AM Manila Time', 6, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-09-22 11:00:00', '2017-09-22 15:00:00', '2017-09-22 11:00:00', '2017-09-22 15:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [APPROVED URGENT] 1 Urgent Change to be moved 9/22/2017, 11:00 AM Manila Time', 'Completed', 1),
 (326, 13, '2017-09-22 16:26:19', 'E-IM023730660', 'Standard', 'Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 4, 'N/A', 'N/A', 'Import Transport', NULL, 13, '2017-09-21 17:00:00', '2017-09-21 17:30:00', '2017-09-21 17:00:00', '2017-09-21 17:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES]-[E-IM023730660] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'Completed', 1),
 (327, 15, '2017-09-22 18:25:15', 'N-C01014622', 'Normal Minor', 'CITROSUCO - Restart Production Servers and SAP Applications', 3, 'N/A', ' csphlx01.6223.1402.ecs.hp.com\\ncsphlx02.6223.1402.ecs.hp.com\\ncsphlx03.6223.1402.ecs.hp.com\\ncsphlx04.6223.1402.ecs.hp.com\\ncsphlx16.6223.1402.ecs.hp.com\\ncsvrlx08.6223.1402.ecs.hp.com  \\ncsvrlx09.6223.1402.ecs.hp.com\\ncsphws06.6223.1402.ecs.hp.com\\ncsvrws10.6223.1402.ecs.hp.com\\ncsvrws11.6223.1402.ecs.hp.com\\ncsvrws12.6223.1402.ecs.hp.com\\ncsvrws13.6223.1402.ecs.hp.com \\ncsphws28.6223.1402.ecs.hp.com\\ncsphws29.6223.1402.ecs.hp.com', 'Start / Stop', NULL, 4, '2017-09-25 09:00:00', '2017-09-25 13:00:00', '2017-09-24 22:00:00', '2017-09-25 02:00:00', 'UTC - 03:00 - Brazil', 'RE: RFC  N-C01014622   -- CITROSUCO - Downtime Maintenance approved.  - Reboot Production Linux / Windows servers  / Stop-Start SAP applications ', 'Completed', 1),
-(328, 13, '2017-09-22 19:34:09', 'AU-C00401262', 'Standard', 'C.1067.ENM0159.WA Market Entry- Project Dress Rehearsal 2 in Non-Prod environment', 16, 'N/A', 'N/A', 'Start / Stop', NULL, 13, '2017-09-28 11:00:00', '2017-09-29 01:00:00', '2017-09-28 11:00:00', '2017-09-29 01:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[ORIGIN] :: AU-C00401262 :: C.1067.ENM0159.WA Market Entry- Project Dress Rehearsal 2 in Non-Prod environment', 'Open', 0),
+(328, 13, '2017-09-22 19:34:09', 'AU-C00401262', 'Standard', 'C.1067.ENM0159.WA Market Entry- Project Dress Rehearsal 2 in Non-Prod environment', 16, 'N/A', 'N/A', 'Start / Stop', NULL, 26, '2017-09-28 11:00:00', '2017-09-29 01:00:00', '2017-09-28 11:00:00', '2017-09-29 01:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[ORIGIN] :: AU-C00401262 :: C.1067.ENM0159.WA Market Entry- Project Dress Rehearsal 2 in Non-Prod environment', 'Completed', 0),
 (329, 26, '2017-09-22 22:31:25', 'N-C01016381 -T004', 'Standard', '[RESPONSE NEEDED] [DMFI ChM] 1 Standard Change Record No. N-C01016381 on 9/23/17 11:00 am Manila Time', 6, 'ECP', 'N/A', 'Import Transport', NULL, 4, '2017-09-23 11:00:00', '2017-09-23 12:00:00', '2017-09-23 11:00:00', '2017-09-23 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[RESPONSE NEEDED] [DMFI ChM] 1 Standard Change Record No. N-C01016381 on 9/23/17 11:00 am Manila Time', 'Completed', 1),
 (330, 1, '2017-09-22 22:36:50', 'E-C01462377', 'Normal Major', '[AMCOR AMS] E-C01462377 [AMCOR US] Patch Linux servers - PROD', 1, 'N/A', ' usarpalpcl06.11377.1850.ecs.hp.com  \\nusarpalpcl08.11377.1850.ecs.hp.com \\nusarpalpcl10.11377.1850.ecs.hp.com \\nusarpalpcl12.11377.1850.ecs.hp.com  \\nusarpswpcl07.11377.1850.ecs.hp.com  \\nusarpswpcl09.11377.1850.ecs.hp.com  \\nusarpswpcl11.11377.1850.ecs.hp.com  \\nusarpswpcl13.11377.1850.ecs.hp.com ', 'Start / Stop', NULL, 1, '2017-09-25 04:00:00', '2017-09-25 09:00:00', '2017-09-24 16:00:00', '2017-09-24 21:00:00', 'UTC - 04:00 - Eastern Daylight Time (US EDT)', 'RE: [AMCOR AMS] E-C01462377 [AMCOR US] Patch Linux servers - PROD', 'Completed', 1),
 (331, 4, '2017-09-23 15:03:05', 'N-C01014429', 'Standard', '[Citrosuco] Wintel Server Patching (September 23, 2017 at 12NN PHT)', 3, 'DAS, FOQ, FPD, FPQ, TXQ', 'N/A', 'Start / Stop', NULL, 4, '2017-09-23 12:00:00', '2017-09-23 19:00:00', '2017-09-23 12:00:00', '2017-09-23 19:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [Citrosuco] N-C01014429 Wintel Server Patching (September 23, 2017 at 12NN PHT) ', 'Completed', 1),
@@ -1064,23 +1086,39 @@ INSERT INTO `items` (`item_id`, `uploader_id`, `upload_date`, `change_ticket_id`
 (340, 27, '2017-09-26 14:03:58', 'AU-C00403077', 'Standard', 'C.1140.MDH Cloud Migration project  Cutover and Go-live in Production', 16, 'N/A', 'N/A', 'Execute Change', 99, 13, '2017-09-30 16:00:00', '2017-10-01 20:30:00', '2017-09-30 18:00:00', '2017-10-01 22:30:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', '[ORIGIN] :: AU-C00403077 - C.1140.MDH Cloud Migration project  Cutover and Go-live in Production', 'Open', 0),
 (341, 25, '2017-09-26 15:47:19', 'AU-C00400877', 'Standard', '[Elders] PRD transport 26.09.2017 18:00 Manila Time 19:30 Adelaide', 8, 'EEP', 'N/A', 'Import Transport', NULL, 15, '2017-09-26 18:00:00', '2017-09-26 18:30:00', '2017-09-26 18:00:00', '2017-09-26 18:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [Elders] PRD transport 26.09.2017 18:00 Manila Time 19:30 Adelaide', 'Completed', 1),
 (342, 26, '2017-09-26 21:21:12', 'N-C01019199-T004', 'Standard', '[DMFI ChM] 1 Standard Change Record No. N-C01019199 on 9/27/17 11:00 am Manila Time', 6, 'ECP 100', 'N/A', 'Import Transport', NULL, 16, '2017-09-27 11:00:00', '2017-09-27 11:30:00', '2017-09-27 11:00:00', '2017-09-27 11:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 1 Standard Change Record No. N-C01019199 on 9/27/17 11:00 am Manila Time', 'Completed', 1),
-(343, 22, '2017-09-27 01:09:31', 'N-IM021013042', 'Standard', 'Fischer-eSocial: Import Adjust Legal Solution', 9, 'FRD', 'N/A', 'Import Transport', NULL, 22, '2017-09-26 03:00:00', '2017-09-29 23:30:00', '2017-09-26 03:00:00', '2017-09-29 23:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: G.Fischer-eSocial: Importação Ajuste Solução Jurídico', 'In Progress', 1),
+(343, 22, '2017-09-27 01:09:31', 'N-IM021013042', 'Standard', 'Fischer-eSocial: Import Adjust Legal Solution', 9, 'FRD', 'N/A', 'Import Transport', NULL, 22, '2017-09-26 03:00:00', '2017-09-29 23:30:00', '2017-09-26 03:00:00', '2017-09-29 23:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: G.Fischer-eSocial: Importação Ajuste Solução Jurídico', 'Completed', 1),
 (344, 22, '2017-09-27 06:22:20', 'AU-IM011489319', 'Normal Minor', 'SAP Address remediation testing in Pre-PROD with tracing running', 16, 'TR1', 'N/A', 'Execute Change', 99, 27, '2017-09-27 05:00:00', '2017-09-27 10:00:00', '2017-09-27 05:00:00', '2017-09-27 10:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: SAP Address remediation testing in Pre-PROD with tracing running - UPDATE', 'Completed', 1),
 (345, 22, '2017-09-27 06:30:02', 'E-IM023744302', 'Standard', 'All TKSNA systems - Changing sap* and ddic passwords  -   quarterly ticket - September 2017', 21, 'Q50, T50, P50', 'N/A', 'Execute Change', 99, 22, '2017-09-23 00:00:00', '2017-09-27 23:30:00', '2017-09-23 00:00:00', '2017-09-27 23:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'TKS - E-IM023744302 - All TKSNA systems - Changing sap* and ddic passwords  -   quarterly ticket - September 2017', 'Completed', 1),
 (346, 22, '2017-09-27 06:32:20', 'E-IM023768458', 'Standard', 'Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 4, 'RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'N/A', 'Import Transport', NULL, 22, '2017-09-26 11:00:00', '2017-09-27 00:00:00', '2017-09-26 11:00:00', '2017-09-27 00:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES]-[E-IM023768458] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'Completed', 1),
 (347, 22, '2017-09-27 06:48:32', 'BMS_09252017', 'Standard', 'BMS Transports for NA shift - 09252017', 2, 'N/A', 'N/A', 'Import Transport', NULL, 22, '2017-09-25 23:00:00', '2017-09-26 06:00:00', '2017-09-25 23:00:00', '2017-09-26 06:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N/A', 'Completed', 1),
 (348, 16, '2017-09-27 12:38:13', 'E-IM023775707', 'Normal Major', 'COLES - [E-IM023775707] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 4, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-09-27 12:37:00', '2017-09-27 13:07:00', '2017-09-27 12:37:00', '2017-09-27 13:07:00', 'UTC + 08:00 - Philippine Time (PHT)', 'COLES - [E-IM023775707] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'Completed', 1),
-(349, 255, '2017-09-27 14:56:45', '1234567890', 'Standard', '[test change tracker entry]Windows 2012 Server Patching', 172, 'SID', 'hostname.domain.tld', 'Execute Change', 99, 255, '2017-09-29 12:00:00', '2017-09-29 14:00:00', '2017-09-29 12:00:00', '2017-09-29 14:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'Account approval.msg', 'Open', 0),
+(349, 255, '2017-09-27 14:56:45', '1234567890', 'Standard', '[test change tracker entry]Windows 2012 Server Patching', 172, 'SID', 'hostname.domain.tld', 'Execute Change', 99, 255, '2017-09-29 12:00:00', '2017-09-29 14:00:00', '2017-09-29 12:00:00', '2017-09-29 14:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'Account approval.msg', 'Cancelled', 0),
 (350, 16, '2017-09-27 15:16:22', 'AU-IM011492540', 'Standard', '[RHEEM] AU-IM011492540 - schedule at 20:00 Request: Request: SAP Transport', 18, 'N/A', 'N/A', 'Import Transport', NULL, 26, '2017-09-27 18:00:00', '2017-09-27 18:30:00', '2017-09-27 18:00:00', '2017-09-27 18:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[RHEEM] AU-IM011492540 - schedule at 20:00 Request: Request: SAP Transport', 'Completed', 1),
-(351, 206, '2017-09-27 15:24:57', 'test', 'Normal Minor', 'test', 61, 'TEST', ' TEST', 'Execute Change', 25, 210, '2017-09-30 15:00:00', '2017-10-02 15:00:00', '2017-09-30 01:00:00', '2017-10-02 01:00:00', 'UTC - 06:00 - Mountain Daylight Time (US MDT)', 'test', 'Open', 0),
-(352, 190, '2017-09-27 16:44:44', 'E-00001', 'Normal Major', 'Test patching', 62, 'D21', ' sample.server.01', 'Execute Change', 99, 190, '2017-09-29 00:00:00', '2017-09-29 02:00:00', '2017-09-29 00:00:00', '2017-09-29 02:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: Sample email', 'Open', 0),
+(351, 206, '2017-09-27 15:24:57', 'test', 'Normal Minor', 'test', 61, 'TEST', ' TEST', 'Execute Change', 25, 210, '2017-09-30 15:00:00', '2017-10-02 15:00:00', '2017-09-30 01:00:00', '2017-10-02 01:00:00', 'UTC - 06:00 - Mountain Daylight Time (US MDT)', 'test', 'Completed', 0),
+(352, 190, '2017-09-27 16:44:44', 'E-00001', 'Normal Major', 'Test patching', 62, 'D21', ' sample.server.01', 'Execute Change', 99, 190, '2017-09-29 00:00:00', '2017-09-29 02:00:00', '2017-09-29 00:00:00', '2017-09-29 02:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: Sample email', 'Completed', 0),
 (353, 26, '2017-09-27 18:54:37', 'E-IM023777908', 'Standard', 'Approved Exception migration to RP1 for AU-C00404009 to be migrated at 05:00 AEST 28 September 2017.', 4, 'RP1', 'N/A', 'Import Transport', NULL, 22, '2017-09-28 03:00:00', '2017-09-28 03:30:00', '2017-09-28 05:00:00', '2017-09-28 05:30:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'No email yet', 'Completed', 0),
 (354, 22, '2017-09-28 06:24:53', 'BMS_09272017', 'Standard', 'BMS transports for NA shift - 09272017', 2, 'N/A', 'N/A', 'Import Transport', NULL, 22, '2017-09-27 23:00:00', '2017-09-28 06:00:00', '2017-09-27 23:00:00', '2017-09-28 06:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N/A', 'Completed', 0),
-(355, 22, '2017-09-28 06:33:09', 'N-IM021040244', 'Standard', 'SAP FRD/100 &ndash; Request de transporte', 15, 'FRD/100', 'N/A', 'Import Transport', NULL, 22, '2017-09-27 23:00:00', '2017-09-29 23:30:00', '2017-09-27 23:00:00', '2017-09-29 23:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N/A', 'In Progress', 0),
+(355, 22, '2017-09-28 06:33:09', 'N-IM021040244', 'Standard', 'SAP FRD/100 &ndash; Request de transporte', 15, 'FRD/100', 'N/A', 'Import Transport', NULL, 22, '2999-12-31 00:00:00', '2999-12-31 23:59:00', '2999-12-31 00:00:00', '2999-12-31 23:59:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N/A', 'In Progress', 0),
 (356, 4, '2017-09-28 12:03:20', 'AU-IM011496420', 'Standard', 'Incident | SAP | TR movement', 16, 'QC1', 'N/A', 'Import Transport', NULL, 4, '2017-09-28 12:02:00', '2017-09-28 12:32:00', '2017-09-28 12:02:00', '2017-09-28 12:32:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: TR movement', 'Completed', 0),
 (357, 38, '2017-09-28 12:23:38', 'AU-C00403158', 'Normal Minor', 'C.1125.20093423.Network Security Rationalisation.Wave3', 16, 'ALL', ' ALL', 'Execute Change', 99, 1, '2017-10-15 11:00:00', '2017-10-15 16:00:00', '2017-10-15 14:00:00', '2017-10-15 19:00:00', 'UTC + 11:00 -  Australian Eastern DST (AEDT)', 'TBA', 'Open', 0),
 (358, 278, '2017-09-28 13:48:10', '2248001', 'Normal Minor', 'BZ MLIDT 2607 - MCI MASS LFA', 64, 'N/A', ' SY02', 'Execute Change', 99, 283, '2017-10-01 23:40:00', '2017-10-02 11:40:00', '2017-09-30 22:40:00', '2017-10-01 10:40:00', 'UTC - 05:00 - Eastern Standard Time (US EST)', 'none', 'In Progress', 0),
-(359, 7, '2017-09-28 16:36:29', 'E-IM023784063', 'Standard', 'COLES - E-IM023784063] - Please import from top to bottom as per list above. Also, prioritize import to RQ3.', 4, 'N/A', 'N/A', 'Import Transport', NULL, 26, '2017-09-28 13:00:00', '2017-09-29 13:00:00', '2017-09-28 13:00:00', '2017-09-29 13:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'COLES - E-IM023784063] - Please import from top to bottom as per list above. Also, prioritize import to RQ3.', 'In Progress', 0);
+(359, 7, '2017-09-28 16:36:29', 'E-IM023784063', 'Standard', 'COLES - E-IM023784063] - Please import from top to bottom as per list above. Also, prioritize import to RQ3.', 4, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-09-29 13:00:00', '2017-09-30 13:00:00', '2017-09-29 13:00:00', '2017-09-30 13:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'COLES - E-IM023784063] - Please import from top to bottom as per list above. Also, prioritize import to RQ3.', 'In Progress', 0),
+(361, 26, '2017-09-28 20:41:48', 'N-C01022416-T004', 'Standard', '[DMFI ChM] 1 Standard Change Record No. N-C01022416 on 9/29/17 11:00 am Manila Time', 6, 'ECP', 'N/A', 'Import Transport', NULL, 4, '2017-09-29 11:00:00', '2017-09-29 11:30:00', '2017-09-29 11:00:00', '2017-09-29 11:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [DMFI ChM] 1 Standard Change Record No. N-C01022416 on 9/29/17 11:00 am Manila Time', 'Completed', 0),
+(362, 7, '2017-09-29 05:07:34', 'N-C01021274-T004', 'Standard', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 6, 'CRP', 'N/A', 'Import Transport', NULL, 16, '2017-09-29 11:00:00', '2017-09-29 12:00:00', '2017-09-29 11:00:00', '2017-09-29 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 'Completed', 0),
+(363, 7, '2017-09-29 05:11:02', 'N-C01021341-T004', 'Standard', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 6, 'EWP', 'N/A', 'Import Transport', NULL, 16, '2017-09-29 11:00:00', '2017-09-29 12:00:00', '2017-09-29 11:00:00', '2017-09-29 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 'Completed', 0),
+(364, 7, '2017-09-29 05:12:07', 'N-C01021491-T004', 'Standard', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 6, 'ECP', 'N/A', 'Import Transport', NULL, 16, '2017-09-29 11:00:00', '2017-09-29 12:00:00', '2017-09-29 11:00:00', '2017-09-29 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 'Completed', 0),
+(365, 7, '2017-09-29 05:13:47', 'N-C01020979-T004', 'Standard', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 6, 'ECP, SCP', 'N/A', 'Import Transport', NULL, 16, '2017-09-29 11:00:00', '2017-09-29 12:00:00', '2017-09-29 11:00:00', '2017-09-29 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 'Completed', 0),
+(366, 22, '2017-09-29 07:26:41', 'BMS_09282017', 'Standard', 'BMS transports for NA shift - 09282017', 2, 'N/A', 'N/A', 'Import Transport', NULL, 22, '2017-09-28 23:00:00', '2017-09-29 06:00:00', '2017-09-28 23:00:00', '2017-09-29 06:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N/A', 'Completed', 0),
+(367, 4, '2017-09-29 09:47:11', 'AU-IM011503773', 'Standard', 'REQUEST: Please create a new case for SAP TRANSPORT and assign to the W-INCSSP-ECS-PH-L2-SAP-APPL', 18, 'PRD', 'N/A', 'Import Transport', NULL, 13, '2017-09-29 18:00:00', '2017-09-29 18:30:00', '2017-09-29 20:00:00', '2017-09-29 20:30:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'RE: [RHEEM] P3 | REQUEST: Please create a new case for SAP TRANSPORT and assign to the W-INCSSP-ECS-PH-L2-SAP-APPL', 'Completed', 0),
+(368, 4, '2017-09-29 10:18:20', 'N-C01021504-T004', 'Standard', '[DMFI ChM] 3 Normal Changes for Part 2 on 9/29/17 11:00 am Manila Time', 6, 'ECP', 'N/A', 'Import Transport', NULL, 4, '2017-09-29 11:00:00', '2017-09-29 11:30:00', '2017-09-28 20:00:00', '2017-09-28 20:30:00', 'UTC - 07:00 - Pacific Daylight Time (US PDT)', 'RE: [DMFI ChM] 3 Normal Changes for Part 2 on 9/29/17 11:00 am Manila Time', 'Completed', 0),
+(369, 4, '2017-09-29 10:22:28', 'N-C01021501-T004', 'Standard', '2.0 Normal Changes Part 2 - DMFI SAP Transport N-C01021501.xlsx', 6, 'ECP', 'N/A', 'Import Transport', NULL, 4, '2017-09-29 11:00:00', '2017-09-29 11:30:00', '2017-09-28 20:00:00', '2017-09-28 20:30:00', 'UTC - 07:00 - Pacific Daylight Time (US PDT)', '[DMFI ChM] 3 Normal Changes for Part 2 on 9/29/17 11:00 am Manila Time', 'Completed', 0),
+(370, 4, '2017-09-29 10:24:32', 'N-C01015605-T004', 'Standard', '1.0 Normal Changes Part 2 - DMFI SAP Transport N-C01015605.xlsx', 6, 'ECP', 'N/A', 'Import Transport', NULL, 4, '2017-09-29 11:00:00', '2017-09-29 11:30:00', '2017-09-28 20:00:00', '2017-09-28 20:30:00', 'UTC - 07:00 - Pacific Daylight Time (US PDT)', '[DMFI ChM] 3 Normal Changes for Part 2 on 9/29/17 11:00 am Manila Time', 'Completed', 0),
+(371, 4, '2017-09-29 12:00:14', 'AU-IM011503910', 'Standard', 'Request: SAP Transport', 18, 'PRD', 'N/A', 'Import Transport', NULL, 13, '2017-09-28 18:00:00', '2017-09-29 18:30:00', '2017-09-28 20:00:00', '2017-09-29 20:30:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'N/A', 'Completed', 0),
+(372, 4, '2017-09-29 12:41:33', 'AU-SD021778165', 'Standard', 'Pre-prod offline backup', 16, 'TR1, TC1, TB1, TG1, TP1, JQ1', 'N/A', 'Start / Stop', NULL, 13, '2017-09-30 21:30:00', '2017-10-01 00:30:00', '2017-09-30 23:30:00', '2017-10-01 02:30:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'PoC - Backup requests - Unix', 'Open', 0),
+(375, 25, '2017-09-29 17:33:36', 'test', 'Standard', 'test', 67, 'N/A', 'N/A', 'Import Transport', NULL, 266, '2017-09-29 17:33:00', '2017-09-29 18:03:00', '2017-09-29 17:33:00', '2017-09-29 18:03:00', 'UTC + 08:00 - Philippine Time (PHT)', 'test', 'Completed', 1),
+(376, 25, '2017-09-29 17:39:36', 'test', 'Standard', 'test', 68, 'N/A', 'N/A', 'Execute Change', 99, 228, '2017-09-29 22:30:00', '2017-09-29 23:00:00', '2017-09-29 22:30:00', '2017-09-29 23:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'test ', 'Completed', 1),
+(378, 24, '2017-09-29 17:59:40', 'N-C01015857-T002', 'Standard', 'Vertex update for PRD', 19, 'PRD', ' solvip01 ', 'Execute Change', 4, 4, '2017-10-01 10:00:00', '2017-10-01 11:00:00', '2017-09-30 22:00:00', '2017-09-30 23:00:00', 'UTC - 04:00 - Eastern Daylight Time (US EDT)', 'RE: [SOTHEBYS]  Vertex update for PRD', 'Cancelled', 0),
+(379, 26, '2017-09-29 22:32:18', 'AU-C00403524', 'Normal Minor', 'COLES - LINUX kernel patching  for TEST servers', 4, 'N/A', ' coltst01.3018.1881.ecs.hp.com\\ncoltst02.3018.1881.ecs.hp.com\\ncoldev01.3018.1881.ecs.hp.com', 'Start / Stop', NULL, 4, '2017-10-01 10:00:00', '2017-10-01 16:00:00', '2017-10-01 12:00:00', '2017-10-01 18:00:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'RE: [COLES] Change - AU-C00403524 : COLES - LINUX kernel patching  for TEST servers	- Implement', 'Open', 1);
 
 -- --------------------------------------------------------
 
@@ -1217,7 +1255,9 @@ INSERT INTO `item_db` (`idb_id`, `item_id`, `db_id`) VALUES
 (151, 351, 2),
 (152, 352, 2),
 (153, 357, 2),
-(154, 358, 5);
+(154, 358, 5),
+(162, 376, 3),
+(164, 378, 2);
 
 -- --------------------------------------------------------
 
@@ -1866,7 +1906,66 @@ INSERT INTO `item_notes` (`note_id`, `item_id`, `note_date`, `note_details`, `no
 (709, 316, '2017-09-28 17:29:44', 'Summary:&lt;br&gt;', 25),
 (710, 315, '2017-09-28 17:30:03', 'Summary:&lt;br&gt;', 25),
 (711, 159, '2017-09-28 17:30:33', 'Summary:&lt;br&gt;', 25),
-(712, 266, '2017-09-28 17:30:49', 'Summary:&lt;br&gt;', 25);
+(712, 266, '2017-09-28 17:30:49', 'Summary:&lt;br&gt;', 25),
+(717, 361, '2017-09-28 20:41:48', '&lt;p&gt;&lt;strong&gt;ECDK918696&amp;nbsp;&lt;/strong&gt;TO BE IMPORTED TO ECP 100&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;Calendar invite has been set&lt;/p&gt;', 26),
+(718, 328, '2017-09-28 23:35:25', 'Creation of table indexes - DONE\\nRestart of QP1 - DONE\\nHealth check - DONE', 26),
+(719, 328, '2017-09-28 23:35:49', 'Summary:&lt;br&gt;Changed primary resource from &lt;b&gt;Kethleen Hubahib&lt;/b&gt; to &lt;b&gt;Katrina Carmela Sanoy&lt;/b&gt;.&lt;br&gt;Secondary resources are now: &lt;b&gt;Ronald Calimag, Rosselle Guevarra&lt;/b&gt;.&lt;br&gt;Changed status from &lt;b&gt;Open&lt;/b&gt; to &lt;b&gt;In Progress&lt;/b&gt;.&lt;br&gt;', 26),
+(720, 328, '2017-09-29 01:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(721, 328, '2017-09-29 01:02:46', 'Change has been set to Completed.', 22),
+(722, 352, '2017-09-29 02:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(723, 343, '2017-09-29 03:25:36', 'Change has been set to Completed.', 22),
+(724, 362, '2017-09-29 05:07:34', '&lt;p&gt;CRDK901312&lt;/p&gt;', 7),
+(725, 363, '2017-09-29 05:11:02', '&lt;p&gt;EWDK903144&lt;/p&gt;', 7),
+(726, 364, '2017-09-29 05:12:07', '&lt;p&gt;ECDK918464&lt;/p&gt;\\n&lt;p&gt;ECDK918470&lt;/p&gt;\\n&lt;p&gt;ECDK918472&lt;/p&gt;', 7),
+(727, 365, '2017-09-29 05:13:47', '&lt;p&gt;ECDK918494&lt;/p&gt;\\n&lt;p&gt;ECDK918678&lt;/p&gt;\\n&lt;p&gt;ECDK918645&lt;/p&gt;\\n&lt;p&gt;ECDK918484&lt;/p&gt;\\n&lt;p&gt;ECDK918639&lt;/p&gt;\\n&lt;p&gt;ECDK918655&lt;/p&gt;\\n&lt;p&gt;ECDK918686&lt;/p&gt;\\n&lt;p&gt;ECDK918690&lt;/p&gt;\\n&lt;p&gt;SCDK902288&lt;/p&gt;', 7),
+(728, 355, '2017-09-29 05:26:39', 'Summary:&lt;br&gt;Schedule has been changed to indefinite, the change is in the pipeline.&lt;br&gt;', 22),
+(729, 366, '2017-09-29 07:26:41', '&lt;p&gt;Security Change: 9000026783, BWD: SPM Composite Role Updates&lt;/p&gt;\\n&lt;p&gt;Security Change: 9000026785, CON: Add VEIA to roles&lt;/p&gt;\\n&lt;p&gt;Security Change: 9000026786, CON: Update E:NA_FSS_GA_JEPROC&lt;/p&gt;\\n&lt;p&gt;Application Change: 9000026787, BWD:A&amp;amp;D Install latest content version&lt;/p&gt;', 22),
+(730, 359, '2017-09-29 07:31:56', 'Summary:&lt;br&gt;Changed primary resource from &lt;b&gt;Katrina Carmela Sanoy&lt;/b&gt; to &lt;b&gt;Dennie Luis  Kalaw&lt;/b&gt;.&lt;br&gt;Secondary resources are now: &lt;b&gt;Ronald Calimag&lt;/b&gt;.&lt;br&gt;', 22),
+(731, 367, '2017-09-29 09:47:11', '&lt;p&gt;Please transport DEVK949136 to PRD tonight .&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;This has been schedule. Please close the IM Ticket once done.&lt;/p&gt;', 4),
+(732, 368, '2017-09-29 10:18:20', '&lt;p&gt;ECDK918702&lt;/p&gt;', 4),
+(733, 369, '2017-09-29 10:22:28', '&lt;p&gt;ECDK918694&lt;/p&gt;', 4),
+(734, 370, '2017-09-29 10:24:32', '&lt;p&gt;ECDK918692&lt;/p&gt;', 4),
+(735, 361, '2017-09-29 11:30:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(736, 368, '2017-09-29 11:30:04', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(737, 369, '2017-09-29 11:30:06', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(738, 370, '2017-09-29 11:30:09', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(739, 362, '2017-09-29 12:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(740, 363, '2017-09-29 12:00:03', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(741, 364, '2017-09-29 12:00:05', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(742, 365, '2017-09-29 12:00:08', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(743, 371, '2017-09-29 12:00:14', '&lt;p align=&quot;LEFT&quot;&gt;&lt;span style=&quot;font-size: xx-small;&quot;&gt;Hi Team,&lt;/span&gt;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;&lt;span style=&quot;font-size: xx-small;&quot;&gt;&lt;span style=&quot;font-size: xx-small;&quot;&gt;&lt;span style=&quot;font-size: xx-small;&quot;&gt;Please close the IM Ticket once done.&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;&lt;span style=&quot;font-size: xx-small;&quot;&gt;&lt;span style=&quot;font-size: xx-small;&quot;&gt;&lt;span style=&quot;font-size: xx-small;&quot;&gt;&lt;span style=&quot;font-size: xx-small;&quot;&gt;Below are the list of TR&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;Hi ServiceDesk,&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;Please transport in the following order to PRD tonight .&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;1. DEVK948737 New MRP Controllers for Plant 2008&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;2. DEVK948751 Strategy Profile Z_2008&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;3. DEVK948753 Sched Margin Key&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;4. DEVK949094 Modify Layout Sets&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;5. DEVK949096 Modify Chart Sequence SAPSFCT004 D&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;6. DEVK949098 Graphical Object Type Selection&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;7. DEVK949100 Overall Profile Z_RHMTHRL&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;8. DEVK949102 Barchart Profile SAP___X003&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;9. DEVK949104 Planning Table Profile ZAPSFCL015&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;10. DEVK949106 Time Profile&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;11. DEVK949108 Strategy Profile&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;12. DEVK949110 Layout ID ZAPSFCLA24&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;13. DEVK949114 Order Scheduling Parameters Plant&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;14. DEVK949142 Adjust Basic Date ZPP4&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 4),
+(744, 372, '2017-09-29 12:41:33', '&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri;&quot;&gt;&lt;span style=&quot;font-size: medium;&quot;&gt;Hi &lt;span style=&quot;background: yellow; mso-highlight: yellow;&quot;&gt;Backup team&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;font-size: medium;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot;background: yellow; mso-highlight: yellow;&quot;&gt;&lt;span style=&quot;font-size: medium;&quot;&gt;SAP Team&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;font-size: medium;&quot;&gt;, &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;This is a request for offline backup. Below are the high level steps and requirements from each team. &lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;SR for backup: AU-SD021733846&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;SR for SAP: AU-SD021778165&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;table style=&quot;border-collapse: collapse; mso-yfti-tbllook: 1184; mso-padding-alt: 0in 0in 0in 0in;&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;\\n&lt;tbody&gt;\\n&lt;tr style=&quot;mso-yfti-irow: 0; mso-yfti-firstrow: yes;&quot;&gt;\\n&lt;td style=&quot;background: #ffc000; padding: 0in 5.4pt; border: 1pt solid windowtext; width: 251.6pt;&quot; valign=&quot;top&quot; width=&quot;257&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;TASK&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;td style=&quot;background: #ffc000; border-width: 1pt 1pt 1pt 0px; border-style: solid solid solid none; border-color: windowtext windowtext windowtext #000000; padding: 0in 5.4pt; width: 210.25pt;&quot; valign=&quot;top&quot; width=&quot;213&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;DATE and TIME&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;td style=&quot;background: #ffc000; border-width: 1pt 1pt 1pt 0px; border-style: solid solid solid none; border-color: windowtext windowtext windowtext #000000; padding: 0in 5.4pt; width: 1.15in;&quot; valign=&quot;top&quot; width=&quot;95&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;TEAM&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;/tr&gt;\\n&lt;tr style=&quot;mso-yfti-irow: 1;&quot;&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt; border-style: none solid solid; border-color: #000000 windowtext windowtext; padding: 0in 5.4pt; width: 251.6pt; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;257&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;Stop applications (APPS, ASCS/ERS, DB) &lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt 0.5in; text-indent: -0.25in; mso-list: l0 level1 lfo1;&quot;&gt;&lt;span style=&quot;color: #1f4e79; font-family: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol;&quot;&gt;&lt;span style=&quot;mso-list: Ignore;&quot;&gt;&lt;span style=&quot;font-size: medium;&quot;&gt;&amp;middot;&lt;/span&gt;&lt;span style=&quot;font: 7pt/normal &#039;Times New Roman&#039;; font-size-adjust: none; font-stretch: normal;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;TR1, TC1, TB1, TG1, TP1, JQ1&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt 0px; border-style: none solid solid none; border-color: #000000 windowtext windowtext #000000; padding: 0in 5.4pt; width: 210.25pt; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;213&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;30/09/17 1130 PM AEST - 01/10/17 1230 AM AEST&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt 0px; border-style: none solid solid none; border-color: #000000 windowtext windowtext #000000; padding: 0in 5.4pt; width: 1.15in; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;95&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;SAP Team&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;/tr&gt;\\n&lt;tr style=&quot;mso-yfti-irow: 2;&quot;&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt; border-style: none solid solid; border-color: #000000 windowtext windowtext; padding: 0in 5.4pt; width: 251.6pt; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;257&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;Offline backup of systems in list (45 days retention)&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt 0px; border-style: none solid solid none; border-color: #000000 windowtext windowtext #000000; padding: 0in 5.4pt; width: 210.25pt; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;213&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;01/10/17 1230 AM AEST &amp;ndash; TBA&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt 0px; border-style: none solid solid none; border-color: #000000 windowtext windowtext #000000; padding: 0in 5.4pt; width: 1.15in; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;95&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;BACKUP Team&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;/tr&gt;\\n&lt;tr style=&quot;mso-yfti-irow: 3;&quot;&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt; border-style: none solid solid; border-color: #000000 windowtext windowtext; padding: 0in 5.4pt; width: 251.6pt; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;257&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;Start applications (APPS, ASCS/ERS, DB) &lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt 0.5in; text-indent: -0.25in; mso-list: l0 level1 lfo1;&quot;&gt;&lt;span style=&quot;color: #1f4e79; font-family: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol;&quot;&gt;&lt;span style=&quot;mso-list: Ignore;&quot;&gt;&lt;span style=&quot;font-size: medium;&quot;&gt;&amp;middot;&lt;/span&gt;&lt;span style=&quot;font: 7pt/normal &#039;Times New Roman&#039;; font-size-adjust: none; font-stretch: normal;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;TR1, TC1, TB1, TG1, TP1, JQ1&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt 0px; border-style: none solid solid none; border-color: #000000 windowtext windowtext #000000; padding: 0in 5.4pt; width: 210.25pt; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;213&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;TBA &amp;ndash; 1 hour&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt 0px; border-style: none solid solid none; border-color: #000000 windowtext windowtext #000000; padding: 0in 5.4pt; width: 1.15in; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;95&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;SAP Team&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;/tr&gt;\\n&lt;tr style=&quot;mso-yfti-irow: 4; mso-yfti-lastrow: yes;&quot;&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt; border-style: none solid solid; border-color: #000000 windowtext windowtext; padding: 0in 5.4pt; width: 251.6pt; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;257&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;Health checks on TR1, TC1, TB1, TG1, TP1, JQ1&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt 0px; border-style: none solid solid none; border-color: #000000 windowtext windowtext #000000; padding: 0in 5.4pt; width: 210.25pt; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;213&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;TBA &amp;ndash; 1 hour&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;td style=&quot;border-width: 0px 1pt 1pt 0px; border-style: none solid solid none; border-color: #000000 windowtext windowtext #000000; padding: 0in 5.4pt; width: 1.15in; background-color: transparent;&quot; valign=&quot;top&quot; width=&quot;95&quot;&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;SAP Team&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;/td&gt;\\n&lt;/tr&gt;\\n&lt;/tbody&gt;\\n&lt;/table&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 4),
+(745, 359, '2017-09-29 13:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(746, 361, '2017-09-29 13:38:01', 'Change has been set to Completed.', 7),
+(747, 362, '2017-09-29 13:38:18', 'Change has been set to Completed.', 7),
+(748, 363, '2017-09-29 13:38:32', 'Change has been set to Completed.', 7),
+(749, 364, '2017-09-29 13:38:46', 'Change has been set to Completed.', 7),
+(750, 365, '2017-09-29 13:39:05', 'Change has been set to Completed.', 7),
+(751, 368, '2017-09-29 13:39:30', 'Change has been set to Completed.', 7),
+(752, 369, '2017-09-29 13:39:46', 'Change has been set to Completed.', 7),
+(753, 370, '2017-09-29 13:39:59', 'Change has been set to Completed.', 7),
+(754, 349, '2017-09-29 14:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(755, 349, '2017-09-29 14:33:46', 'Change has been set to Cancelled.', 255),
+(756, 359, '2017-09-29 14:59:28', 'Summary:&lt;br&gt;Changed Start Time from &lt;b&gt;Sep 28, 2017 (01:00 PM)&lt;/b&gt; to &lt;b&gt;Sep 29, 2017 (01:00 PM)&lt;/b&gt;.&lt;br&gt;Changed End Time from &lt;b&gt;Sep 29, 2017 (01:00 PM)&lt;/b&gt; to &lt;b&gt;Sep 30, 2017 (01:00 PM)&lt;/b&gt;.&lt;br&gt;Changed status from &lt;b&gt;Overdue&lt;/b&gt; to &lt;b&gt;In Progress&lt;/b&gt;.&lt;br&gt;', 7),
+(757, 351, '2017-09-29 15:45:10', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Open&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 25),
+(758, 352, '2017-09-29 15:45:35', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Overdue&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 25),
+(768, 375, '2017-09-29 17:33:36', '&lt;p&gt;test&lt;/p&gt;', 25),
+(769, 376, '2017-09-29 17:39:36', '&lt;p&gt;test&lt;/p&gt;', 25),
+(771, 378, '2017-09-29 17:59:40', '&lt;p&gt;Vertex update for PRD server&amp;nbsp;&lt;strong&gt;SOLVIP01&lt;/strong&gt;&amp;nbsp;&amp;nbsp;&lt;/p&gt;', 24),
+(772, 378, '2017-09-29 18:02:24', 'Change has been set to Cancelled.', 24),
+(773, 302, '2017-09-29 18:19:10', 'Summary:&lt;br&gt;Secondary resources are now: &lt;b&gt;Kethleen Hubahib, Dennie Luis  Kalaw&lt;/b&gt;.&lt;br&gt;', 30),
+(774, 367, '2017-09-29 18:30:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(775, 371, '2017-09-29 18:30:03', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(776, 375, '2017-09-29 18:30:06', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(777, 371, '2017-09-29 19:26:27', 'Change has been set to Completed.', 15),
+(778, 367, '2017-09-29 19:28:07', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Overdue&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 15),
+(779, 375, '2017-09-29 20:51:46', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Overdue&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 25),
+(780, 359, '2017-09-29 20:58:37', 'Sent follow up email', 26),
+(781, 379, '2017-09-29 22:32:18', '&lt;p&gt;Implementation Plan&lt;/p&gt;\\n&lt;p&gt;1. Create a rear backup ( OS backup ) of the server - EAO UNIX&lt;/p&gt;\\n&lt;p&gt;==&amp;gt; This can be completed before the day of the upgrade&lt;/p&gt;\\n&lt;p&gt;2. Perform staging of the patches to be installed&amp;nbsp; - EAO UNIX&lt;/p&gt;\\n&lt;p&gt;==&amp;gt; This can be completed before the day of the upgrade&lt;/p&gt;\\n&lt;p&gt;3. Ensure there is a successful File System backup and Application/Database backup before the upgrade - EAO SAP BASIS Team&lt;/p&gt;\\n&lt;p&gt;4. Set outage in ESL&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp; - EAO SAP BASIS Team&lt;/p&gt;\\n&lt;p&gt;5. Stop SAP Application and Database - EAO SAP BASIS Team&lt;/p&gt;\\n&lt;p&gt;6. Perform Sanity reboot of the server - EAO UNIX&lt;/p&gt;\\n&lt;p&gt;7. Perform the planned upgrade - EAO UNIX&lt;/p&gt;\\n&lt;p&gt;8. Perform Health check on server&amp;nbsp; - EAO UNIX&lt;/p&gt;\\n&lt;p&gt;9.Start&amp;nbsp; Database and SAP Application&amp;nbsp; - EAO SAP BASIS Team&lt;/p&gt;\\n&lt;p&gt;10.Perform Health check on App and DB&amp;nbsp; - EAO SAP BASIS Team&lt;/p&gt;', 26),
+(783, 376, '2017-09-29 23:19:06', 'Summary:&lt;br&gt;Changed Start Time from &lt;b&gt;Dec 31, 2999 (12:00 AM)&lt;/b&gt; to &lt;b&gt;Sep 29, 2017 (10:30 PM)&lt;/b&gt;.&lt;br&gt;Changed End Time from &lt;b&gt;Dec 31, 2999 (11:59 PM)&lt;/b&gt; to &lt;b&gt;Sep 29, 2017 (11:00 PM)&lt;/b&gt;.&lt;br&gt;', 25),
+(784, 376, '2017-09-29 23:19:20', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(785, 376, '2017-09-29 23:20:15', 'Change has been set to In Progress.', 25),
+(786, 376, '2017-09-29 23:20:44', 'Change has been set to Open.', 25);
 
 -- --------------------------------------------------------
 
@@ -2000,7 +2099,9 @@ INSERT INTO `item_os` (`io_id`, `item_id`, `os_id`) VALUES
 (148, 352, 2),
 (149, 357, 2),
 (150, 357, 3),
-(151, 358, 1);
+(151, 358, 1),
+(159, 376, 1),
+(161, 378, 1);
 
 -- --------------------------------------------------------
 
@@ -2175,7 +2276,9 @@ INSERT INTO `item_sp` (`isp_id`, `item_id`, `sp_id`) VALUES
 (209, 357, 10),
 (210, 357, 11),
 (211, 357, 13),
-(212, 358, 1);
+(212, 358, 1),
+(220, 376, 1),
+(222, 378, 1);
 
 -- --------------------------------------------------------
 
@@ -2196,7 +2299,9 @@ CREATE TABLE `manager_responsibility` (
 INSERT INTO `manager_responsibility` (`mr_id`, `user_id`, `team_id`) VALUES
 (10, 6, 2),
 (11, 25, 2),
-(12, 25, 3);
+(12, 25, 3),
+(13, 25, 5),
+(14, 25, 6);
 
 -- --------------------------------------------------------
 
@@ -2731,7 +2836,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `acct_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
+  MODIFY `acct_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 --
 -- AUTO_INCREMENT for table `activity`
 --
@@ -2741,7 +2846,7 @@ ALTER TABLE `activity`
 -- AUTO_INCREMENT for table `activity_sec_resources`
 --
 ALTER TABLE `activity_sec_resources`
-  MODIFY `asr_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=595;
+  MODIFY `asr_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=638;
 --
 -- AUTO_INCREMENT for table `db_type`
 --
@@ -2751,12 +2856,12 @@ ALTER TABLE `db_type`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=361;
+  MODIFY `item_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=381;
 --
 -- AUTO_INCREMENT for table `item_db`
 --
 ALTER TABLE `item_db`
-  MODIFY `idb_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
+  MODIFY `idb_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
 --
 -- AUTO_INCREMENT for table `item_kms`
 --
@@ -2766,22 +2871,22 @@ ALTER TABLE `item_kms`
 -- AUTO_INCREMENT for table `item_notes`
 --
 ALTER TABLE `item_notes`
-  MODIFY `note_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=717;
+  MODIFY `note_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=787;
 --
 -- AUTO_INCREMENT for table `item_os`
 --
 ALTER TABLE `item_os`
-  MODIFY `io_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `io_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
 --
 -- AUTO_INCREMENT for table `item_sp`
 --
 ALTER TABLE `item_sp`
-  MODIFY `isp_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
+  MODIFY `isp_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
 --
 -- AUTO_INCREMENT for table `manager_responsibility`
 --
 ALTER TABLE `manager_responsibility`
-  MODIFY `mr_id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `mr_id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `operating_system`
 --

@@ -188,7 +188,7 @@ function clickSaveBtn() {
 			})
 			.done(function(msg) {
 				alert("New item added!");
-				window.location.href = "/delta/";
+				//window.location.href = "/delta/";
 			});
 		}
 		else if (!chg_defined) {
@@ -560,10 +560,10 @@ $(document).ready(function() {
 		else if (id == 'chg-view-overdue')
 			var stat = 'Overdue';
 
-		$('#chg-list-th-7').val(stat);
+		$('#chg-list-th-9').val(stat);
 
 		$('.loading').css("display", "block");
-		filterColumn(8);
+		filterColumn(9);
 	});
 
 	$('.change-list-view-date-btn').on('click', function() {
@@ -719,7 +719,7 @@ function filterColumn(id) {
 		var action = 'filter_acct';
 	else if (id == 5)
 		var action = 'filter_title';
-	else if (id == 8)
+	else if (id == 9)
 		var action = 'filter_status';
 
 	setTimeout(function() {

@@ -1,11 +1,14 @@
 <?php
 	require "connect.php";
 
-	$qry = "SELECT i.item_id, i.change_ticket_id, i.description, CONCAT(u.username, ', ', u2.username) AS recipients FROM items i, users u, users u2 WHERE i.uploader_id = u.user_id AND i.primary_resource = u2.user_id AND i.pht_end_datetime <= NOW() AND i.status = 'Overdue'";
+	$qry = "SELECT i.item_id, i.change_ticket_id, i.description, u.username AS recipient1, u2.username AS recipient2 FROM items i, users u, users u2 WHERE i.uploader_id = u.user_id AND i.primary_resource = u2.user_id AND i.pht_end_datetime <= NOW() AND i.status = 'Overdue'";
 	$res = mysqli_query($ch_conn, $qry);
 	while ($row = mysqli_fetch_array($res)) {
 		//$usr_qry = "SELECT CONCAT(u.username, ', ', u2.username) AS recipients FROM users u, users u2, items i WHERE i.uploader_id = u.user_id AND i.primary_resource = u2.user_id AND i.item_id = " . $row['item_id'];
-		$to = $row['recipients'];
+		if ($row['recipient1'] == $row['recipient2'])
+			$to = $row['recipient1'];
+		else
+			$to = $row['recipient1'] . ", " . $row['recipient2'];
 		//$to2 = 'eric-xavier.car.rosales@hpe.com';
 		$subj = "[DELTA] Reminder to Complete: " . $row['change_ticket_id'];
 		$headers = "From: ito-dcs-phils-eao-kms@hpe.com\r\nReply-To: ito-dcs-phils-eao-kms@hpe.com\r\nCC: eric-xavier.car.rosales@hpe.com, ito-dcs-phils-eao-kms@hpe.com, paul-christian.castillo@hpe.com";

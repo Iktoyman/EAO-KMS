@@ -12,7 +12,29 @@
 	}
 
 	$week = array();
-	$week_res = mysqli_query($ch_conn, "SELECT i.item_id, CONCAT(u.first_name, ' ', u.last_name) as name, i.upload_date, i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, CONCAT(p.first_name, ' ', p.last_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference FROM items i, users u, users p WHERE i.uploader_id = u.user_id AND i.primary_resource = p.user_id AND i.account_id = " . $a_id . " AND WEEK(i.pht_start_datetime, 1) = WEEK(NOW(), 1) ORDER BY i.pht_start_datetime");
+	$week_res = mysqli_query($ch_conn, "SELECT i.item_id, CONCAT(u.first_name, ' ', u.last_name) as name, 
+		i.upload_date, 
+		i.change_ticket_id, 
+		i.change_type, 
+		i.description, 
+		i.sys_id, 
+		i.server, 
+		CONCAT(p.first_name, ' ', p.last_name) AS primary_res, 
+		i.actions, 
+		i.pht_start_datetime, 
+		i.pht_end_datetime, 
+		i.customer_start_datetime, 
+		i.customer_end_datetime, 
+		i.customer_timezone, 
+		i.reference 
+		FROM items i, users u, users p, account a 
+		WHERE i.uploader_id = u.user_id
+		AND i.account_id = a.acct_id 
+		AND i.primary_resource = p.user_id 
+		AND a.acct_abbrev = '". $a_id ."' 
+		AND a.team_id IN (" . implode(', ', $teams) . ")
+		AND WEEK(i.pht_start_datetime, 1) = WEEK(NOW(), 1)
+		ORDER BY i.pht_start_datetime");
 	$i = 0;
 	while ($week_row = mysqli_fetch_array($week_res)) {
 		$sec_resources_wk = array();
@@ -111,7 +133,7 @@
 <script>
 	function switchWeek() {
 		var week = document.getElementById('sort_by_week').value;
-		var a_id = <?php echo $a_id; ?>;
+		var a_id = '<?php echo $a_id; ?>';
 		var tbody = document.getElementById('acct_week_tbody');
 		document.getElementById('cur_week').innerHTML = "";
 		tbody.innerHTML = '';

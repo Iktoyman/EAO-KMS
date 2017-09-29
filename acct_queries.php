@@ -221,6 +221,14 @@
 	}
 	else {
 		$ar = array();
+		$teams = array();
+		if ($_SESSION['ct_team'] == 99) {
+		$teams_res = mysqli_query($ch_conn, "SELECT team_id FROM manager_responsibility WHERE user_id = " . $_SESSION['ct_uid']);
+		while ($teams_row = mysqli_fetch_assoc($teams_res))
+			$teams[] = $teams_row['team_id'];
+		}
+		else 
+			$teams[] = $_SESSION['ct_team'];
 		$a_id = $_POST['a_id'];
 		if ($_POST['class_type'] == 'week') {	
 			$week = $_POST['action'];
@@ -228,16 +236,16 @@
 			$monday = mysqli_fetch_assoc(mysqli_query($ch_conn, "SELECT STR_TO_DATE(CONCAT(YEAR(NOW()), $week, 'Monday'), '%X%V %W') AS mon"))['mon'];
 			$sunday = mysqli_fetch_assoc(mysqli_query($ch_conn, "SELECT STR_TO_DATE(CONCAT(YEAR(NOW()), $week + 1, 'Sunday'), '%X%V %W') AS sun"))['sun'];
 
-			$qry = "SELECT i.item_id, CONCAT(u.first_name, ' ', u.last_name) as name, i.upload_date, i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, CONCAT(p.first_name, ' ', p.last_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference FROM items i, users u, users p WHERE i.uploader_id = u.user_id AND i.primary_resource = p.user_id AND i.account_id = " . $a_id . " AND (i.pht_start_datetime BETWEEN '" . $monday . " 00:00:00' AND '" . $sunday . " 23:59:59') ORDER BY i.pht_start_datetime";
+			$qry = "SELECT i.item_id, CONCAT(u.first_name, ' ', u.last_name) as name, i.upload_date, i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, CONCAT(p.first_name, ' ', p.last_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference FROM items i, users u, users p, account a WHERE i.uploader_id = u.user_id AND i.account_id = a.acct_id AND i.primary_resource = p.user_id AND a.acct_abbrev = '" . $a_id . "' AND a.team_id IN (" . implode(', ', $teams) . ") AND (i.pht_start_datetime BETWEEN '" . $monday . " 00:00:00' AND '" . $sunday . " 23:59:59') ORDER BY i.pht_start_datetime";
 		}
 		else if ($_POST['class_type'] == 'month') {
-			$qry = "SELECT i.item_id, CONCAT(u.first_name, ' ', u.last_name) as name, i.upload_date, i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, CONCAT(p.first_name, ' ', p.last_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference FROM items i, users u, users p WHERE i.uploader_id = u.user_id AND i.primary_resource = p.user_id AND i.account_id = " . $a_id . " AND MONTH(i.pht_start_datetime) = '" . $_POST['action'] . "' ORDER BY i.pht_start_datetime";
+			$qry = "SELECT i.item_id, CONCAT(u.first_name, ' ', u.last_name) as name, i.upload_date, i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, CONCAT(p.first_name, ' ', p.last_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference FROM items i, users u, users p, account a WHERE i.uploader_id = u.user_id AND i.account_id = a.acct_id AND i.primary_resource = p.user_id AND a.acct_abbrev = '" . $a_id . "' AND a.team_id IN (" . implode(', ', $teams) . ") AND MONTH(i.pht_start_datetime) = '" . $_POST['action'] . "' ORDER BY i.pht_start_datetime";
 		}
 		else if ($_POST['class_type'] == 'type') {
-			$qry = "SELECT i.item_id, CONCAT(u.first_name, ' ', u.last_name) as name, i.upload_date, i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, CONCAT(p.first_name, ' ', p.last_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference FROM items i, users u, users p WHERE i.uploader_id = u.user_id AND i.primary_resource = p.user_id AND i.account_id = " . $a_id . " AND i.change_type = '" . $_POST['action'] . "' ORDER BY i.pht_start_datetime";
+			$qry = "SELECT i.item_id, CONCAT(u.first_name, ' ', u.last_name) as name, i.upload_date, i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, CONCAT(p.first_name, ' ', p.last_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference FROM items i, users u, users p, account a WHERE i.uploader_id = u.user_id AND i.account_id = a.acct_id AND i.primary_resource = p.user_id AND a.acct_abbrev = '" . $a_id . "' AND a.team_id IN (" . implode(', ', $teams) . ") AND i.change_type = '" . $_POST['action'] . "' ORDER BY i.pht_start_datetime";
 		}
 		else if ($_POST['class_type'] == 'status') {
-			$qry = "SELECT i.item_id, CONCAT(u.first_name, ' ', u.last_name) as name, i.upload_date, i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, CONCAT(p.first_name, ' ', p.last_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference FROM items i, users u, users p WHERE i.uploader_id = u.user_id AND i.primary_resource = p.user_id AND i.account_id = " . $a_id . " AND i.status = '" . $_POST['action'] . "' ORDER BY i.pht_start_datetime";
+			$qry = "SELECT i.item_id, CONCAT(u.first_name, ' ', u.last_name) as name, i.upload_date, i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, CONCAT(p.first_name, ' ', p.last_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference FROM items i, users u, users p, account a WHERE i.uploader_id = u.user_id AND i.account_id = a.acct_id AND i.primary_resource = p.user_id AND a.acct_abbrev = '" . $a_id . "' AND a.team_id IN (" . implode(', ', $teams) . ") AND i.status = '" . $_POST['action'] . "' ORDER BY i.pht_start_datetime";
 		}
 
 		
