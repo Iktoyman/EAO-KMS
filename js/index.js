@@ -188,13 +188,16 @@ function clickSaveBtn() {
 			})
 			.done(function(msg) {
 				alert("New item added!");
-				//window.location.href = "/delta/";
+				window.location.href = "/delta/";
 			});
 		}
 		else if (!chg_defined) {
 			alert("You must choose what change activity is being done!");
 			$('#activity_dropdown').addClass("required-field");
 			setTimeout(function() {$('#activity_dropdown').removeClass("required-field");}, 1500);
+		}
+		else {
+			alert("Fields with an asterisk are required! Fill in all required fields before proceeding.");
 		}
 	}
 	else if (kms_id != '' && !check_kms_result) {
@@ -282,6 +285,41 @@ function checkDate() {
 	}
 
 	return conf;
+}
+
+function displayChangeList(changes) {
+	for (var x = 0; x < changes.length; x++) {
+		$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
+		if (changes[x]['status'] == 'In Progress')
+			var stat_hl = "status-inprogress";
+		else if (changes[x]['status'] == 'Completed')
+			var stat_hl = "status-completed";
+		else if (changes[x]['status'] == 'Failed')
+			var stat_hl = "status-failed";
+		else if (changes[x]['status'] == 'Overdue')
+			var stat_hl = "status-overdue";
+		else 
+			var stat_hl = "";
+		document.getElementById('change-list-tbody').innerHTML += "<tr>"
+		+ "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
+		+ "<td width=6.5%>" + changes[x]['team_name'] + "</td>"
+		+ "<td width=6% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
+		+ "<td width=8% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
+		+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
+		+ "<td width=13.5% id='chg_list-res'>" + changes[x]['name'] + "</td>"
+		+ "<td width=10.25% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
+		+ "<td width=10.25% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
+		+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
+		+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
+		+ "</tr>";
+		if (x == row_limit) {
+			var next_row = x + 1;
+			document.getElementById('change-list-tbody').innerHTML += "<tr>"
+			+ "<td colspan=9 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+			+ "</tr>";
+			break;
+		}
+	}
 }
 
 // Dropdown behavior
@@ -597,39 +635,7 @@ $(document).ready(function() {
 					document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=8> No change items found </td></tr>";
 				}
 				else {
-					for (var x = 0; x < changes.length; x++) {
-						$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
-						if (changes[x]['status'] == 'In Progress')
-							var stat_hl = "status-inprogress";
-						else if (changes[x]['status'] == 'Completed')
-							var stat_hl = "status-completed";
-						else if (changes[x]['status'] == 'Failed')
-							var stat_hl = "status-failed";
-						else if (changes[x]['status'] == 'Overdue')
-							var stat_hl = "status-overdue";
-						else 
-							var stat_hl = "";
-						document.getElementById('change-list-tbody').innerHTML += "<tr>"
-						+ "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-						+ "<td width=6.5%>" + changes[x]['team_name'] + "</td>"
-						+ "<td width=6% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-						+ "<td width=8% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
-								//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
-						+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-						+ "<td width=13.5% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-						+ "<td width=10.25% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-						+ "<td width=10.25% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
-						+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
-						+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
-						+ "</tr>";
-						if (x == row_limit) {
-							var next_row = x + 1;
-							document.getElementById('change-list-tbody').innerHTML += "<tr>"
-							+ "<td colspan=9 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
-							+ "</tr>";
-							break;
-						}
-					}
+					displayChangeList(changes);
 				}
 				$('.loading').css("display", "none");
 			});
@@ -637,6 +643,71 @@ $(document).ready(function() {
 	});
 
 	$('#new_item').on('show.bs.modal', function() {
+
+	});
+
+	$('.acct_table_th').on('click', function() {
+		var column = $(this).attr('id');
+		$('#my_accounts_tbody').html("");
+
+		if (column == 'acct_abbrev') {
+			accounts.sort(function(a, b) {
+				if (a[column] == b[column])
+					return 0;
+				if (a[column] > b[column])
+					return 1;
+				if (a[column] < b[column])
+					return -1;
+			});
+		} 
+		else {
+			accounts.sort(function(a, b) {
+				if (parseInt(a[column]) == parseInt(b[column]))
+					return 0;
+				if (parseInt(a[column]) > parseInt(b[column]))
+					return 1;
+				if (parseInt(a[column]) < parseInt(b[column]))
+					return -1;
+			});
+		}
+
+		$('.acct-col-sorted').each(function() {
+			if ($(this).attr('id') != column) {
+				$(this).removeClass('acct-col-sorted');
+				$(this).removeClass('acct-col-rev-sorted');
+			}
+		});
+
+		if ($(this).hasClass('acct-col-sorted')) {
+			$(this).removeClass('acct-col-sorted');
+			$(this).addClass('acct-col-rev-sorted');
+		}
+		else {
+			$(this).removeClass('acct-col-rev-sorted');	
+			$(this).addClass('acct-col-sorted');
+		}
+
+		if ($(this).hasClass('acct-col-rev-sorted'))
+			accounts.reverse();
+
+		for (var i = 0; i < accounts.length; i++) {
+			document.getElementById('my_accounts_tbody').innerHTML += "<tr>"
+			+ "<td class='account_col'> <span id='acct_abbreviation'> <a href=account.php?id=" + accounts[i]['acct_abbrev'] + "><b>" + accounts[i]['acct_abbrev'] + " </b></a></span><br>"
+			+ "<span id='acct_name'><i> " + accounts[i]['acct_name'] + " </i></span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'All')\">" + accounts[i]['total'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Open')\">" + accounts[i]['open'] + "</span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'In Progress')\">" + accounts[i]['inpr'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Completed')\">" + accounts[i]['comp'] + "</span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Cancelled')\">" + accounts[i]['canc'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Failed')\">" + accounts[i]['fail'] + "</span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Week')\">" + accounts[i]['week'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Month')\">" + accounts[i]['mont'] + "</span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Normal')\">" + accounts[i]['norm'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Standard')\">" + accounts[i]['stnd'] + "</span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Import Transport')\">" + accounts[i]['tran'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Emergency')\">" + accounts[i]['emer'] + "</span></td>"
+			+ "</tr>";
+		}
 
 	});
 });
@@ -671,39 +742,7 @@ function sortColumn(id) {
 		changes.reverse();
 	}
 	
-	for (var x = 0; x < changes.length; x++) {
-		$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
-		if (changes[x]['status'] == 'In Progress')
-			var stat_hl = "status-inprogress";
-		else if (changes[x]['status'] == 'Completed')
-			var stat_hl = "status-completed";
-		else if (changes[x]['status'] == 'Failed')
-			var stat_hl = "status-failed";
-		else if (changes[x]['status'] == 'Overdue')
-			var stat_hl = "status-overdue";
-		else 
-			var stat_hl = "";
-		document.getElementById('change-list-tbody').innerHTML += "<tr>"
-		+ "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-		+ "<td width=6.5%>" + changes[x]['team_name'] + "</td>"
-		+ "<td width=6% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-		+ "<td width=8% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
-				//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
-		+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-		+ "<td width=13.5% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-		+ "<td width=10.25% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-		+ "<td width=10.25% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
-		+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
-		+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
-		+ "</tr>";
-		if (x == row_limit) {
-			var next_row = x + 1;
-			document.getElementById('change-list-tbody').innerHTML += "<tr>"
-			+ "<td colspan=9 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
-			+ "</tr>";
-			break;
-		}
-	}
+	displayChangeList(changes);
 	$('.loading').css("display", "none");
 }
 
@@ -740,39 +779,7 @@ function filterColumn(id) {
 				document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=8> No change items found </td></tr>";
 			}
 			else {
-				for (var x = 0; x < changes.length; x++) {
-					$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
-					if (changes[x]['status'] == 'In Progress')
-						var stat_hl = "status-inprogress";
-					else if (changes[x]['status'] == 'Completed')
-						var stat_hl = "status-completed";
-					else if (changes[x]['status'] == 'Failed')
-						var stat_hl = "status-failed";
-					else if (changes[x]['status'] == 'Overdue')
-						var stat_hl = "status-overdue";
-					else 
-						var stat_hl = "";
-					document.getElementById('change-list-tbody').innerHTML += "<tr>"
-					+ "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-					+ "<td width=6.5%>" + changes[x]['team_name'] + "</td>"
-					+ "<td width=6% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-					+ "<td width=8% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
-							//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
-					+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-					+ "<td width=13.5% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-					+ "<td width=10.25% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-					+ "<td width=10.25% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
-					+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
-					+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
-					+ "</tr>";
-					if (x == row_limit) {
-						var next_row = x + 1;
-						document.getElementById('change-list-tbody').innerHTML += "<tr>"
-						+ "<td colspan=9 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
-						+ "</tr>";
-						break;
-					}
-				}
+				displayChangeList(changes);
 			}
 			$('.loading').css("display", "none");
 		});
@@ -836,7 +843,6 @@ function showMoreChanges(row_num) {
 		+ "<td width=6.5%>" + changes[x]['team_name'] + "</td>"
 		+ "<td width=6% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
 		+ "<td width=8% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
-				//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
 		+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
 		+ "<td width=13.5% id='chg_list-res'>" + changes[x]['name'] + "</td>"
 		+ "<td width=10.25% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
@@ -896,6 +902,44 @@ function selectTeam() {
 			}));
 
 			$('.sec_res_dropdown ul').append("<li><input type='checkbox' class='sec_res_chkbox' id='sec_res_chkbox' name='sec_resources[]' value=" + data[x][0] + " onchange='checkBoxes_resources()'>" + data[x][1] + " </li>");
+		}
+	});
+}
+
+function accountModalFilter(acct, filter) {
+	var action = "acct_modal_filter";
+
+	$('#my_accounts').modal('toggle');
+	if (filter == 'All') 
+		var condition = '';		
+	else if (filter == 'Open' || filter == 'In Progress' || filter == 'Completed' || filter == 'Cancelled' || filter == 'Failed')
+		var condition = " AND i.status = '" + filter + "'";
+	else if (filter == 'Normal' || filter == 'Standard' || filter == 'Emergency')
+		var condition = " AND i.change_type LIKE '" + filter + "%'";
+	else if (filter == 'Import Transport')
+		var condition = " AND i.actions = '" + filter + "'";
+	else if (filter == 'Week')
+		var condition = " AND WEEK(i.pht_start_datetime, 1) = WEEK(NOW(), 1) AND YEAR(i.pht_start_datetime) = YEAR(NOW())";
+	else if (filter == 'Month')
+		var condition = " AND MONTH(i.pht_start_datetime) = MONTH(NOW()) AND YEAR(i.pht_start_datetime) = YEAR(NOW())";
+	$.ajax({
+		type: "POST",
+		url: "process.php",
+		data: {
+			acct: acct,
+			action: action,
+			condition: condition
+		},
+		dataType: 'json'
+	})
+	.done(function(data) {
+		$('#change-list-tbody').html("");
+		if (data.length == 0) {
+			$('#change-list_showlabel').html("");
+			document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=8> No change items found </td></tr>";
+		}
+		else {
+			displayChangeList(data);
 		}
 	});
 }

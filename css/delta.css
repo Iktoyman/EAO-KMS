@@ -365,9 +365,10 @@ textarea {
 }
 
 
-td #acct_table_num {
+td .acct_table_num {
 	display: block;
 	margin: 0 auto;
+	cursor: hand;
 }
 
 .my_accounts_table thead .account_col {
@@ -653,10 +654,11 @@ td #acct_table_num {
 	line-height: 1vw;
 }
 
-.account_details_item #account_details_item_number {
+.account_details_item .account_details_item_number {
 	margin-top: 20%;
 	font-size: 2vw;
 	text-align: center;
+	cursor: hand;
 }
 
 .account_details_table td {
@@ -1090,4 +1092,9 @@ td #acct_table_num {
     background-color: white;
     border-radius: 6px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.9); 
+}
+
+#word-wrap-td {
+	word-wrap: break-word;
+	word-break: break-all;
 }

@@ -568,6 +568,37 @@ $(document).ready(function() {
 		}, 500);
 		$('#my_accounts').modal('toggle');
 	});
+
+	$('.account_details_item_number').on('click', function() {
+		if ($(this).hasClass('stat')) {
+			$('.nav-tabs a[href="#stat"]').tab('show');
+			$('#sort_by_status').val($(this).attr('id'));
+			$('#cur_status').html("(" + $(this).attr('id') + ")");
+			switchStatus();
+		}
+		else if ($(this).hasClass('mont')) {
+			$('.nav-tabs a[href="#mont"]').tab('show');
+		}
+		else if ($(this).hasClass('week')) {
+			$('.nav-tabs a[href="#week"]').tab('show');
+		}
+		else if ($(this).hasClass('type')) {
+			$('.nav-tabs a[href="#type"]').tab('show');
+			$('#sort_by_type').val($(this).attr('id'));
+			$('#cur_type').html("(" + $(this).attr('id') + ")");
+			switchType();
+		}
+		else if ($(this).hasClass('custom')) {
+			if ($(this).attr('id') == "All") {
+				$('.nav-tabs a[href="#custom"]').tab('show');
+				$('.nav-tabs li').removeClass('active');
+			}
+			else if ($(this).attr('id') == "Transports") {
+				$('.nav-tabs a[href="#trans"]').tab('show');
+				$('.nav-tabs li').removeClass('active');
+			}
+		}
+	});
 });
 
 function toggleSecResDropdown() {

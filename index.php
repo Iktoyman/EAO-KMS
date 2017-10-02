@@ -83,6 +83,7 @@
 		var managed_teams = <?php echo json_encode($managed_teams_ids); ?>;
 		var changes = <?php echo json_encode($changes); ?>;
 		var trigger_event = <?php echo json_encode($event); ?>;
+		var accounts = <?php echo json_encode($accounts); ?>;
 		//console.log(changes);
 	</script>
 	<script type="text/javascript" src="js/tinymce/tinymce.min.js"></script>

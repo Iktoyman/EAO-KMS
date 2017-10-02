@@ -325,39 +325,39 @@
 			<div class="modal-body" style="color: black;">
 				<table class="table table-hover my_accounts_table">
 					<thead><tr>
-						<td class='account_col'> Account </td>
-						<td> Total # of Changes </td>
-						<td> Open Changes</td>
-						<td> Changes in Progress </td>
-						<td> Completed Changes </td>
-						<td> Cancelled Changes </td>
-						<td> Failed Changes </td>
-						<td> Changes this Week </td>
-						<td> Changes this Month</td>
-						<td> Normal Changes </td>
-						<td> Standard Changes </td>
-						<td> Transports </td>
-						<td> Emergency Changes </td>
+						<td class='acct_table_th account_col' id='acct_abbrev'> Account </td>
+						<td class='acct_table_th' id='total'> Total # of Changes </td>
+						<td class='acct_table_th' id='open'> Open Changes</td>
+						<td class='acct_table_th' id='inpr'> Changes in Progress </td>
+						<td class='acct_table_th' id='comp'> Completed Changes </td>
+						<td class='acct_table_th' id='canc'> Cancelled Changes </td>
+						<td class='acct_table_th' id='fail'> Failed Changes </td>
+						<td class='acct_table_th' id='week'> Changes this Week </td>
+						<td class='acct_table_th' id='mont'> Changes this Month</td>
+						<td class='acct_table_th' id='norm'> Normal Changes </td>
+						<td class='acct_table_th' id='stnd'> Standard Changes </td>
+						<td class='acct_table_th' id='tran'> Transports </td>
+						<td class='acct_table_th' id='emer'> Emergency Changes </td>
 					</tr></thead>
 					
-					<tbody>
+					<tbody id='my_accounts_tbody'>
 					<?php
 						for($a = 0; $a < sizeof($accounts); $a++) {
 							echo "<tr>";
 							echo "<td class='account_col'> <span id='acct_abbreviation'> <a href=account.php?id=" . $accounts[$a]['acct_abbrev'] . "><b>" . $accounts[$a]['acct_abbrev'] . " </b></a></span><br>";
 							echo "<span id='acct_name'><i> " . $accounts[$a]['acct_name'] . " </i></span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['total'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['open'] . "</span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['inpr'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['comp'] . "</span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['canc'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['fail'] . "</span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['week'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['mont'] . "</span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['norm'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['stnd'] . "</span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['tran'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['emer'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'All')\">" . $accounts[$a]['total'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Open')\">" . $accounts[$a]['open'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'In Progress')\">" . $accounts[$a]['inpr'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Completed')\">" . $accounts[$a]['comp'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Cancelled')\">" . $accounts[$a]['canc'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Failed')\">" . $accounts[$a]['fail'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Week')\">" . $accounts[$a]['week'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Month')\">" . $accounts[$a]['mont'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Normal')\">" . $accounts[$a]['norm'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Standard')\">" . $accounts[$a]['stnd'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Import Transport')\">" . $accounts[$a]['tran'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Emergency')\">" . $accounts[$a]['emer'] . "</span></td>";
 							echo "</tr>";
 						}
 					?>

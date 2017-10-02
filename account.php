@@ -52,7 +52,7 @@
 		require "head.php";
 	?>
 	<script>
-		var a_id = <?php echo $a_id; ?>;
+		var a_id = '<?php echo $a_id; ?>';
 		var manual_close = true;
 	</script>
 	<script type="text/javascript" src="js/account.js"></script>
@@ -87,7 +87,7 @@
 		 				<div class="account_details_item">
 		 					<div id="account_details_item_label"> Total Number of Changes </div>
 		 					<br>
-		 					<div id="account_details_item_number">
+		 					<div class="account_details_item_number custom" id='All' href='#custom' role="tab" data-toggle="tab" aria-controls="custom">
 		 						<?php echo $summ['total']; ?>
 		 					</div>
 		 				</div>
@@ -95,7 +95,7 @@
 		 				<div class="account_details_item">
 		 					<div id="account_details_item_label"> Number of Changes this Week </div>
 		 					<br>
-		 					<div id="account_details_item_number">
+		 					<div class="account_details_item_number week" id=''>
 		 						<?php echo $summ['week']; ?>
 		 					</div>
 		 				</div>
@@ -103,7 +103,7 @@
 		 				<div class="account_details_item">
 		 					<div id="account_details_item_label"> Number of Changes this Month </div>
 		 					<br>
-		 					<div id="account_details_item_number">
+		 					<div class="account_details_item_number mont" id=''>
 		 						<?php echo $summ['mont']; ?>
 		 					</div>
 		 				</div>
@@ -114,7 +114,7 @@
 		 				<div class="account_details_item">
 		 					<div id="account_details_item_label"> Number of Open Changes </div>
 		 					<br>
-		 					<div id="account_details_item_number">
+		 					<div class="account_details_item_number stat" id='Open'>
 		 						<?php echo $summ['open']; ?>
 		 					</div>
 		 				</div>
@@ -122,7 +122,7 @@
 		 				<div class="account_details_item">
 		 					<div id="account_details_item_label"> Number of Changes in Progress </div>
 		 					<br>
-		 					<div id="account_details_item_number">
+		 					<div class="account_details_item_number stat" id='In Progress'>
 		 						<?php echo $summ['inpr']; ?>
 		 					</div>
 		 				</div>
@@ -130,7 +130,7 @@
 		 				<div class="account_details_item">
 		 					<div id="account_details_item_label"> Number of Completed Changes </div>
 		 					<br>
-		 					<div id="account_details_item_number">
+		 					<div class="account_details_item_number stat" id='Completed'>
 		 						<?php echo $summ['comp']; ?>
 		 					</div>
 		 				</div>
@@ -138,7 +138,7 @@
 		 				<div class="account_details_item">
 		 					<div id="account_details_item_label"> Number of Cancelled Changes </div>
 		 					<br>
-		 					<div id="account_details_item_number">
+		 					<div class="account_details_item_number stat" id='Cancelled'>
 		 						<?php echo $summ['canc']; ?>
 		 					</div>
 		 				</div>
@@ -146,7 +146,7 @@
 		 				<div class="account_details_item">
 		 					<div id="account_details_item_label"> Number of Failed Changes </div>
 		 					<br>
-		 					<div id="account_details_item_number">
+		 					<div class="account_details_item_number stat" id='Failed'>
 		 						<?php echo $summ['fail']; ?>
 		 					</div>
 		 				</div>
@@ -157,7 +157,7 @@
 	 					<div class="account_details_item">
 	 						<div id="account_details_item_label"> Number of Normal Changes </div>
 	 						<br>
-	 						<div id="account_details_item_number">
+	 						<div class="account_details_item_number type" id='Normal'>
 	 							<?php echo $summ['norm']; ?>
 	 						</div>
 		 				</div>
@@ -165,7 +165,7 @@
 		 				<div class="account_details_item">
 		 					<div id="account_details_item_label"> Number of Standard Changes </div>
 		 					<br>
-		 					<div id="account_details_item_number">
+		 					<div class="account_details_item_number type" id='Standard'>
 		 						<?php echo $summ['stnd']; ?>
 		 					</div>
 		 				</div>
@@ -173,7 +173,7 @@
 		 				<div class="account_details_item">
 		 					<div id="account_details_item_label"> Number of Transports </div>
 		 					<br>
-		 					<div id="account_details_item_number">
+		 					<div class="account_details_item_number custom" id='Transports' href='#trans' role="tab" data-toggle="tab" aria-controls="trans">
 		 						<?php echo $summ['tran']; ?>
 		 					</div>
 		 				</div>
@@ -181,7 +181,7 @@
 		 				<div class="account_details_item">
 		 					<div id="account_details_item_label"> Number of Emergency Changes </div>
 		 					<br>
-		 					<div id="account_details_item_number">
+		 					<div class="account_details_item_number type" id='Emergency'>
 		 						<?php echo $summ['emer']; ?>
 		 					</div>
 		 				</div>
@@ -201,6 +201,10 @@
 
 			// Changes by Status
 			require "account_status.php";
+
+			// Custom view
+			require "account_custom.php";
+			require "account_transports.php";
 			?>
 			</div>
 		</div>

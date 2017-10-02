@@ -16,7 +16,7 @@
 
 		//$body = "Sent to: " . $to;
 		$body = "<p style='font-family: Calibri'>Good day!</p>";
-		$body .= "<p style='font-family: Calibri'>This is to remind you, as the person(s) responsible for the following change item, that the following is still in Overdue status. Kindly update the change item in <a href='http://eao-kms.phl.hp.com:8088/delta/'>the tracker</a>:</p><br>";
+		$body .= "<p style='font-family: Calibri'>This is to remind you, as the person(s) responsible for the following change item, that the following is still in Overdue status. Kindly update the change item in <a href='http://eao-kms.phl.hp.com:8088/delta/'>the tracker</a>, and if the ticket can now be closed, do not forget to close it in its respective workflow tool.</p><br>";
 		$body .= "<span style='font-family: Calibri'>Change ID: <b>" . $row['change_ticket_id']. "</b></span><br>";
 		$body .= "<span style='font-family: Calibri'>Title / Description: <b>" . $row['description']. "</b></span><br><br>";
 		$body .= "<p style='font-family: Calibri; font-size: 11px; font-style: italic'>This is an automated e-mail, please do not reply to this e-mail.<br>Regards,<br>THE EAO-KMS Team</p>";

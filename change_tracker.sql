@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2017 at 03:37 PM
+-- Generation Time: Oct 02, 2017 at 10:36 AM
 -- Server version: 5.7.16-log
 -- PHP Version: 7.0.13
 
@@ -647,7 +647,6 @@ INSERT INTO `activity_sec_resources` (`asr_id`, `user_id`, `item_id`) VALUES
 (560, 16, 336),
 (561, 27, 337),
 (562, 27, 339),
-(563, 24, 340),
 (565, 26, 341),
 (566, 27, 342),
 (567, 15, 343),
@@ -685,17 +684,32 @@ INSERT INTO `activity_sec_resources` (`asr_id`, `user_id`, `item_id`) VALUES
 (611, 16, 369),
 (612, 16, 370),
 (613, 15, 371),
-(614, 15, 372),
 (615, 4, 359),
-(616, 213, 351),
-(617, 218, 352),
-(630, 23, 378),
 (631, 13, 302),
 (632, 16, 302),
 (633, 15, 367),
-(634, 258, 375),
 (635, 23, 379),
-(637, 241, 376);
+(640, 43, 382),
+(643, 13, 384),
+(644, 16, 384),
+(645, 22, 384),
+(647, 22, 383),
+(648, 16, 383),
+(650, 48, 386),
+(651, 23, 378),
+(652, 24, 340),
+(653, 22, 372),
+(654, 4, 372),
+(655, 7, 372),
+(656, 15, 372),
+(657, 7, 387),
+(658, 1, 387),
+(659, 4, 387),
+(660, 22, 387),
+(661, 23, 387),
+(662, 218, 352),
+(663, 37, 388),
+(664, 37, 389);
 
 -- --------------------------------------------------------
 
@@ -1083,7 +1097,7 @@ INSERT INTO `items` (`item_id`, `uploader_id`, `upload_date`, `change_ticket_id`
 (337, 16, '2017-09-26 10:36:33', 'E-IM023765994', 'Standard', 'COLES - [E-IM023765994] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 4, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-09-26 10:35:00', '2017-09-26 11:05:00', '2017-09-26 10:35:00', '2017-09-26 11:05:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: COLES - [E-IM023765994] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'Completed', 1),
 (338, 16, '2017-09-26 11:09:52', 'E-IM023765864', 'Standard', 'COLES - [E-IM023765864] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 4, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-09-26 11:08:00', '2017-09-26 11:38:00', '2017-09-26 11:08:00', '2017-09-26 11:38:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: COLES - [E-IM023765864] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'Completed', 1),
 (339, 16, '2017-09-26 12:16:45', 'E-IM023765985', 'Standard', 'COLES - [E-IM023765985] P3 - Moderate/Average', 4, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-09-26 12:16:00', '2017-09-26 12:46:00', '2017-09-26 12:16:00', '2017-09-26 12:46:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: COLES - [E-IM023765985] P3 - Moderate/Average[Completed', 'Completed', 1),
-(340, 27, '2017-09-26 14:03:58', 'AU-C00403077', 'Standard', 'C.1140.MDH Cloud Migration project  Cutover and Go-live in Production', 16, 'N/A', 'N/A', 'Execute Change', 99, 13, '2017-09-30 16:00:00', '2017-10-01 20:30:00', '2017-09-30 18:00:00', '2017-10-01 22:30:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', '[ORIGIN] :: AU-C00403077 - C.1140.MDH Cloud Migration project  Cutover and Go-live in Production', 'Open', 0),
+(340, 27, '2017-09-26 14:03:58', 'AU-C00403077', 'Standard', 'C.1140.MDH Cloud Migration project  Cutover and Go-live in Production', 16, 'N/A', 'N/A', 'Execute Change', 99, 13, '2017-09-30 16:00:00', '2017-10-01 20:30:00', '2017-09-30 18:00:00', '2017-10-01 22:30:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', '[ORIGIN] :: AU-C00403077 - C.1140.MDH Cloud Migration project  Cutover and Go-live in Production', 'Completed', 0),
 (341, 25, '2017-09-26 15:47:19', 'AU-C00400877', 'Standard', '[Elders] PRD transport 26.09.2017 18:00 Manila Time 19:30 Adelaide', 8, 'EEP', 'N/A', 'Import Transport', NULL, 15, '2017-09-26 18:00:00', '2017-09-26 18:30:00', '2017-09-26 18:00:00', '2017-09-26 18:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [Elders] PRD transport 26.09.2017 18:00 Manila Time 19:30 Adelaide', 'Completed', 1),
 (342, 26, '2017-09-26 21:21:12', 'N-C01019199-T004', 'Standard', '[DMFI ChM] 1 Standard Change Record No. N-C01019199 on 9/27/17 11:00 am Manila Time', 6, 'ECP 100', 'N/A', 'Import Transport', NULL, 16, '2017-09-27 11:00:00', '2017-09-27 11:30:00', '2017-09-27 11:00:00', '2017-09-27 11:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 1 Standard Change Record No. N-C01019199 on 9/27/17 11:00 am Manila Time', 'Completed', 1),
 (343, 22, '2017-09-27 01:09:31', 'N-IM021013042', 'Standard', 'Fischer-eSocial: Import Adjust Legal Solution', 9, 'FRD', 'N/A', 'Import Transport', NULL, 22, '2017-09-26 03:00:00', '2017-09-29 23:30:00', '2017-09-26 03:00:00', '2017-09-29 23:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: G.Fischer-eSocial: Importação Ajuste Solução Jurídico', 'Completed', 1),
@@ -1094,15 +1108,14 @@ INSERT INTO `items` (`item_id`, `uploader_id`, `upload_date`, `change_ticket_id`
 (348, 16, '2017-09-27 12:38:13', 'E-IM023775707', 'Normal Major', 'COLES - [E-IM023775707] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 4, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-09-27 12:37:00', '2017-09-27 13:07:00', '2017-09-27 12:37:00', '2017-09-27 13:07:00', 'UTC + 08:00 - Philippine Time (PHT)', 'COLES - [E-IM023775707] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'Completed', 1),
 (349, 255, '2017-09-27 14:56:45', '1234567890', 'Standard', '[test change tracker entry]Windows 2012 Server Patching', 172, 'SID', 'hostname.domain.tld', 'Execute Change', 99, 255, '2017-09-29 12:00:00', '2017-09-29 14:00:00', '2017-09-29 12:00:00', '2017-09-29 14:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'Account approval.msg', 'Cancelled', 0),
 (350, 16, '2017-09-27 15:16:22', 'AU-IM011492540', 'Standard', '[RHEEM] AU-IM011492540 - schedule at 20:00 Request: Request: SAP Transport', 18, 'N/A', 'N/A', 'Import Transport', NULL, 26, '2017-09-27 18:00:00', '2017-09-27 18:30:00', '2017-09-27 18:00:00', '2017-09-27 18:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[RHEEM] AU-IM011492540 - schedule at 20:00 Request: Request: SAP Transport', 'Completed', 1),
-(351, 206, '2017-09-27 15:24:57', 'test', 'Normal Minor', 'test', 61, 'TEST', ' TEST', 'Execute Change', 25, 210, '2017-09-30 15:00:00', '2017-10-02 15:00:00', '2017-09-30 01:00:00', '2017-10-02 01:00:00', 'UTC - 06:00 - Mountain Daylight Time (US MDT)', 'test', 'Completed', 0),
 (352, 190, '2017-09-27 16:44:44', 'E-00001', 'Normal Major', 'Test patching', 62, 'D21', ' sample.server.01', 'Execute Change', 99, 190, '2017-09-29 00:00:00', '2017-09-29 02:00:00', '2017-09-29 00:00:00', '2017-09-29 02:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: Sample email', 'Completed', 0),
 (353, 26, '2017-09-27 18:54:37', 'E-IM023777908', 'Standard', 'Approved Exception migration to RP1 for AU-C00404009 to be migrated at 05:00 AEST 28 September 2017.', 4, 'RP1', 'N/A', 'Import Transport', NULL, 22, '2017-09-28 03:00:00', '2017-09-28 03:30:00', '2017-09-28 05:00:00', '2017-09-28 05:30:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'No email yet', 'Completed', 0),
 (354, 22, '2017-09-28 06:24:53', 'BMS_09272017', 'Standard', 'BMS transports for NA shift - 09272017', 2, 'N/A', 'N/A', 'Import Transport', NULL, 22, '2017-09-27 23:00:00', '2017-09-28 06:00:00', '2017-09-27 23:00:00', '2017-09-28 06:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N/A', 'Completed', 0),
 (355, 22, '2017-09-28 06:33:09', 'N-IM021040244', 'Standard', 'SAP FRD/100 &ndash; Request de transporte', 15, 'FRD/100', 'N/A', 'Import Transport', NULL, 22, '2999-12-31 00:00:00', '2999-12-31 23:59:00', '2999-12-31 00:00:00', '2999-12-31 23:59:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N/A', 'In Progress', 0),
 (356, 4, '2017-09-28 12:03:20', 'AU-IM011496420', 'Standard', 'Incident | SAP | TR movement', 16, 'QC1', 'N/A', 'Import Transport', NULL, 4, '2017-09-28 12:02:00', '2017-09-28 12:32:00', '2017-09-28 12:02:00', '2017-09-28 12:32:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: TR movement', 'Completed', 0),
 (357, 38, '2017-09-28 12:23:38', 'AU-C00403158', 'Normal Minor', 'C.1125.20093423.Network Security Rationalisation.Wave3', 16, 'ALL', ' ALL', 'Execute Change', 99, 1, '2017-10-15 11:00:00', '2017-10-15 16:00:00', '2017-10-15 14:00:00', '2017-10-15 19:00:00', 'UTC + 11:00 -  Australian Eastern DST (AEDT)', 'TBA', 'Open', 0),
-(358, 278, '2017-09-28 13:48:10', '2248001', 'Normal Minor', 'BZ MLIDT 2607 - MCI MASS LFA', 64, 'N/A', ' SY02', 'Execute Change', 99, 283, '2017-10-01 23:40:00', '2017-10-02 11:40:00', '2017-09-30 22:40:00', '2017-10-01 10:40:00', 'UTC - 05:00 - Eastern Standard Time (US EST)', 'none', 'In Progress', 0),
-(359, 7, '2017-09-28 16:36:29', 'E-IM023784063', 'Standard', 'COLES - E-IM023784063] - Please import from top to bottom as per list above. Also, prioritize import to RQ3.', 4, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-09-29 13:00:00', '2017-09-30 13:00:00', '2017-09-29 13:00:00', '2017-09-30 13:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'COLES - E-IM023784063] - Please import from top to bottom as per list above. Also, prioritize import to RQ3.', 'In Progress', 0),
+(358, 278, '2017-09-28 13:48:10', '2248001', 'Normal Minor', 'BZ MLIDT 2607 - MCI MASS LFA', 64, 'N/A', ' SY02', 'Execute Change', 99, 283, '2017-10-01 23:40:00', '2017-10-02 11:40:00', '2017-09-30 22:40:00', '2017-10-01 10:40:00', 'UTC - 05:00 - Eastern Standard Time (US EST)', 'none', 'Overdue', 0),
+(359, 7, '2017-09-28 16:36:29', 'E-IM023784063', 'Standard', 'COLES - E-IM023784063] - Please import from top to bottom as per list above. Also, prioritize import to RQ3.', 4, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-09-29 13:00:00', '2017-09-30 13:00:00', '2017-09-29 13:00:00', '2017-09-30 13:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'COLES - E-IM023784063] - Please import from top to bottom as per list above. Also, prioritize import to RQ3.', 'Completed', 0),
 (361, 26, '2017-09-28 20:41:48', 'N-C01022416-T004', 'Standard', '[DMFI ChM] 1 Standard Change Record No. N-C01022416 on 9/29/17 11:00 am Manila Time', 6, 'ECP', 'N/A', 'Import Transport', NULL, 4, '2017-09-29 11:00:00', '2017-09-29 11:30:00', '2017-09-29 11:00:00', '2017-09-29 11:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [DMFI ChM] 1 Standard Change Record No. N-C01022416 on 9/29/17 11:00 am Manila Time', 'Completed', 0),
 (362, 7, '2017-09-29 05:07:34', 'N-C01021274-T004', 'Standard', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 6, 'CRP', 'N/A', 'Import Transport', NULL, 16, '2017-09-29 11:00:00', '2017-09-29 12:00:00', '2017-09-29 11:00:00', '2017-09-29 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 'Completed', 0),
 (363, 7, '2017-09-29 05:11:02', 'N-C01021341-T004', 'Standard', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 6, 'EWP', 'N/A', 'Import Transport', NULL, 16, '2017-09-29 11:00:00', '2017-09-29 12:00:00', '2017-09-29 11:00:00', '2017-09-29 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 4 Normal Changes for Part I on 9/29/17 11:00 am Manila Time', 'Completed', 0),
@@ -1114,11 +1127,17 @@ INSERT INTO `items` (`item_id`, `uploader_id`, `upload_date`, `change_ticket_id`
 (369, 4, '2017-09-29 10:22:28', 'N-C01021501-T004', 'Standard', '2.0 Normal Changes Part 2 - DMFI SAP Transport N-C01021501.xlsx', 6, 'ECP', 'N/A', 'Import Transport', NULL, 4, '2017-09-29 11:00:00', '2017-09-29 11:30:00', '2017-09-28 20:00:00', '2017-09-28 20:30:00', 'UTC - 07:00 - Pacific Daylight Time (US PDT)', '[DMFI ChM] 3 Normal Changes for Part 2 on 9/29/17 11:00 am Manila Time', 'Completed', 0),
 (370, 4, '2017-09-29 10:24:32', 'N-C01015605-T004', 'Standard', '1.0 Normal Changes Part 2 - DMFI SAP Transport N-C01015605.xlsx', 6, 'ECP', 'N/A', 'Import Transport', NULL, 4, '2017-09-29 11:00:00', '2017-09-29 11:30:00', '2017-09-28 20:00:00', '2017-09-28 20:30:00', 'UTC - 07:00 - Pacific Daylight Time (US PDT)', '[DMFI ChM] 3 Normal Changes for Part 2 on 9/29/17 11:00 am Manila Time', 'Completed', 0),
 (371, 4, '2017-09-29 12:00:14', 'AU-IM011503910', 'Standard', 'Request: SAP Transport', 18, 'PRD', 'N/A', 'Import Transport', NULL, 13, '2017-09-28 18:00:00', '2017-09-29 18:30:00', '2017-09-28 20:00:00', '2017-09-29 20:30:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'N/A', 'Completed', 0),
-(372, 4, '2017-09-29 12:41:33', 'AU-SD021778165', 'Standard', 'Pre-prod offline backup', 16, 'TR1, TC1, TB1, TG1, TP1, JQ1', 'N/A', 'Start / Stop', NULL, 13, '2017-09-30 21:30:00', '2017-10-01 00:30:00', '2017-09-30 23:30:00', '2017-10-01 02:30:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'PoC - Backup requests - Unix', 'Open', 0),
-(375, 25, '2017-09-29 17:33:36', 'test', 'Standard', 'test', 67, 'N/A', 'N/A', 'Import Transport', NULL, 266, '2017-09-29 17:33:00', '2017-09-29 18:03:00', '2017-09-29 17:33:00', '2017-09-29 18:03:00', 'UTC + 08:00 - Philippine Time (PHT)', 'test', 'Completed', 1),
-(376, 25, '2017-09-29 17:39:36', 'test', 'Standard', 'test', 68, 'N/A', 'N/A', 'Execute Change', 99, 228, '2017-09-29 22:30:00', '2017-09-29 23:00:00', '2017-09-29 22:30:00', '2017-09-29 23:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'test ', 'Completed', 1),
-(378, 24, '2017-09-29 17:59:40', 'N-C01015857-T002', 'Standard', 'Vertex update for PRD', 19, 'PRD', ' solvip01 ', 'Execute Change', 4, 4, '2017-10-01 10:00:00', '2017-10-01 11:00:00', '2017-09-30 22:00:00', '2017-09-30 23:00:00', 'UTC - 04:00 - Eastern Daylight Time (US EDT)', 'RE: [SOTHEBYS]  Vertex update for PRD', 'Cancelled', 0),
-(379, 26, '2017-09-29 22:32:18', 'AU-C00403524', 'Normal Minor', 'COLES - LINUX kernel patching  for TEST servers', 4, 'N/A', ' coltst01.3018.1881.ecs.hp.com\\ncoltst02.3018.1881.ecs.hp.com\\ncoldev01.3018.1881.ecs.hp.com', 'Start / Stop', NULL, 4, '2017-10-01 10:00:00', '2017-10-01 16:00:00', '2017-10-01 12:00:00', '2017-10-01 18:00:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'RE: [COLES] Change - AU-C00403524 : COLES - LINUX kernel patching  for TEST servers	- Implement', 'Open', 1);
+(372, 4, '2017-09-29 12:41:33', 'AU-SD021778165', 'Standard', 'Pre-prod offline backup', 16, 'TR1, TC1, TB1, TG1, TP1, JQ1', 'N/A', 'Start / Stop', NULL, 13, '2017-09-30 21:30:00', '2017-10-01 00:30:00', '2017-09-30 23:30:00', '2017-10-01 02:30:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'PoC - Backup requests - Unix', 'Completed', 0),
+(378, 24, '2017-09-29 17:59:40', 'N-C01015857-T002', 'Standard', 'Vertex update for PRD', 19, 'PRD', ' solvip01 ', 'Execute Change', 4, 4, '2017-10-01 10:00:00', '2017-10-01 11:00:00', '2017-09-30 22:00:00', '2017-09-30 23:00:00', 'UTC - 04:00 - Eastern Daylight Time (US EDT)', 'RE: [SOTHEBYS]  Vertex update for PRD', 'Completed', 0),
+(379, 26, '2017-09-29 22:32:18', 'AU-C00403524', 'Normal Minor', 'COLES - LINUX kernel patching  for TEST servers', 4, 'N/A', ' coltst01.3018.1881.ecs.hp.com\\ncoltst02.3018.1881.ecs.hp.com\\ncoldev01.3018.1881.ecs.hp.com', 'Start / Stop', NULL, 4, '2017-10-01 10:00:00', '2017-10-01 16:00:00', '2017-10-01 12:00:00', '2017-10-01 18:00:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'RE: [COLES] Change - AU-C00403524 : COLES - LINUX kernel patching  for TEST servers	- Implement', 'Completed', 1),
+(382, 22, '2017-09-30 01:31:07', 'AU-C00404709', 'Normal Major', ' SAP Production, QA and Development systems to be shutdown  (SAP and DB) /  VPC- Change - Rheem physical servers need to updated to SPP 2016.10 part of the requirements of Fabric O', 18, 'N/A', 'N/A', 'Execute Change', 99, 10, '2017-10-07 15:00:00', '2017-10-08 21:30:00', '2017-10-07 15:00:00', '2017-10-08 21:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'October EAO VPC Qualys Scans: Validation on Scan Scope - Due September 29, 2017', 'Open', 0),
+(383, 22, '2017-09-30 07:40:25', 'N-C01024595', 'Standard', 'N-C01024595 [MRC] CQC Parameter recommendations - QG2 QH2', 13, 'QG2 QH2', 'N/A', 'Execute Change', 3, 13, '2017-10-06 01:30:00', '2017-10-06 02:30:00', '2017-10-06 01:30:00', '2017-10-06 02:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N-C01024595 [MRC] CQC Parameter recommendations - QG2 QH2', 'Open', 0),
+(384, 22, '2017-09-30 07:48:00', 'N-C01024589', 'Standard', 'N-C01024589 [MRC] CQC Parameter recommendations - DG2 DH2', 13, 'DG2 DH2', 'N/A', 'Execute Change', 3, 22, '2017-10-04 01:30:00', '2017-10-04 02:30:00', '2017-10-04 01:30:00', '2017-10-04 02:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N/A', 'Open', 0),
+(386, 1, '2017-09-30 08:03:01', 'E-C01469907 ', 'Normal Major', 'BOBJ restart', 1, 'BOP', ' gdc5ap0010.11377.1850.ecs.hp.com\\ngdc5ap0011.11377.1850.ecs.hp.com\\ngdc5ap0012.11377.1850.ecs.hp.com\\ngdc5ap0013.11377.1850.ecs.hp.com', 'Execute Change', 99, 32, '2017-09-30 16:00:00', '2017-10-01 00:00:00', '2017-09-30 04:00:00', '2017-09-30 12:00:00', 'UTC - 04:00 - Eastern Daylight Time (US EDT)', ' Approval for E-C01469907 - [AMC] BOBJ restart on September 30, 2017 04:00 - 12:00 EST', 'Completed', 1);
+INSERT INTO `items` (`item_id`, `uploader_id`, `upload_date`, `change_ticket_id`, `change_type`, `description`, `account_id`, `sys_id`, `server`, `actions`, `activity_id`, `primary_resource`, `pht_start_datetime`, `pht_end_datetime`, `customer_start_datetime`, `customer_end_datetime`, `customer_timezone`, `reference`, `status`, `is_approved`) VALUES
+(387, 7, '2017-10-02 09:29:02', 'AU-IM011498010', 'Normal Minor', 'Offline backup', 16, 'JQ1, TB1 TC1 TG1 TP1 ,TR1', 'N/A', 'Start / Stop', NULL, 13, '2017-09-30 20:30:00', '2017-09-30 21:30:00', '2017-09-30 23:30:00', '2017-10-01 00:30:00', 'UTC + 11:00 -  Australian Eastern DST (AEDT)', 'PoC - Backup requests - Unix', 'Completed', 0),
+(388, 26, '2017-10-02 17:22:31', 'E-IM023810727', 'Standard', 'Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 4, 'RD2, RD1, RQ1, RQ2 and RQ3', 'N/A', 'Import Transport', NULL, 26, '2017-10-02 16:00:00', '2017-10-02 17:00:00', '2017-10-02 16:00:00', '2017-10-02 17:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES] E-IM023810727 : Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'Completed', 0),
+(389, 26, '2017-10-02 17:31:54', 'E-IM023810257', 'Standard', 'Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 4, 'RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'N/A', 'Import Transport', NULL, 26, '2017-10-02 17:30:00', '2017-10-03 17:30:00', '2017-10-02 17:30:00', '2017-10-03 17:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES] E-IM023810257 : Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'In Progress', 0);
 
 -- --------------------------------------------------------
 
@@ -1252,12 +1271,14 @@ INSERT INTO `item_db` (`idb_id`, `item_id`, `db_id`) VALUES
 (148, 344, 2),
 (149, 345, 2),
 (150, 349, 4),
-(151, 351, 2),
 (152, 352, 2),
 (153, 357, 2),
 (154, 358, 5),
-(162, 376, 3),
-(164, 378, 2);
+(164, 378, 2),
+(166, 382, 1),
+(167, 383, 1),
+(168, 384, 1),
+(170, 386, 4);
 
 -- --------------------------------------------------------
 
@@ -1885,7 +1906,6 @@ INSERT INTO `item_notes` (`note_id`, `item_id`, `note_date`, `note_details`, `no
 (689, 349, '2017-09-27 14:56:45', '&lt;p&gt;This is a test entry.&lt;/p&gt;', 255),
 (690, 350, '2017-09-27 15:16:22', '&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;font-family: &#039;Century Gothic&#039;,sans-serif;&quot;&gt;&lt;span style=&quot;font-size: medium;&quot;&gt;DEVK949000&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 16),
 (691, 344, '2017-09-27 15:21:17', 'Task has been completed. However, we are still waiting for there reply if we need to rerun the trace. ', 27),
-(692, 351, '2017-09-27 15:24:57', '&lt;p&gt;test only&lt;/p&gt;', 206),
 (693, 352, '2017-09-27 16:44:44', '&lt;p&gt;Testing change tracker&lt;/p&gt;', 190),
 (694, 350, '2017-09-27 18:15:31', 'Completed successfully', 26),
 (695, 350, '2017-09-27 18:16:17', 'Summary:&lt;br&gt;Changed primary resource from &lt;b&gt;Yvonne Marie Junsay&lt;/b&gt; to &lt;b&gt;Katrina Carmela Sanoy&lt;/b&gt;.&lt;br&gt;Changed status from &lt;b&gt;Open&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 26),
@@ -1947,25 +1967,40 @@ INSERT INTO `item_notes` (`note_id`, `item_id`, `note_date`, `note_details`, `no
 (754, 349, '2017-09-29 14:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
 (755, 349, '2017-09-29 14:33:46', 'Change has been set to Cancelled.', 255),
 (756, 359, '2017-09-29 14:59:28', 'Summary:&lt;br&gt;Changed Start Time from &lt;b&gt;Sep 28, 2017 (01:00 PM)&lt;/b&gt; to &lt;b&gt;Sep 29, 2017 (01:00 PM)&lt;/b&gt;.&lt;br&gt;Changed End Time from &lt;b&gt;Sep 29, 2017 (01:00 PM)&lt;/b&gt; to &lt;b&gt;Sep 30, 2017 (01:00 PM)&lt;/b&gt;.&lt;br&gt;Changed status from &lt;b&gt;Overdue&lt;/b&gt; to &lt;b&gt;In Progress&lt;/b&gt;.&lt;br&gt;', 7),
-(757, 351, '2017-09-29 15:45:10', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Open&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 25),
 (758, 352, '2017-09-29 15:45:35', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Overdue&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 25),
-(768, 375, '2017-09-29 17:33:36', '&lt;p&gt;test&lt;/p&gt;', 25),
-(769, 376, '2017-09-29 17:39:36', '&lt;p&gt;test&lt;/p&gt;', 25),
 (771, 378, '2017-09-29 17:59:40', '&lt;p&gt;Vertex update for PRD server&amp;nbsp;&lt;strong&gt;SOLVIP01&lt;/strong&gt;&amp;nbsp;&amp;nbsp;&lt;/p&gt;', 24),
-(772, 378, '2017-09-29 18:02:24', 'Change has been set to Cancelled.', 24),
 (773, 302, '2017-09-29 18:19:10', 'Summary:&lt;br&gt;Secondary resources are now: &lt;b&gt;Kethleen Hubahib, Dennie Luis  Kalaw&lt;/b&gt;.&lt;br&gt;', 30),
 (774, 367, '2017-09-29 18:30:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
 (775, 371, '2017-09-29 18:30:03', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
-(776, 375, '2017-09-29 18:30:06', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
 (777, 371, '2017-09-29 19:26:27', 'Change has been set to Completed.', 15),
 (778, 367, '2017-09-29 19:28:07', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Overdue&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 15),
-(779, 375, '2017-09-29 20:51:46', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Overdue&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 25),
 (780, 359, '2017-09-29 20:58:37', 'Sent follow up email', 26),
 (781, 379, '2017-09-29 22:32:18', '&lt;p&gt;Implementation Plan&lt;/p&gt;\\n&lt;p&gt;1. Create a rear backup ( OS backup ) of the server - EAO UNIX&lt;/p&gt;\\n&lt;p&gt;==&amp;gt; This can be completed before the day of the upgrade&lt;/p&gt;\\n&lt;p&gt;2. Perform staging of the patches to be installed&amp;nbsp; - EAO UNIX&lt;/p&gt;\\n&lt;p&gt;==&amp;gt; This can be completed before the day of the upgrade&lt;/p&gt;\\n&lt;p&gt;3. Ensure there is a successful File System backup and Application/Database backup before the upgrade - EAO SAP BASIS Team&lt;/p&gt;\\n&lt;p&gt;4. Set outage in ESL&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp; - EAO SAP BASIS Team&lt;/p&gt;\\n&lt;p&gt;5. Stop SAP Application and Database - EAO SAP BASIS Team&lt;/p&gt;\\n&lt;p&gt;6. Perform Sanity reboot of the server - EAO UNIX&lt;/p&gt;\\n&lt;p&gt;7. Perform the planned upgrade - EAO UNIX&lt;/p&gt;\\n&lt;p&gt;8. Perform Health check on server&amp;nbsp; - EAO UNIX&lt;/p&gt;\\n&lt;p&gt;9.Start&amp;nbsp; Database and SAP Application&amp;nbsp; - EAO SAP BASIS Team&lt;/p&gt;\\n&lt;p&gt;10.Perform Health check on App and DB&amp;nbsp; - EAO SAP BASIS Team&lt;/p&gt;', 26),
-(783, 376, '2017-09-29 23:19:06', 'Summary:&lt;br&gt;Changed Start Time from &lt;b&gt;Dec 31, 2999 (12:00 AM)&lt;/b&gt; to &lt;b&gt;Sep 29, 2017 (10:30 PM)&lt;/b&gt;.&lt;br&gt;Changed End Time from &lt;b&gt;Dec 31, 2999 (11:59 PM)&lt;/b&gt; to &lt;b&gt;Sep 29, 2017 (11:00 PM)&lt;/b&gt;.&lt;br&gt;', 25),
-(784, 376, '2017-09-29 23:19:20', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
-(785, 376, '2017-09-29 23:20:15', 'Change has been set to In Progress.', 25),
-(786, 376, '2017-09-29 23:20:44', 'Change has been set to Open.', 25);
+(787, 378, '2017-09-29 23:51:50', 'Summary:&lt;br&gt;Change has been marked as &lt;b&gt;Approved and Ready for Implementation&lt;/b&gt;&lt;br&gt;', 26),
+(789, 382, '2017-09-30 01:31:07', '&lt;p&gt;VPC- Change - Rheem physical servers need to updated to SPP 2016.10 part of the requirements of Fabric O&lt;/p&gt;', 22),
+(790, 383, '2017-09-30 07:40:25', '&lt;p&gt;N-C01024595 [MRC] CQC Parameter recommendations - QG2 QH2&lt;/p&gt;', 22),
+(791, 384, '2017-09-30 07:48:00', '&lt;p&gt;N-C01024589 [MRC] CQC Parameter recommendations - DG2 DH2&lt;/p&gt;', 22),
+(792, 383, '2017-09-30 07:50:28', 'Summary:&lt;br&gt;Changed primary resource from &lt;b&gt;Michael Angelo Masas&lt;/b&gt; to &lt;b&gt;Kethleen Hubahib&lt;/b&gt;.&lt;br&gt;Secondary resources are now: &lt;b&gt;Dennie Luis  Kalaw&lt;/b&gt;.&lt;br&gt;', 22),
+(793, 383, '2017-09-30 07:50:48', 'Summary:&lt;br&gt;Secondary resources are now: &lt;b&gt;Michael Angelo Masas, Dennie Luis  Kalaw&lt;/b&gt;.&lt;br&gt;', 22),
+(795, 386, '2017-09-30 08:03:01', '&lt;p&gt;Activity is to Stop/Start BOP systems (APP and DB) as well as perform housekeeping of files.&lt;/p&gt;', 1),
+(796, 359, '2017-09-30 13:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(798, 386, '2017-10-01 00:00:12', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(799, 372, '2017-10-01 00:30:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(801, 386, '2017-10-01 07:37:15', 'Change has been set to Completed.', 4),
+(802, 378, '2017-10-01 11:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(803, 378, '2017-10-01 13:54:00', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Overdue&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;Change has been marked as &lt;b&gt;Not Ready for Implementation&lt;/b&gt;&lt;br&gt;', 23),
+(804, 379, '2017-10-01 16:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(805, 340, '2017-10-01 18:08:06', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Open&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 4),
+(806, 379, '2017-10-01 23:22:04', 'Change has been set to Completed.', 10),
+(807, 359, '2017-10-02 07:28:32', 'From: EAO PH SAP Basis SAT2 Mailbox \\nSent: Monday, October 02, 2017 7:25 AM\\nTo: Ang, Louie Alexander T &lt;louie-alexander-t.ang@hpe.com&gt;\\nCc: EAO PH SAP Basis SAT2 Mailbox &lt;eao-ph-sap-basis-sat2-mb@hpe.com&gt;; EAO PH SAP Basis SAT2 Mailbox &lt;eao-ph-sap-basis-sat2-mb@hpe.com&gt;\\nSubject: RE: COLES - E-IM023784063] - Please import from top to bottom as per list above. Also, prioritize import to RQ3.\\n\\nHi Louie,\\n\\nThank you. We will now close the ticket.\\n\\nRegards,\\n\\nHanna Jasmine Cervanez\\nSAP Basis\\ndxc.technology \\n3/F Two World Square, 28 Upper McKinley \\nFort Bonifacio, Taguig City 1634\\nPhilippines \\n \\n\\n\\nFrom: Ang, Louie Alexander T \\nSent: Monday, October 02, 2017 7:18 AM\\nTo: EAO PH SAP Basis SAT2 Mailbox &lt;eao-ph-sap-basis-sat2-mb@hpe.com&gt;\\nSubject: RE: COLES - E-IM023784063] - Please import from top to bottom as per list above. Also, prioritize import to RQ3.\\n\\nHi Katrina,\\n\\nSorry for the late response.\\nThis should now be ok.\\nYou may close the ticket.\\n\\nThank you.\\n\\n\\nWith best regards,\\n\\nLouie Alexander T. Ang\\nProject Manager, SAP Practice &ndash; Project and Process Management COE\\n\\nM +63.917.801.7922\\n\\nDXC Technology\\n5/F IPC Building, Upper McKinley Road\\nMcKinley Hill Town Center, Taguig 1634, Philippines\\n\\ndxc.technology / Twitter / Facebook / LinkedIn \\n\\n', 7),
+(808, 359, '2017-10-02 07:28:43', 'Change has been set to Completed.', 7),
+(809, 372, '2017-10-02 08:17:28', 'Summary:&lt;br&gt;Secondary resources are now: &lt;b&gt;Michael Angelo Masas, Ronald Calimag, Hanna Jasmine Cervanez, Yvonne Marie Junsay&lt;/b&gt;.&lt;br&gt;', 22),
+(810, 372, '2017-10-02 08:17:49', 'Change has been set to Completed.', 22),
+(811, 387, '2017-10-02 09:29:02', '&lt;p&gt;please see email for complete details.&lt;/p&gt;', 7),
+(812, 358, '2017-10-02 12:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(813, 352, '2017-10-02 15:33:56', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Completed&lt;/b&gt; to &lt;b&gt;&lt;/b&gt;.&lt;br&gt;', 190),
+(814, 388, '2017-10-02 17:22:31', '&lt;p&gt;Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;&lt;strong&gt;RD2K926088&lt;/strong&gt; 200&amp;nbsp; &amp;nbsp;CZJ9LH&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;CR20043178 - Leave Averaging - schema v15&lt;/p&gt;', 26),
+(815, 389, '2017-10-02 17:31:54', '&lt;p&gt;Waiting for customers reply.&lt;/p&gt;', 26);
 
 -- --------------------------------------------------------
 
@@ -2095,13 +2130,15 @@ INSERT INTO `item_os` (`io_id`, `item_id`, `os_id`) VALUES
 (144, 344, 2),
 (145, 345, 2),
 (146, 349, 1),
-(147, 351, 2),
 (148, 352, 2),
 (149, 357, 2),
 (150, 357, 3),
 (151, 358, 1),
-(159, 376, 1),
-(161, 378, 1);
+(161, 378, 1),
+(163, 382, 3),
+(164, 383, 3),
+(165, 384, 3),
+(167, 386, 1);
 
 -- --------------------------------------------------------
 
@@ -2266,7 +2303,6 @@ INSERT INTO `item_sp` (`isp_id`, `item_id`, `sp_id`) VALUES
 (199, 344, 1),
 (200, 345, 1),
 (201, 349, 1),
-(202, 351, 2),
 (203, 352, 2),
 (204, 357, 1),
 (205, 357, 3),
@@ -2277,8 +2313,11 @@ INSERT INTO `item_sp` (`isp_id`, `item_id`, `sp_id`) VALUES
 (210, 357, 11),
 (211, 357, 13),
 (212, 358, 1),
-(220, 376, 1),
-(222, 378, 1);
+(222, 378, 1),
+(224, 382, 1),
+(225, 383, 1),
+(226, 384, 1),
+(228, 386, 4);
 
 -- --------------------------------------------------------
 
@@ -2301,7 +2340,10 @@ INSERT INTO `manager_responsibility` (`mr_id`, `user_id`, `team_id`) VALUES
 (11, 25, 2),
 (12, 25, 3),
 (13, 25, 5),
-(14, 25, 6);
+(14, 25, 6),
+(15, 25, 1),
+(16, 25, 4),
+(17, 25, 7);
 
 -- --------------------------------------------------------
 
@@ -2846,7 +2888,7 @@ ALTER TABLE `activity`
 -- AUTO_INCREMENT for table `activity_sec_resources`
 --
 ALTER TABLE `activity_sec_resources`
-  MODIFY `asr_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=638;
+  MODIFY `asr_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=665;
 --
 -- AUTO_INCREMENT for table `db_type`
 --
@@ -2856,12 +2898,12 @@ ALTER TABLE `db_type`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=381;
+  MODIFY `item_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
 --
 -- AUTO_INCREMENT for table `item_db`
 --
 ALTER TABLE `item_db`
-  MODIFY `idb_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
+  MODIFY `idb_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
 --
 -- AUTO_INCREMENT for table `item_kms`
 --
@@ -2871,22 +2913,22 @@ ALTER TABLE `item_kms`
 -- AUTO_INCREMENT for table `item_notes`
 --
 ALTER TABLE `item_notes`
-  MODIFY `note_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=787;
+  MODIFY `note_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=816;
 --
 -- AUTO_INCREMENT for table `item_os`
 --
 ALTER TABLE `item_os`
-  MODIFY `io_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
+  MODIFY `io_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 --
 -- AUTO_INCREMENT for table `item_sp`
 --
 ALTER TABLE `item_sp`
-  MODIFY `isp_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
+  MODIFY `isp_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
 --
 -- AUTO_INCREMENT for table `manager_responsibility`
 --
 ALTER TABLE `manager_responsibility`
-  MODIFY `mr_id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `mr_id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `operating_system`
 --
