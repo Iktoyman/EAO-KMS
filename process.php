@@ -54,204 +54,6 @@
 			$ct = mysqli_num_rows(mysqli_query($conn, "SELECT document_no FROM content WHERE document_id = '" . $doc_id . "'"));
 			echo json_encode($ct);
 		}
-		else if ($_POST['action'] == 'filter_id') {
-			$ar = array();
-			$text = $_POST['text'];
-
-			$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND i.change_ticket_id LIKE '%" . $text . "%' ORDER BY i.pht_start_datetime DESC");
-			$x = 0;
-			while ($row = mysqli_fetch_array($res)) {
-				$ar[$x] = $row;
-				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
-				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
-				$sr_ar = array();
-				while ($sr_row = mysqli_fetch_array($sec_res_result))
-					$sr_ar[] = $sr_row['name'];
-					$sr = implode('; ', $sr_ar);
-					$ar[$x]['name'] .= $sr;
-				$x++;
-			}
-
-			echo json_encode($ar);
-		}
-		else if ($_POST['action'] == 'filter_acct') {
-			$ar = array();
-			$text = $_POST['text'];
-
-			$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND (a.acct_abbrev LIKE '".$text."%' OR a.acct_name LIKE '".$text."%') ORDER BY i.pht_start_datetime DESC");
-			$x = 0;
-			while ($row = mysqli_fetch_array($res)) {
-				$ar[$x] = $row;
-				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
-				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
-				$sr_ar = array();
-				while ($sr_row = mysqli_fetch_array($sec_res_result))
-					$sr_ar[] = $sr_row['name'];
-					$sr = implode('; ', $sr_ar);
-					$ar[$x]['name'] .= $sr;
-				$x++;
-			}
-
-			echo json_encode($ar);
-		}
-		else if ($_POST['action'] == 'filter_title') {
-			$ar = array();
-			$text = $_POST['text'];
-
-			$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND i.description LIKE '%" . $text . "%' ORDER BY i.pht_start_datetime DESC");
-			$x = 0;
-			while ($row = mysqli_fetch_array($res)) {
-				$ar[$x] = $row;
-				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
-				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
-				$sr_ar = array();
-				while ($sr_row = mysqli_fetch_array($sec_res_result))
-					$sr_ar[] = $sr_row['name'];
-					$sr = implode('; ', $sr_ar);
-					$ar[$x]['name'] .= $sr;
-				$x++;
-			}
-
-			echo json_encode($ar);
-		}
-		else if ($_POST['action'] == 'filter_status') {
-			$ar = array();
-			$text = $_POST['text'];
-
-			$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND i.status LIKE '%" . $text . "%' ORDER BY i.pht_start_datetime DESC");
-			$x = 0;
-			while ($row = mysqli_fetch_array($res)) {
-				$ar[$x] = $row;
-				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
-				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
-				$sr_ar = array();
-				while ($sr_row = mysqli_fetch_array($sec_res_result))
-					$sr_ar[] = $sr_row['name'];
-					$sr = implode('; ', $sr_ar);
-					$ar[$x]['name'] .= $sr;
-				$x++;
-			}
-
-			echo json_encode($ar);
-		}
-		else if ($_POST['action'] == 'filter_month') {
-			$ar = array();
-
-			$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND (MONTH(i.pht_start_datetime) = MONTH(NOW()) OR MONTH(i.pht_end_datetime) = MONTH(NOW())) ORDER BY i.pht_start_datetime ASC");
-			$x = 0;
-			while ($row = mysqli_fetch_array($res)) {
-				$ar[$x] = $row;
-				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
-				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
-				$sr_ar = array();
-				while ($sr_row = mysqli_fetch_array($sec_res_result))
-					$sr_ar[] = $sr_row['name'];
-					$sr = implode('; ', $sr_ar);
-					$ar[$x]['name'] .= $sr;
-				$x++;
-			}
-
-			echo json_encode($ar);
-		}
-		else if ($_POST['action'] == 'filter_week') {
-			$ar = array();
-			$week = mysqli_fetch_assoc(mysqli_query($ch_conn, "SELECT WEEK(NOW()) AS week"))['week'];
-			$monday = mysqli_fetch_assoc(mysqli_query($ch_conn, "SELECT STR_TO_DATE(CONCAT(YEAR(NOW()), $week, 'Monday'), '%X%V %W') AS mon"))['mon'];
-			$sunday = mysqli_fetch_assoc(mysqli_query($ch_conn, "SELECT STR_TO_DATE(CONCAT(YEAR(NOW()), $week + 1, 'Sunday'), '%X%V %W') AS sun"))['sun'];
-
-			$qry = "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND (i.pht_start_datetime BETWEEN '".$monday." 00:00:00' AND '".$sunday." 23:59:59') ORDER BY i.pht_start_datetime ASC";
-			$res = mysqli_query($ch_conn, $qry);
-			$x = 0;
-			while ($row = mysqli_fetch_array($res)) {
-				$ar[$x] = $row;
-				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
-				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
-				$sr_ar = array();
-				while ($sr_row = mysqli_fetch_array($sec_res_result))
-					$sr_ar[] = $sr_row['name'];
-					$sr = implode('; ', $sr_ar);
-					$ar[$x]['name'] .= $sr;
-				$x++;
-			}
-
-			echo json_encode($ar);
-		}
-		else if ($_POST['action'] == 'filter_day') {
-			$ar = array();
-
-			$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND (CURDATE() = DATE(i.pht_start_datetime) OR CURDATE() = DATE(i.pht_end_datetime) OR (CURDATE() BETWEEN i.pht_start_datetime AND i.pht_end_datetime)) ORDER BY i.pht_start_datetime ASC");
-			$x = 0;
-			while ($row = mysqli_fetch_array($res)) {
-				$ar[$x] = $row;
-				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
-				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
-				$sr_ar = array();
-				while ($sr_row = mysqli_fetch_array($sec_res_result))
-					$sr_ar[] = $sr_row['name'];
-					$sr = implode('; ', $sr_ar);
-					$ar[$x]['name'] .= $sr;
-				$x++;
-			}
-
-			echo json_encode($ar);
-		}
-		else if ($_POST['action'] == 'filter_pipeline') {
-			$ar = array();
-
-			$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND DATE(i.pht_start_datetime) > NOW() ORDER BY i.pht_start_datetime DESC");
-			$x = 0;
-			while ($row = mysqli_fetch_array($res)) {
-				$ar[$x] = $row;
-				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
-				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
-				$sr_ar = array();
-				while ($sr_row = mysqli_fetch_array($sec_res_result))
-					$sr_ar[] = $sr_row['name'];
-					$sr = implode('; ', $sr_ar);
-					$ar[$x]['name'] .= $sr;
-				$x++;
-			}
-
-			echo json_encode($ar);
-		}
-		else if ($_POST['action'] == 'filter_uploader') {
-			$ar = array(); 
-			
-			$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND i.uploader_id = " . $_SESSION['ct_uid'] . " ORDER BY i.pht_start_datetime DESC");
-			$x = 0;
-			while ($row = mysqli_fetch_array($res)) {
-				$ar[$x] = $row;
-				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
-				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
-				$sr_ar = array();
-				while ($sr_row = mysqli_fetch_array($sec_res_result))
-					$sr_ar[] = $sr_row['name'];
-					$sr = implode('; ', $sr_ar);
-					$ar[$x]['name'] .= $sr;
-				$x++;
-			}
-
-			echo json_encode($ar);
-		}
-		else if ($_POST['action'] == 'acct_modal_filter') {
-			$ar = array();
-			
-			$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id 	AND a.acct_abbrev = '" . $_POST['acct'] . "' AND a.team_id IN (" . implode(', ', $handled_teams) . ")" . $_POST['condition'] . " ORDER BY i.pht_start_datetime DESC");
-			$x = 0;
-			while ($row = mysqli_fetch_array($res)) {
-				$ar[$x] = $row;
-				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
-				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
-				$sr_ar = array();
-				while ($sr_row = mysqli_fetch_array($sec_res_result))
-					$sr_ar[] = $sr_row['name'];
-					$sr = implode('; ', $sr_ar);
-					$ar[$x]['name'] .= $sr;
-				$x++;
-			}
-
-			echo json_encode($ar);
-		}
 		else if ($_POST['action'] == 'get_accounts_by_team') {
 			$ar = array();
 
@@ -269,6 +71,70 @@
 			$ar[0][1] = $_SESSION['last_name'] . ", " . $_SESSION['first_name'];
 			while ($row = mysqli_fetch_row($res))
 				$ar[] = $row;
+
+			echo json_encode($ar);
+		}
+		else {
+			$ar = array();
+			if ($_POST['action'] == 'filter_id') {
+				$text = $_POST['text'];
+
+				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND i.change_ticket_id LIKE '%" . $text . "%' ORDER BY i.pht_start_datetime DESC");
+			}
+			else if ($_POST['action'] == 'filter_acct') {
+				$text = $_POST['text'];
+
+				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND (a.acct_abbrev LIKE '".$text."%' OR a.acct_name LIKE '".$text."%') ORDER BY i.pht_start_datetime DESC");
+			}
+			else if ($_POST['action'] == 'filter_title') {
+				$text = $_POST['text'];
+
+				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND i.description LIKE '%" . $text . "%' ORDER BY i.pht_start_datetime DESC");
+			}
+			else if ($_POST['action'] == 'filter_status') {
+				$text = $_POST['text'];
+
+				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND i.status LIKE '%" . $text . "%' ORDER BY i.pht_start_datetime DESC");
+			}
+			else if ($_POST['action'] == 'filter_month') {
+				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND (MONTH(i.pht_start_datetime) = MONTH(NOW()) OR MONTH(i.pht_end_datetime) = MONTH(NOW())) ORDER BY i.pht_start_datetime ASC");
+			}
+			else if ($_POST['action'] == 'filter_week') {
+				$week = mysqli_fetch_assoc(mysqli_query($ch_conn, "SELECT WEEK(NOW()) AS week"))['week'];
+				$monday = mysqli_fetch_assoc(mysqli_query($ch_conn, "SELECT STR_TO_DATE(CONCAT(YEAR(NOW()), $week, 'Monday'), '%X%V %W') AS mon"))['mon'];
+				$sunday = mysqli_fetch_assoc(mysqli_query($ch_conn, "SELECT STR_TO_DATE(CONCAT(YEAR(NOW()), $week + 1, 'Sunday'), '%X%V %W') AS sun"))['sun'];
+
+				$qry = "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND (i.pht_start_datetime BETWEEN '".$monday." 00:00:00' AND '".$sunday." 23:59:59') ORDER BY i.pht_start_datetime ASC";
+				$res = mysqli_query($ch_conn, $qry);
+			}
+			else if ($_POST['action'] == 'filter_day') {
+				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND (CURDATE() = DATE(i.pht_start_datetime) OR CURDATE() = DATE(i.pht_end_datetime) OR (CURDATE() BETWEEN i.pht_start_datetime AND i.pht_end_datetime)) ORDER BY i.pht_start_datetime ASC");
+			}
+			else if ($_POST['action'] == 'filter_pipeline') {
+				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND DATE(i.pht_start_datetime) > NOW() ORDER BY i.pht_start_datetime DESC");
+			}
+			else if ($_POST['action'] == 'filter_uploader') {
+				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND i.uploader_id = " . $_SESSION['ct_uid'] . " ORDER BY i.pht_start_datetime DESC");
+			}
+			else if ($_POST['action'] == 'acct_modal_filter') {
+				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id 	AND a.acct_abbrev = '" . $_POST['acct'] . "' AND a.team_id IN (" . implode(', ', $handled_teams) . ")" . $_POST['condition'] . " ORDER BY i.pht_start_datetime DESC");
+			}
+			else if ($_POST['action'] == 'all_changes_filter') {
+				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id 	AND a.acct_abbrev = '" . $_POST['acct'] . "' ORDER BY i.pht_start_datetime DESC");
+			}
+
+			$x = 0;
+			while ($row = mysqli_fetch_array($res)) {
+				$ar[$x] = $row;
+				$sec_res_result = mysqli_query($ch_conn, "SELECT CONCAT(u.first_name, ' ', u.last_name) AS name FROM activity_sec_resources asr, users u WHERE u.user_id = asr.user_id AND asr.item_id = " . $row['item_id']);
+				$ar[$x]['name'] .= " <i>(Primary)</i><br>";
+				$sr_ar = array();
+				while ($sr_row = mysqli_fetch_array($sec_res_result))
+					$sr_ar[] = $sr_row['name'];
+					$sr = implode('; ', $sr_ar);
+					$ar[$x]['name'] .= $sr;
+				$x++;
+			}
 
 			echo json_encode($ar);
 		}

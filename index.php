@@ -13,7 +13,7 @@
 	else
 		$event = '';
 
-	// GET ALL ACCOUNT ARRAY
+	// GET TEAM ACCOUNT ARRAY
 	$managed_teams_ids = array();
 	$managed_teams_names = array();
 	if ($_SESSION['ct_team'] == 99) {
@@ -22,16 +22,16 @@
 			$managed_teams_ids[] = $mt_id['team_id'];
 			$managed_teams_names[] = $mt_id['team_name'];
 		}
-		$get_all_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $managed_teams_ids[0] . " ORDER BY acct_abbrev";
+		$get_team_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $managed_teams_ids[0] . " ORDER BY acct_abbrev";
 	}
 	else {
-		$get_all_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY acct_abbrev";
+		$get_team_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY acct_abbrev";
 		$managed_teams_ids[] = $_SESSION['ct_team'];
 	}
-	$get_all_accounts = mysqli_query($ch_conn, $get_all_accounts_qry);
-	$all_accounts = array();
-	while ($acct_row = mysqli_fetch_array($get_all_accounts)) {
-		$all_accounts[] = $acct_row; 
+	$get_team_accounts = mysqli_query($ch_conn, $get_team_accounts_qry);
+	$team_accounts = array();
+	while ($acct_row = mysqli_fetch_array($get_team_accounts)) {
+		$team_accounts[] = $acct_row; 
 	}
 
 	// GET ACCOUNTS WITH CHANGES ARRAY
@@ -41,6 +41,7 @@
 	while ($acct_row = mysqli_fetch_array($get_accounts)) {
 		$accounts[] = $acct_row; 
 	}
+
 
 	// GET TIMEZONES ARRAY
 	$timezones = array();
@@ -84,7 +85,7 @@
 		var changes = <?php echo json_encode($changes); ?>;
 		var trigger_event = <?php echo json_encode($event); ?>;
 		var accounts = <?php echo json_encode($accounts); ?>;
-		//console.log(changes);
+		console.log("Event: " + trigger_event);
 	</script>
 	<script type="text/javascript" src="js/tinymce/tinymce.min.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
@@ -106,6 +107,18 @@
 			<div class="sidebar-body-div">
 				<ul>
 					<li> <a id='new-item_link'> NEW ITEM </a> </li>
+					<li> <a data-toggle="collapse" href="#acct_collapse" aria-expanded="false" aria-controls="acct_collapse"> ALL ACCOUNT CHANGES </a></li>
+						<div class='collapse acct_collapse' id='acct_collapse'>
+							<div class="inner_acct-collapse">
+							<?php
+								echo "<ul>";
+								for ($x = 0; $x < sizeof($all_accounts); $x++) {
+									echo "<li> <a class='all-acct-list_li' id='all-" . $all_accounts[$x]['acct_abbrev'] . "'> " . $all_accounts[$x]['acct_abbrev'] . " - " . $all_accounts[$x]['acct_name'] . "</a></li>";
+								}
+								echo "</ul>";
+							?>
+							</div>
+						</div>
 					<li> <a id='my-accounts_link'> TEAM ACCOUNT CHANGES </a> </li>
 					<li> <a href='calendar.php'> CHANGE CALENDAR </a> </li>
 					<li> <a href='sow.php'> START OF WEEK </a> </li>

@@ -116,8 +116,8 @@
 								<select name="account" id="account">
 									<option value=""> -- Select Account -- </option>
 									<?php
-										for ($i = 0; $i < sizeof($all_accounts); $i++) {
-											echo "<option value=" . $all_accounts[$i]['acct_id'] . "> " . $all_accounts[$i]['acct_abbrev'] . " - " . $all_accounts[$i]['acct_name'] . " </option>";
+										for ($i = 0; $i < sizeof($team_accounts); $i++) {
+											echo "<option value=" . $team_accounts[$i]['acct_id'] . "> " . $team_accounts[$i]['acct_abbrev'] . " - " . $team_accounts[$i]['acct_name'] . " </option>";
 										}
 									?>
 								</select>
@@ -308,7 +308,7 @@
 				</form>
 			</div>
 		</div>
-	</div>
+	</div>F
 </div>
 <!-- END CREATE NEW ITEM MODAL -->
 

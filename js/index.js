@@ -339,6 +339,12 @@ $(document).ready(function() {
 			filterColumn(0);
 		}, 500);
 	}
+	else if (trigger_event.indexOf('all-') > -1) {
+		setTimeout(function() {
+			$('.sidebar-div').animate({"margin-left": '+=22.5%'});
+			$('.all-acct-list_li#' + trigger_event).trigger('click');
+		}, 500);
+	}
 
 
 	$('#datepicker3').datepicker({
@@ -632,7 +638,7 @@ $(document).ready(function() {
 				$('#change-list-tbody').html("");
 				if (changes.length == 0) {
 					$('#change-list_showlabel').html("");
-					document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=8> No change items found </td></tr>";
+					document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=9> No change items found </td></tr>";
 				}
 				else {
 					displayChangeList(changes);
@@ -776,7 +782,7 @@ function filterColumn(id) {
 			$('#change-list-tbody').html("");
 			if (changes.length == 0) {
 				$('#change-list_showlabel').html("");
-				document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=8> No change items found </td></tr>";
+				document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=9> No change items found </td></tr>";
 			}
 			else {
 				displayChangeList(changes);
@@ -936,7 +942,7 @@ function accountModalFilter(acct, filter) {
 		$('#change-list-tbody').html("");
 		if (data.length == 0) {
 			$('#change-list_showlabel').html("");
-			document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=8> No change items found </td></tr>";
+			document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=9> No change items found </td></tr>";
 		}
 		else {
 			displayChangeList(data);

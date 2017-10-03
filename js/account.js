@@ -599,6 +599,34 @@ $(document).ready(function() {
 			}
 		}
 	});
+
+	$('.all-acct-list_li').on('click', function() {
+		var acct_str = $(this).attr('id').substring(4);
+		
+		$.ajax({
+			type: "POST",
+			url: "process.php",
+			data: {
+				action: 'all_changes_filter',
+				acct: acct_str
+			},
+			dataType: 'json'
+		})
+		.done(function(data) {
+			$('.sidebar-div').animate({"margin-left": '-=22.5%'});
+			setTimeout(function(){
+				$('.sidebar-div-container').css("display", "none");
+			}, 500);
+			$('#change-list-tbody').html("");
+			if (data.length == 0) {
+				$('#change-list_showlabel').html("");
+				document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=9> No change items found </td></tr>";
+			}
+			else {
+				displayChangeList(data);
+			}
+		});
+	});
 });
 
 function toggleSecResDropdown() {

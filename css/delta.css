@@ -97,6 +97,28 @@ body {
 	font-family: 'Montserrat', 'Lato', sans-serif;
 }
 
+.acct_collapse {
+	direction: rtl;
+	padding: 1%;
+	max-height: 30%;
+	overflow: auto;
+	width: 90%;
+}
+
+.inner_acct-collapse {
+	text-align: left;
+	background-color: #666;
+	width: 90%;
+}
+
+.inner_acct-collapse ul > li {
+	font-size: 0.65vw !important;
+}
+
+.acct_collapse a {
+	font-family: 'Lato', sans-serif !important;
+}
+
 a {
 	color: yellow;
 }
@@ -346,6 +368,7 @@ textarea {
 	background-color: #666;
 	color: white;
 	font-weight: bold;
+	cursor: hand;
 }
 
 .my_accounts_table td {

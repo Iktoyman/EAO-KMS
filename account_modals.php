@@ -20,7 +20,7 @@
 			$resources[$teams[$key]['team_id']][] = $res_row;
 		}
 	}
-
+	
 ?>
 <script>
 	var change_types = <?php echo json_encode($change_types); ?>;
