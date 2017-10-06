@@ -1,8 +1,13 @@
 <?php
 	$activities = array();
-	$act_res = mysqli_query($ch_conn, "SELECT activity_id, activity_name FROM activity WHERE activity_id != 99 ORDER BY activity_name");
+	$act_res = mysqli_query($ch_conn, "SELECT activity_id, activity_name FROM activity WHERE activity_classification = 'Execute Change' AND activity_id != 99 ORDER BY activity_name");
 	while ($act_row = mysqli_fetch_array($act_res)) 
 		$activities[] = $act_row;
+
+	$projects = array();
+	$proj_res = mysqli_query($ch_conn, "SELECT activity_id, activity_name FROM activity WHERE activity_classification = 'Project' AND activity_id != 99 ORDER BY activity_id");
+	while ($proj_row = mysqli_fetch_array($proj_res))
+		$projects[] = $proj_row;
 
 	$resources = array();
 	$resources[0]['user_id'] = $_SESSION['ct_uid'];
@@ -70,18 +75,30 @@
 							<td> 
 								<select name="actions" id="actions" onchange="checkAction()">
 									<option value=""> -- Select Action -- </option>
+									<option value="Project"> Projects </option>
 									<option value="Execute Change"> Execute Change </option>
 									<option value="Import Transport"> Import Transport </option>
 									<option value="Start / Stop"> Start / Stop </option>
 									<option value="Health Check"> Health Check </option>
 								</select>
 							</td>
-							<td colspan=2>
+							<td colspan=2 id='activity_dropdown_td'>
 								<select name="activity_type" id="activity_dropdown">
 									<option value=""> -- Select Activity -- </option>
 									<?php
 										for ($a = 0; $a < sizeof($activities); $a++) {
 											echo "<option value=" . $activities[$a]['activity_id'] . "> " . $activities[$a]['activity_name'] . "</option>";
+										}
+									?>
+									<option value=99> Others... (Indicate in Notes) </option>
+								</select>
+							</td>
+							<td colspan=2 id='project_dropdown_td'>
+								<select name='project_type' id='project_dropdown'>
+									<option value=''> -- Select Project -- </option>
+									<?php
+										for ($b = 0; $b < sizeof($projects); $b++) {
+											echo "<option value=" . $projects[$b]['activity_id'] . "> " . $projects[$b]['activity_name'] . "</option>";
 										}
 									?>
 									<option value=99> Others... (Indicate in Notes) </option>

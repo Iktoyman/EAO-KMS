@@ -241,10 +241,18 @@ function confirmSubmit() {
 function checkAction() {
 	var act = document.getElementById('actions').value;
 	if (act == 'Execute Change') {
+		$('#project_dropdown_td').css('display', 'none');
+		$('#activity_dropdown_td').css('display', 'table-cell');
 		$('#activity_dropdown').css("visibility", "visible");
 		$('.db_os_sp_tr').css("display", "table-row");
 	}
+	else if (act == 'Project') {
+		$('#project_dropdown_td').css('display', 'table-cell');
+		$('#activity_dropdown_td').css('display', 'none');
+	}
 	else {
+		$('#activity_dropdown_td').css('display', 'table-cell');
+		$('#project_dropdown_td').css('display', 'none');
 		$('#activity_dropdown').css("visibility", "hidden");
 		if ($('#pipeline').is(':checked')) {
 			document.getElementById('pipeline').checked = false;

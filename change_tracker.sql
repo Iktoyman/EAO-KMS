@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2017 at 10:36 AM
+-- Generation Time: Oct 06, 2017 at 10:49 AM
 -- Server version: 5.7.16-log
 -- PHP Version: 7.0.13
 
@@ -95,7 +95,7 @@ INSERT INTO `account` (`acct_id`, `acct_abbrev`, `acct_name`, `team_id`) VALUES
 (52, 'SCOR', 'Scor', 1),
 (53, 'UBE', 'UBE Corporation Europe', 1),
 (54, 'VALEO', 'Valeo', 1),
-(55, 'DXNS', 'Dixons (DSG Retail Limited)', 1),
+(55, 'DXNS', 'Dixons DSG Retail Limited', 1),
 (56, 'HFD', 'Halfords', 1),
 (57, 'INF', 'Informa', 1),
 (58, 'JACK WILLS', 'Jack Wills', 1),
@@ -211,8 +211,8 @@ INSERT INTO `account` (`acct_id`, `acct_abbrev`, `acct_name`, `team_id`) VALUES
 (170, 'UBE', 'UBE Corporation Europe', 6),
 (171, 'VALEO', 'Valeo', 5),
 (172, 'VALEO', 'Valeo', 6),
-(173, 'DXNS', 'Dixons (DSG Retail Limited)', 5),
-(174, 'DXNS', 'Dixons (DSG Retail Limited)', 6),
+(173, 'DXNS', 'Dixons DSG Retail Limited', 5),
+(174, 'DXNS', 'Dixons DSG Retail Limited', 6),
 (175, 'HFD', 'Halfords', 5),
 (176, 'HFD', 'Halfords', 6),
 (177, 'INF', 'Informa', 5),
@@ -242,44 +242,54 @@ INSERT INTO `account` (`acct_id`, `acct_abbrev`, `acct_name`, `team_id`) VALUES
 
 CREATE TABLE `activity` (
   `activity_id` int(4) NOT NULL,
-  `activity_name` varchar(64) NOT NULL
+  `activity_name` varchar(64) NOT NULL,
+  `activity_classification` enum('Project','Execute Change','Import Transport','Start / Stop','Health Check') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `activity`
 --
 
-INSERT INTO `activity` (`activity_id`, `activity_name`) VALUES
-(1, 'Client Copy'),
-(2, 'System Refresh'),
-(3, 'Parameter Change'),
-(4, 'Vertex Upgrade'),
-(5, 'Database Upgrade'),
-(6, 'Kernel Upgrade (ABAP / Java)'),
-(7, 'Component Upgrade (via SPAM/Saint)'),
-(8, 'SAP Service Pack Update'),
-(9, 'Certificate Update'),
-(10, 'SAP License Renewal'),
-(11, 'HANA License Renewal'),
-(12, 'SAP Installation'),
-(13, 'DAA Installation'),
-(14, 'Database Installation'),
-(15, 'BOBJ Installation'),
-(16, 'Language Installation'),
-(17, 'Disable HANA System Replication and Service Guard'),
-(18, 'Failover (Cluster) (Failover Restart) - with Replication (MC-SG)'),
-(19, 'MDM restart / archive / refresh'),
-(20, 'SAP OSS Connection (via Service Request)'),
-(21, 'RFC Recreation (via Service Request)'),
-(22, 'Printer Creation (via Service Request)'),
-(23, 'Config / Monitoring Changes'),
-(24, 'SAP Router creation / change / upgrade'),
-(25, 'Index Rebuild'),
-(26, 'Client Open / Close'),
-(27, 'Database Export'),
-(28, 'SAP Export'),
-(29, 'Access Developer Key'),
-(99, 'Others');
+INSERT INTO `activity` (`activity_id`, `activity_name`, `activity_classification`) VALUES
+(1, 'Client Copy', 'Execute Change'),
+(2, 'System Refresh', 'Execute Change'),
+(3, 'Parameter Change', 'Execute Change'),
+(4, 'Vertex Update', 'Execute Change'),
+(5, 'Database Upgrade', 'Execute Change'),
+(6, 'Kernel Upgrade (ABAP / Java)', 'Execute Change'),
+(7, 'Component Upgrade (via SPAM/Saint)', 'Execute Change'),
+(8, 'SAP Service Pack Update', 'Execute Change'),
+(9, 'Certificate Update', 'Execute Change'),
+(10, 'SAP License Renewal', 'Execute Change'),
+(11, 'HANA License Renewal', 'Execute Change'),
+(12, 'SAP Installation', 'Execute Change'),
+(13, 'DAA Installation', 'Execute Change'),
+(14, 'Database Installation', 'Execute Change'),
+(15, 'BOBJ Installation', 'Execute Change'),
+(16, 'Language Installation', 'Execute Change'),
+(17, 'Disable HANA System Replication and Service Guard', 'Execute Change'),
+(18, 'Failover (Cluster) (Failover Restart) - with Replication (MC-SG)', 'Execute Change'),
+(19, 'MDM restart / archive / refresh', 'Execute Change'),
+(20, 'SAP OSS Connection (via Service Request)', 'Execute Change'),
+(21, 'RFC Recreation (via Service Request)', 'Execute Change'),
+(22, 'Printer Creation (via Service Request)', 'Execute Change'),
+(23, 'Config / Monitoring Changes', 'Execute Change'),
+(24, 'SAP Router creation / change / upgrade', 'Execute Change'),
+(25, 'Index Rebuild', 'Execute Change'),
+(26, 'Client Open / Close', 'Execute Change'),
+(27, 'Database Export', 'Execute Change'),
+(28, 'SAP Export', 'Execute Change'),
+(29, 'Access Developer Key', 'Execute Change'),
+(30, 'Vertex Upgrade', 'Project'),
+(31, 'Database Upgrade', 'Project'),
+(32, 'Kernel Upgrade (ABAP/Java)', 'Project'),
+(33, 'Component Upgrade (via SPAM/Saint)', 'Project'),
+(34, 'SAP Installation', 'Project'),
+(35, 'DAA Installation', 'Project'),
+(36, 'Database Installation', 'Project'),
+(37, 'BOBJ Installation', 'Project'),
+(38, 'Language Installation', 'Project'),
+(99, 'Others', NULL);
 
 -- --------------------------------------------------------
 
@@ -685,16 +695,12 @@ INSERT INTO `activity_sec_resources` (`asr_id`, `user_id`, `item_id`) VALUES
 (612, 16, 370),
 (613, 15, 371),
 (615, 4, 359),
-(631, 13, 302),
-(632, 16, 302),
 (633, 15, 367),
 (635, 23, 379),
 (640, 43, 382),
 (643, 13, 384),
 (644, 16, 384),
 (645, 22, 384),
-(647, 22, 383),
-(648, 16, 383),
 (650, 48, 386),
 (651, 23, 378),
 (652, 24, 340),
@@ -709,7 +715,60 @@ INSERT INTO `activity_sec_resources` (`asr_id`, `user_id`, `item_id`) VALUES
 (661, 23, 387),
 (662, 218, 352),
 (663, 37, 388),
-(664, 37, 389);
+(664, 37, 389),
+(665, 13, 390),
+(666, 37, 391),
+(667, 7, 392),
+(668, 7, 393),
+(671, 37, 394),
+(672, 4, 396),
+(673, 12, 396),
+(674, 22, 396),
+(675, 26, 396),
+(677, 13, 397),
+(678, 13, 398),
+(679, 13, 399),
+(680, 13, 400),
+(681, 13, 401),
+(682, 13, 402),
+(686, 7, 404),
+(687, 13, 405),
+(688, 16, 405),
+(689, 27, 406),
+(690, 43, 407),
+(691, 26, 403),
+(692, 7, 403),
+(693, 13, 403),
+(694, 13, 302),
+(695, 16, 302),
+(696, 13, 408),
+(697, 43, 409),
+(698, 4, 410),
+(699, 4, 411),
+(700, 4, 412),
+(701, 4, 413),
+(702, 13, 414),
+(703, 16, 414),
+(704, 23, 415),
+(705, 23, 416),
+(707, 23, 417),
+(708, 22, 418),
+(709, 26, 419),
+(710, 15, 420),
+(711, 15, 421),
+(713, 4, 423),
+(714, 23, 423),
+(715, 4, 424),
+(719, 13, 422),
+(721, 4, 426),
+(722, 23, 426),
+(723, 4, 427),
+(724, 23, 427),
+(726, 22, 383),
+(727, 4, 425),
+(729, 26, 428),
+(730, 37, 429),
+(731, 37, 430);
 
 -- --------------------------------------------------------
 
@@ -1060,7 +1119,7 @@ INSERT INTO `items` (`item_id`, `uploader_id`, `upload_date`, `change_ticket_id`
 (299, 27, '2017-09-20 13:26:12', 'AU-C00403324', 'Normal Minor', 'B.0000.ILO Firmware upgrade on SAS Staging SAP Dev servers', 16, 'N/A', 'N/A', 'Health Check', NULL, 26, '2017-09-21 16:00:00', '2017-09-21 18:00:00', '2017-09-21 18:00:00', '2017-09-21 20:00:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'RE: [OGES]: Approval: AU-C00403324 | B.0000.ILO Firmware upgrade on SAS Staging SAP Dev servers', 'Completed', 1),
 (300, 16, '2017-09-20 16:02:22', 'E-IM023721159', 'Standard', 'COLES - [E-IM023721159] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 4, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-09-20 11:30:00', '2017-09-21 12:00:00', '2017-09-20 11:30:00', '2017-09-21 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: COLES - [E-IM023721159] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'Completed', 1),
 (301, 30, '2017-09-20 16:13:43', 'N-C01015393', 'Normal Minor', '[MRC] N-C01015393 Database refresh for QG3 from PG1', 13, 'QG3', ' QG3', 'Execute Change', 2, 12, '2017-09-21 01:00:00', '2017-09-21 06:00:00', '2017-09-20 11:00:00', '2017-09-20 16:00:00', 'UTC - 06:00 - Central Standard Time (US CST)', ' [MRC] N-C01015393 Database refresh for QG3 from PG1', 'Completed', 1),
-(302, 30, '2017-09-20 16:18:14', 'N-C01015397', 'Normal Minor', '[MRC] QG2 DB refresh from PG1', 13, 'QG2', 'na2srvqg210', 'Execute Change', 2, 22, '2017-10-07 01:30:00', '2017-10-07 06:30:00', '2017-10-06 11:30:00', '2017-10-06 16:30:00', 'UTC - 06:00 - Central Standard Time (US CST)', '[MRC] RFC N-C01015397 - Take PG1 dump file - 1st part', 'Open', 0),
+(302, 30, '2017-09-20 16:18:14', 'N-C01015397', 'Normal Minor', '[MRC] QG2 DB refresh from PG1', 13, 'QG2', 'na2srvqg210', 'Execute Change', 2, 22, '2017-10-14 01:30:00', '2017-10-14 06:30:00', '2017-10-14 01:30:00', '2017-10-14 06:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[MRC] RFC N-C01015397 - Take PG1 dump file - 1st part', 'Open', 0),
 (303, 26, '2017-09-20 20:32:53', 'E-IM023722619', 'Standard', 'Approved Transport Migration', 4, 'RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'N/A', 'Import Transport', NULL, 26, '2017-09-20 20:06:00', '2017-09-20 20:36:00', '2017-09-20 20:06:00', '2017-09-20 20:36:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES] E-IM023722619 : Approved Transport Migration', 'Completed', 1),
 (304, 12, '2017-09-21 06:50:15', 'N-C01015857-T001', 'Standard', 'Vertex update DEV/ACP/SND', 19, 'DEV, ACP, SND', 'N/A', 'Execute Change', 4, 24, '2017-09-24 15:00:00', '2017-09-25 00:00:00', '2017-09-24 02:00:00', '2017-09-24 11:00:00', 'UTC - 05:00 - Eastern Standard Time (US EST)', 'RE: SOTHEBYS - RFC for Vertex Monthly Update', 'Completed', 1),
 (305, 4, '2017-09-21 10:46:47', 'AU-C00392759', 'Standard', 'IM1 Restart', 16, 'IM1', ' Puhi180', 'Start / Stop', NULL, 4, '2017-09-21 08:30:00', '2017-09-21 09:00:00', '2017-09-21 08:30:00', '2017-09-21 09:00:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'RE: IM1 restart', 'Completed', 1),
@@ -1131,13 +1190,53 @@ INSERT INTO `items` (`item_id`, `uploader_id`, `upload_date`, `change_ticket_id`
 (378, 24, '2017-09-29 17:59:40', 'N-C01015857-T002', 'Standard', 'Vertex update for PRD', 19, 'PRD', ' solvip01 ', 'Execute Change', 4, 4, '2017-10-01 10:00:00', '2017-10-01 11:00:00', '2017-09-30 22:00:00', '2017-09-30 23:00:00', 'UTC - 04:00 - Eastern Daylight Time (US EDT)', 'RE: [SOTHEBYS]  Vertex update for PRD', 'Completed', 0),
 (379, 26, '2017-09-29 22:32:18', 'AU-C00403524', 'Normal Minor', 'COLES - LINUX kernel patching  for TEST servers', 4, 'N/A', ' coltst01.3018.1881.ecs.hp.com\\ncoltst02.3018.1881.ecs.hp.com\\ncoldev01.3018.1881.ecs.hp.com', 'Start / Stop', NULL, 4, '2017-10-01 10:00:00', '2017-10-01 16:00:00', '2017-10-01 12:00:00', '2017-10-01 18:00:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'RE: [COLES] Change - AU-C00403524 : COLES - LINUX kernel patching  for TEST servers	- Implement', 'Completed', 1),
 (382, 22, '2017-09-30 01:31:07', 'AU-C00404709', 'Normal Major', ' SAP Production, QA and Development systems to be shutdown  (SAP and DB) /  VPC- Change - Rheem physical servers need to updated to SPP 2016.10 part of the requirements of Fabric O', 18, 'N/A', 'N/A', 'Execute Change', 99, 10, '2017-10-07 15:00:00', '2017-10-08 21:30:00', '2017-10-07 15:00:00', '2017-10-08 21:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'October EAO VPC Qualys Scans: Validation on Scan Scope - Due September 29, 2017', 'Open', 0),
-(383, 22, '2017-09-30 07:40:25', 'N-C01024595', 'Standard', 'N-C01024595 [MRC] CQC Parameter recommendations - QG2 QH2', 13, 'QG2 QH2', 'N/A', 'Execute Change', 3, 13, '2017-10-06 01:30:00', '2017-10-06 02:30:00', '2017-10-06 01:30:00', '2017-10-06 02:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N-C01024595 [MRC] CQC Parameter recommendations - QG2 QH2', 'Open', 0),
-(384, 22, '2017-09-30 07:48:00', 'N-C01024589', 'Standard', 'N-C01024589 [MRC] CQC Parameter recommendations - DG2 DH2', 13, 'DG2 DH2', 'N/A', 'Execute Change', 3, 22, '2017-10-04 01:30:00', '2017-10-04 02:30:00', '2017-10-04 01:30:00', '2017-10-04 02:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N/A', 'Open', 0),
+(383, 22, '2017-09-30 07:40:25', 'N-C01024595', 'Standard', 'N-C01024595 [MRC] CQC Parameter recommendations - QG2 QH2', 13, 'QG2 QH2', 'N/A', 'Execute Change', 3, 13, '2017-10-06 01:30:00', '2017-10-06 02:30:00', '2017-10-06 01:30:00', '2017-10-06 02:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N-C01024595 [MRC] CQC Parameter recommendations - QG2 QH2', 'Completed', 0),
+(384, 22, '2017-09-30 07:48:00', 'N-C01024589', 'Standard', 'N-C01024589 [MRC] CQC Parameter recommendations - DG2 DH2', 13, 'DG2 DH2', 'N/A', 'Execute Change', 3, 22, '2017-10-04 01:30:00', '2017-10-04 02:30:00', '2017-10-04 01:30:00', '2017-10-04 02:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N/A', 'Completed', 0),
 (386, 1, '2017-09-30 08:03:01', 'E-C01469907 ', 'Normal Major', 'BOBJ restart', 1, 'BOP', ' gdc5ap0010.11377.1850.ecs.hp.com\\ngdc5ap0011.11377.1850.ecs.hp.com\\ngdc5ap0012.11377.1850.ecs.hp.com\\ngdc5ap0013.11377.1850.ecs.hp.com', 'Execute Change', 99, 32, '2017-09-30 16:00:00', '2017-10-01 00:00:00', '2017-09-30 04:00:00', '2017-09-30 12:00:00', 'UTC - 04:00 - Eastern Daylight Time (US EDT)', ' Approval for E-C01469907 - [AMC] BOBJ restart on September 30, 2017 04:00 - 12:00 EST', 'Completed', 1);
 INSERT INTO `items` (`item_id`, `uploader_id`, `upload_date`, `change_ticket_id`, `change_type`, `description`, `account_id`, `sys_id`, `server`, `actions`, `activity_id`, `primary_resource`, `pht_start_datetime`, `pht_end_datetime`, `customer_start_datetime`, `customer_end_datetime`, `customer_timezone`, `reference`, `status`, `is_approved`) VALUES
 (387, 7, '2017-10-02 09:29:02', 'AU-IM011498010', 'Normal Minor', 'Offline backup', 16, 'JQ1, TB1 TC1 TG1 TP1 ,TR1', 'N/A', 'Start / Stop', NULL, 13, '2017-09-30 20:30:00', '2017-09-30 21:30:00', '2017-09-30 23:30:00', '2017-10-01 00:30:00', 'UTC + 11:00 -  Australian Eastern DST (AEDT)', 'PoC - Backup requests - Unix', 'Completed', 0),
 (388, 26, '2017-10-02 17:22:31', 'E-IM023810727', 'Standard', 'Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 4, 'RD2, RD1, RQ1, RQ2 and RQ3', 'N/A', 'Import Transport', NULL, 26, '2017-10-02 16:00:00', '2017-10-02 17:00:00', '2017-10-02 16:00:00', '2017-10-02 17:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES] E-IM023810727 : Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'Completed', 0),
-(389, 26, '2017-10-02 17:31:54', 'E-IM023810257', 'Standard', 'Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 4, 'RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'N/A', 'Import Transport', NULL, 26, '2017-10-02 17:30:00', '2017-10-03 17:30:00', '2017-10-02 17:30:00', '2017-10-03 17:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES] E-IM023810257 : Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'In Progress', 0);
+(389, 26, '2017-10-02 17:31:54', 'E-IM023810257', 'Standard', 'Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 4, 'RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'N/A', 'Import Transport', NULL, 26, '2017-10-02 17:30:00', '2017-10-03 17:30:00', '2017-10-02 17:30:00', '2017-10-03 17:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES] E-IM023810257 : Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'Completed', 0),
+(390, 16, '2017-10-03 04:03:58', '9000025835', 'Standard', 'Application Change: 9000025835, ATD-Enhancement for sender system determ', 2, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-10-03 04:00:00', '2017-10-04 04:00:00', '2017-10-03 04:00:00', '2017-10-04 04:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[Request for Assistance] Move CHGs to test environment', 'Completed', 0),
+(391, 23, '2017-10-03 08:20:37', 'AU-IM011519719', 'Standard', 'Manual transport to RHM - PRD @6pm SGT October 3', 18, 'PRD', 'N/A', 'Import Transport', NULL, 26, '2017-10-03 18:00:00', '2017-10-03 18:30:00', '2017-10-03 18:00:00', '2017-10-03 18:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[AU-SD021806226] Request: Please create a new case for SAP TRANSPORT and assign to the W-INCSSP-ECS-PH-L2-SAP-APPL team. - our ref: SC00125', 'Completed', 0),
+(392, 23, '2017-10-03 08:58:09', ' E-IM023810257', 'Standard', 'Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 4, 'RD1 RD2 RQ1 RQ2 RQ3', 'N/A', 'Import Transport', NULL, 23, '2017-10-03 08:57:00', '2017-10-03 09:27:00', '2017-10-03 08:57:00', '2017-10-03 09:27:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [COLES] E-IM023810257 : Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'Completed', 0),
+(393, 23, '2017-10-03 12:10:51', 'AU-C00405202', 'Standard', 'QA Transport 10.03.2017 12:00:00 NN Manila Time - ELDR - EEQ/100', 4, 'EEQ', 'N/A', 'Import Transport', NULL, 23, '2017-10-03 12:00:00', '2017-10-03 12:30:00', '2017-10-03 12:00:00', '2017-10-03 12:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [Elders] QA Transport 10.03.2017 12:00:00 NN Manila Time', 'Completed', 0),
+(394, 23, '2017-10-03 14:46:05', 'AU-C00405202', 'Standard', 'PROD Transport 10.03.2017 18:00:00 PM Manila Time - ELDR - EEP', 8, 'EEP', 'N/A', 'Import Transport', NULL, 26, '2017-10-03 18:00:00', '2017-10-03 18:30:00', '2017-10-03 18:00:00', '2017-10-03 18:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[Elders] PROD Transport 10.03.2017 18:00:00 PM Manila Time', 'Completed', 0),
+(396, 15, '2017-10-03 21:37:04', 'N-C01024658', 'Normal Major', 'ECX Sandbox System Refresh from ECP System copy', 7, 'ECX', ' drcxsap17.3472.1576.ecs.hp.com', 'Execute Change', 2, 15, '2017-10-11 16:00:00', '2017-10-14 00:00:00', '2017-10-11 02:00:00', '2017-10-13 10:00:00', 'UTC - 06:00 - Central Standard Time (US CST)', 'FW: Request to copy ECP to ECX', 'Open', 0),
+(397, 16, '2017-10-03 23:35:51', '9000026822', 'Standard', 'Security Change: 9000026822, RPD - U:RPMPRD_SUP_SECURITY', 2, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-10-03 23:35:00', '2017-10-04 00:05:00', '2017-10-03 23:35:00', '2017-10-04 00:05:00', 'UTC + 08:00 - Philippine Time (PHT)', 'n/a', 'Completed', 0),
+(398, 16, '2017-10-03 23:58:03', '9000026708', 'Standard', 'Application Change: 9000026708, CON Create a ZJCY0002 clone', 2, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-10-03 23:57:00', '2017-10-04 00:27:00', '2017-10-03 23:57:00', '2017-10-04 00:27:00', 'UTC + 08:00 - Philippine Time (PHT)', 'n/a', 'Completed', 0),
+(399, 16, '2017-10-04 00:26:16', '9000026232', 'Standard', 'Application Change: 9000026232, ATD-SAP ATTP Batch Reconciliation Report', 2, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-10-04 00:26:00', '2017-10-04 00:56:00', '2017-10-04 00:26:00', '2017-10-04 00:56:00', 'UTC + 08:00 - Philippine Time (PHT)', 'n/a', 'Completed', 0),
+(400, 16, '2017-10-04 01:36:13', '9000026744', 'Standard', 'Security Change: 9000026744, GTD - N:GTSDEVELOPER', 2, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-10-04 01:36:00', '2017-10-04 02:06:00', '2017-10-04 01:36:00', '2017-10-04 02:06:00', 'UTC + 08:00 - Philippine Time (PHT)', 'n/a', 'Completed', 0),
+(401, 16, '2017-10-04 02:24:55', ' 9000026833', 'Standard', ' Security Change: 9000026833, BWD: Delete SPM background role', 2, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-10-04 02:24:00', '2017-10-04 02:54:00', '2017-10-04 02:24:00', '2017-10-04 02:54:00', 'UTC + 08:00 - Philippine Time (PHT)', 'n/a', 'Completed', 0),
+(402, 16, '2017-10-04 04:38:45', ' 9000026832', 'Standard', 'Application Change: 9000026832, CON: Fix OCR IDoc Error', 2, 'N/A', 'N/A', 'Import Transport', NULL, 16, '2017-10-04 04:38:00', '2017-10-04 05:08:00', '2017-10-04 04:38:00', '2017-10-04 05:08:00', 'UTC + 08:00 - Philippine Time (PHT)', 'n/a', 'Completed', 0),
+(403, 22, '2017-10-04 06:44:14', 'N-IM021017941', 'Standard', 'CITROSUCO (17090624): REQ-SAP-MODULO-HR-DHO-MANUTENCAO-PERFIL', 3, 'FRD/100', 'N/A', 'Import Transport', NULL, 22, '2017-10-04 06:47:00', '2017-10-05 07:17:00', '2017-10-04 06:47:00', '2017-10-05 07:17:00', 'UTC + 08:00 - Philippine Time (PHT)', 'CITROSUCO (17090624): REQ-SAP-MODULO-HR-DHO-MANUTENCAO-PERFIL', 'Overdue', 1),
+(404, 23, '2017-10-04 10:39:48', 'E-IM023825591', 'Standard', 'Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 4, 'RD2, RD1, RQ1, RQ2 and RQ3.', ' Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'Import Transport', NULL, 23, '2017-10-04 10:39:00', '2017-10-04 11:09:00', '2017-10-04 10:39:00', '2017-10-04 11:09:00', 'UTC + 08:00 - Philippine Time (PHT)', 'Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.', 'Completed', 0),
+(405, 27, '2017-10-04 15:32:39', 'AU-SD021818167', 'Standard', 'Testing for Postal Address Mismatch', 16, 'TR1', 'N/A', 'Execute Change', 99, 22, '2017-10-05 05:30:00', '2017-10-05 10:00:00', '2017-10-05 07:30:00', '2017-10-05 12:00:00', 'UTC + 10:00 - Australian Eastern Standard Time (AEST)', 'RE: Testing for Postal Address Mismatch', 'Completed', 0),
+(406, 37, '2017-10-04 16:54:46', 'AU-SD021820299', 'Standard', 'import IC1 TR&rsquo;s to QC1 system', 16, 'N/A', 'N/A', 'Import Transport', NULL, 37, '2017-10-04 16:00:00', '2017-10-04 16:30:00', '2017-10-04 16:00:00', '2017-10-04 16:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: Request you to provide an approval', 'Completed', 0),
+(407, 10, '2017-10-04 18:08:54', 'AU-C00401264', 'Standard', 'C.1067.ENM0159.WA Market Entry- Project Cutover in Production', 16, 'N/A', ' N/A', 'Execute Change', 99, 10, '2017-10-07 13:00:00', '2017-10-08 05:00:00', '2017-10-07 13:00:00', '2017-10-08 05:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: WA Dress Rehearsal - Communication updates', 'Open', 0),
+(408, 22, '2017-10-05 06:11:13', 'BMS_10042017', 'Standard', 'BMS Transports for NA shift - 10042017', 2, 'N/A', 'N/A', 'Import Transport', NULL, 22, '2017-10-04 23:00:00', '2017-10-05 06:00:00', '2017-10-04 23:00:00', '2017-10-05 06:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'N/A', 'Completed', 0),
+(409, 23, '2017-10-05 09:28:02', 'AU-C00403158', 'Normal Minor', 'Resources for  Change AU-C00403158 - Network Security Rationalisation - Wave 3', 16, 'NSWESS1,NSWPR1P,SNDLRP1', ' oswdsdb1.saporg.local', 'Execute Change', 99, 10, '2017-10-15 16:30:00', '2017-10-15 23:00:00', '2017-10-15 16:30:00', '2017-10-15 23:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: Resources for Health Checks - Change AU-C00403158 - Network Security Rationalisation - Wave 3', 'Cancelled', 0),
+(410, 7, '2017-10-05 12:23:11', 'E-IM023809033', 'Standard', '[COLES]-[E-IM023809033] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3 - COMPLETED', 4, 'RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'N/A', 'Import Transport', NULL, 7, '2017-10-02 07:00:00', '2017-10-02 07:30:00', '2017-10-02 07:00:00', '2017-10-02 07:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES]-[E-IM023809033] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3 - COMPLETED', 'Completed', 1),
+(411, 7, '2017-10-05 12:24:52', 'E-IM023809108', 'Standard', '[COLES]-[E-IM023809108] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3 - COMPLETED', 4, 'RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'N/A', 'Import Transport', NULL, 7, '2017-10-02 08:00:00', '2017-10-02 08:30:00', '2017-10-02 08:00:00', '2017-10-02 08:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES]-[E-IM023809108] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3 - COMPLETED', 'Completed', 1),
+(412, 7, '2017-10-05 12:26:03', 'E-IM023825508', 'Standard', 'RE: [COLES]-[E-IM023825508] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 4, ' RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'N/A', 'Import Transport', NULL, 7, '2017-10-04 12:00:00', '2017-10-04 12:30:00', '2017-10-04 12:00:00', '2017-10-04 12:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [COLES]-[E-IM023825508] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'Completed', 1),
+(413, 7, '2017-10-05 12:27:34', 'E-IM023834051', 'Standard', '[COLES]-[E-IM023834051] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3 ', 4, 'RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3 ', 'N/A', 'Import Transport', NULL, 7, '2017-10-05 12:00:00', '2017-10-05 12:30:00', '2017-10-05 12:00:00', '2017-10-05 12:30:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES]-[E-IM023834051] - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3 ', 'Completed', 1),
+(414, 27, '2017-10-05 13:08:05', 'AU-SD021828358', 'Standard', 'RE: Testing for Postal Address Mismatch ', 16, 'TR1', 'N/A', 'Execute Change', 99, 22, '2017-10-06 04:30:00', '2017-10-06 09:00:00', '2017-10-06 07:30:00', '2017-10-06 12:00:00', 'UTC + 11:00 -  Australian Eastern DST (AEDT)', 'RE: Testing for Postal Address Mismatch', 'Overdue', 0),
+(415, 26, '2017-10-05 16:15:49', 'N-C01026906-T004', 'Normal Minor', 'DMFI - SAP TRANSPORT EWP 100 10/05/2017', 6, 'EWP 100', 'N/A', 'Import Transport', NULL, 4, '2017-10-06 11:00:00', '2017-10-06 12:00:00', '2017-10-06 11:00:00', '2017-10-06 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 2 Normal Changes for Part I on 10/06/17 11:00 am Manila Time', 'Completed', 1),
+(416, 26, '2017-10-05 16:18:22', 'N-C01026530-T004', 'Normal Minor', 'DMFI - SAP TRANSPORT ECPCLNT100 10/5/17', 6, 'ECP 100', 'N/A', 'Import Transport', NULL, 4, '2017-10-06 11:00:00', '2017-10-06 12:00:00', '2017-10-06 11:00:00', '2017-10-06 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 2 Normal Changes for Part I on 10/06/17 11:00 am Manila Time', 'Completed', 1),
+(417, 26, '2017-10-05 16:24:37', 'N-C01027263-T004', 'Normal Minor', 'DMFI - SAP TRANSPORT ECP 100 10/5/17', 6, 'ECP 100', 'N/A', 'Import Transport', NULL, 4, '2017-10-06 11:00:00', '2017-10-06 12:00:00', '2017-10-06 11:00:00', '2017-10-06 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [DMFI ChM] 1 Standard Change Record No. N-C01027263 on 10/6/17 11:00 am Manila Time', 'Completed', 1),
+(418, 26, '2017-10-05 19:01:19', 'E-IM023836338', 'Standard', 'Approved Exception migration to RP1 for AU-C00405875 Scheduled for 05:00 AEDST Friday 6 Oct 2017', 4, 'RP1', 'N/A', 'Import Transport', NULL, 13, '2017-10-06 02:00:00', '2017-10-06 03:00:00', '2017-10-06 05:00:00', '2017-10-06 06:00:00', 'UTC + 11:00 -  Australian Eastern DST (AEDT)', 'RE: [COLES] E-IM023836338 : Approved Exception migration to RP1 for AU-C00405875 Scheduled for 05:00 AEDST Friday 6 Oct 2017', 'Completed', 0),
+(419, 10, '2017-10-05 19:02:31', 'E-IM023837057', 'Standard', 'Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 4, 'RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', ' N/A', 'Import Transport', NULL, 10, '2017-10-05 19:01:00', '2017-10-05 19:31:00', '2017-10-05 19:01:00', '2017-10-05 19:31:00', 'UTC + 08:00 - Philippine Time (PHT)', '[COLES] - E-IM023837057 - Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3', 'Completed', 1),
+(420, 10, '2017-10-05 19:25:16', 'N-C01014002', 'Normal Minor', 'To the fix the issue reported in Qualys Vulnerability Scan Results:according to SAP Note 1', 15, 'FPI FXP', ' N/A', 'Execute Change', 3, 10, '2017-10-06 14:00:00', '2017-10-06 18:00:00', '2017-10-06 14:00:00', '2017-10-06 18:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [OCEANA changes N-C01014002 and N--C01014008] - Please Assist to Plan the Changes to the Required Date', 'Completed', 1),
+(421, 10, '2017-10-05 19:29:18', 'N-C01014008', 'Normal Minor', 'To the fix the issue reported in Qualys Vulnerability Scan Results:according to SAP Note 2154991 - Valid Node Checking For Registration (VNCR).on Oceana&#039;s SAP production systems', 15, 'FPI, FRP, FXP, FWP', ' N/A', 'Execute Change', 3, 10, '2017-10-06 14:00:00', '2017-10-06 18:00:00', '2017-10-06 14:00:00', '2017-10-06 18:00:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [OCEANA changes N-C01014002 and N--C01014008] - Please Assist to Plan the Changes to the Required Date', 'Completed', 1),
+(422, 26, '2017-10-05 22:10:55', 'N-C01026748-T005', 'Standard', 'DMFI - SAP TRANSPORT ECP and BWP 10/05/2017', 6, 'ECP and BWP', 'N/A', 'Import Transport', NULL, 22, '2017-10-06 05:30:00', '2017-10-06 06:30:00', '2017-10-06 05:30:00', '2017-10-06 06:30:00', 'UTC + 08:00 - Philippine Time (PHT)', 'RE: [DMFI ChM] 1 Normal Change for Part 2 (With Special Instructions) on 10/06/17 05:30 am Manila Time (10/05/17 14:30 Pacific) ', 'Completed', 0),
+(423, 16, '2017-10-06 02:33:09', 'N-C01026534-T004', 'Standard', '[DMFI ChM] 2 Normal Changes for Part 4 on 10/6/17 11:00 am Manila Time', 6, 'N/A', 'N/A', 'Import Transport', NULL, 7, '2017-10-06 12:00:00', '2017-10-06 13:00:00', '2017-10-06 11:00:00', '2017-10-06 12:00:00', 'UTC + 07:00 - Thailand Standard Time (THA)', '[DMFI ChM] 2 Normal Changes for Part 4 on 10/6/17 11:00 am Manila Time', 'Completed', 0),
+(424, 16, '2017-10-06 02:35:21', 'N-C01026536-T004', 'Standard', '[DMFI ChM] 2 Normal Changes for Part 4 on 10/6/17 11:00 am Manila Time', 6, 'N/A', 'N/A', 'Import Transport', NULL, 7, '2017-10-06 11:00:00', '2017-10-06 12:00:00', '2017-10-06 11:00:00', '2017-10-06 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 2 Normal Changes for Part 4 on 10/6/17 11:00 am Manila Time', 'Completed', 0),
+(425, 13, '2017-10-06 06:28:37', 'N-C01024875 ', 'Standard', '[DMFI ChM] 1 Normal Change N-C01024875 for Part 3 on 10/6/17 8:00 am Manila Time', 6, 'N/A', 'N/A', 'Import Transport', NULL, 7, '2017-10-06 08:00:00', '2017-10-06 09:00:00', '2017-10-06 08:00:00', '2017-10-06 09:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 1 Normal Change N-C01024875 for Part 3 on 10/6/17 8:00 am Manila Time', 'Completed', 0),
+(426, 22, '2017-10-06 06:29:18', 'N-C01021039-T004', 'Standard', '[DMFI ChM] 2 Normal Changes for Part 5  on 10/6/17 11:00 am Manila Time', 6, 'ECP', 'N/A', 'Import Transport', NULL, 7, '2017-10-06 11:00:00', '2017-10-06 12:00:00', '2017-10-06 11:00:00', '2017-10-06 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 2 Normal Changes for Part 5  on 10/6/17 11:00 am Manila Time', 'Completed', 0),
+(427, 22, '2017-10-06 06:32:34', 'N-C01026535-T004', 'Standard', '[DMFI ChM] 2 Normal Changes for Part 5  on 10/6/17 11:00 am Manila Time', 6, 'ECP', 'N/A', 'Import Transport', NULL, 7, '2017-10-06 11:00:00', '2017-10-06 12:00:00', '2017-10-06 11:00:00', '2017-10-06 12:00:00', 'UTC + 08:00 - Philippine Time (PHT)', '[DMFI ChM] 2 Normal Changes for Part 5  on 10/6/17 11:00 am Manila Time', 'Completed', 0),
+(428, 4, '2017-10-06 11:03:17', 'AU-IM011540592', 'Standard', 'Request: Please create a new case for SAP TRANSPORT and assign to the W-INCSSP-ECS-PH-L2-SAP-APPL te', 18, 'PRD', 'N/A', 'Import Transport', NULL, 37, '2017-10-06 17:00:00', '2017-10-06 17:30:00', '2017-10-06 20:00:00', '2017-10-06 20:30:00', 'UTC + 11:00 -  Australian Eastern DST (AEDT)', 'RE: [RHEEM] P3 - AU-IM011540592 | Request: Please create a new case for SAP TRANSPORT and assign to the W-INCSSP-ECS-PH-L2-SAP-APPL te', 'Completed', 1),
+(429, 43, '2017-10-06 17:50:05', 'AU-IM011543132 ', 'Standard', 'Request : transport  DEVK949086', 18, 'PRD', 'N/A', 'Import Transport', NULL, 43, '2017-10-06 17:49:00', '2017-10-06 18:19:00', '2017-10-06 17:49:00', '2017-10-06 18:19:00', 'UTC + 08:00 - Philippine Time (PHT)', '[RHEEM] P4 - AU-IM011543132 | Request : transport  DEVK949086', 'Completed', 0),
+(430, 43, '2017-10-06 17:53:57', 'AU-IM011543145', 'Standard', 'Request : transport  DEVK949159', 18, 'PRD', ' PRD', 'Import Transport', NULL, 43, '2017-10-06 17:52:00', '2017-10-06 18:22:00', '2017-10-06 17:52:00', '2017-10-06 18:22:00', 'UTC + 08:00 - Philippine Time (PHT)', '[RHEEM] P4 AU-IM011543145 | Request : transport  DEVK949159', 'Completed', 0);
 
 -- --------------------------------------------------------
 
@@ -1278,7 +1377,14 @@ INSERT INTO `item_db` (`idb_id`, `item_id`, `db_id`) VALUES
 (166, 382, 1),
 (167, 383, 1),
 (168, 384, 1),
-(170, 386, 4);
+(170, 386, 4),
+(171, 396, 2),
+(172, 405, 2),
+(173, 407, 2),
+(174, 409, 2),
+(175, 414, 2),
+(176, 420, 2),
+(177, 421, 2);
 
 -- --------------------------------------------------------
 
@@ -2000,7 +2106,94 @@ INSERT INTO `item_notes` (`note_id`, `item_id`, `note_date`, `note_details`, `no
 (812, 358, '2017-10-02 12:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
 (813, 352, '2017-10-02 15:33:56', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Completed&lt;/b&gt; to &lt;b&gt;&lt;/b&gt;.&lt;br&gt;', 190),
 (814, 388, '2017-10-02 17:22:31', '&lt;p&gt;Approved Transport Migration to RD2/400, RD2/410, RD1, RQ1, RQ2 and RQ3.&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;&lt;strong&gt;RD2K926088&lt;/strong&gt; 200&amp;nbsp; &amp;nbsp;CZJ9LH&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;CR20043178 - Leave Averaging - schema v15&lt;/p&gt;', 26),
-(815, 389, '2017-10-02 17:31:54', '&lt;p&gt;Waiting for customers reply.&lt;/p&gt;', 26);
+(815, 389, '2017-10-02 17:31:54', '&lt;p&gt;Waiting for customers reply.&lt;/p&gt;', 26),
+(816, 390, '2017-10-03 04:03:58', '&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;ATDK900473&lt;/p&gt;\\n&lt;p&gt;ATDK900506&lt;/p&gt;\\n&lt;p&gt;ATDK900516&lt;/p&gt;\\n&lt;p&gt;ATDK900524&lt;/p&gt;\\n&lt;p&gt;ATDK900532&lt;/p&gt;\\n&lt;p&gt;ATDK900534&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 16),
+(817, 389, '2017-10-03 07:20:57', 'Change has been set to Completed.', 16),
+(818, 391, '2017-10-03 08:20:37', '&lt;p&gt;N/A&lt;/p&gt;', 23),
+(819, 392, '2017-10-03 08:58:09', '&lt;p&gt;N/A&lt;/p&gt;\\n&lt;p&gt;Import completed&lt;/p&gt;', 23),
+(820, 393, '2017-10-03 12:10:51', '&lt;p&gt;N/A&lt;/p&gt;', 23),
+(821, 394, '2017-10-03 14:46:05', '&lt;p&gt;N/A&lt;/p&gt;', 23),
+(824, 394, '2017-10-03 18:03:38', 'Transport completed successfully.', 37),
+(825, 394, '2017-10-03 18:03:53', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Open&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 37),
+(826, 391, '2017-10-03 18:12:18', 'Change has been set to Completed.', 10),
+(827, 396, '2017-10-03 21:37:04', '&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: #1f3864; font-family: &#039;Calibri&#039;,sans-serif; font-size: 11pt; mso-ansi-language: EN-US;&quot;&gt;&amp;nbsp;Request to copy ECP to ECX&lt;/span&gt;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;ol style=&quot;list-style-type: decimal; direction: ltr;&quot;&gt;\\n&lt;li style=&quot;color: #1f3864; font-style: normal; font-weight: normal;&quot;&gt;\\n&lt;p style=&quot;color: #000000; font-style: normal; font-weight: normal; margin-top: 0in; margin-bottom: 0pt; mso-list: l0 level1 lfo1;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: #1f3864; font-family: &#039;Calibri&#039;,sans-serif; font-size: 11pt; mso-ansi-language: EN-US;&quot;&gt;There is no ECX backup is needed before the refresh. &lt;/span&gt;&lt;/p&gt;\\n&lt;/li&gt;\\n&lt;li style=&quot;color: #1f3864; font-family: &#039;Calibri&#039;,sans-serif; font-size: 11pt; font-style: normal; font-weight: normal;&quot;&gt;\\n&lt;p style=&quot;color: #000000; font-family: &#039;Times New Roman&#039;,serif; font-size: 12pt; font-style: normal; font-weight: normal; margin-top: 0in; margin-bottom: 0pt; mso-list: l0 level1 lfo1;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: #1f3864; font-family: &#039;Calibri&#039;,sans-serif; font-size: 11pt; mso-ansi-language: EN-US;&quot;&gt;No RFCs to be backup up and restored. &lt;/span&gt;&lt;/p&gt;\\n&lt;/li&gt;\\n&lt;li style=&quot;color: #1f3864; font-family: &#039;Calibri&#039;,sans-serif; font-size: 11pt; font-style: normal; font-weight: normal;&quot;&gt;\\n&lt;p style=&quot;color: #000000; font-family: &#039;Times New Roman&#039;,serif; font-size: 12pt; font-style: normal; font-weight: normal; margin-top: 0in; margin-bottom: 0pt; mso-list: l0 level1 lfo1;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: #1f3864; font-family: &#039;Calibri&#039;,sans-serif; font-size: 11pt; mso-ansi-language: EN-US;&quot;&gt;No Application batch jobs are needed. &amp;nbsp;&lt;/span&gt;&lt;/p&gt;\\n&lt;/li&gt;\\n&lt;li style=&quot;color: #1f3864; font-family: &#039;Calibri&#039;,sans-serif; font-size: 11pt; font-style: normal; font-weight: normal;&quot;&gt;\\n&lt;p style=&quot;color: #000000; font-family: &#039;Times New Roman&#039;,serif; font-size: 12pt; font-style: normal; font-weight: normal; margin-top: 0in; margin-bottom: 0pt; mso-list: l0 level1 lfo1;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: #1f3864; font-family: &#039;Calibri&#039;,sans-serif; font-size: 11pt; mso-ansi-language: EN-US;&quot;&gt;No Transports to be re-imported&lt;/span&gt;&lt;/p&gt;\\n&lt;/li&gt;\\n&lt;/ol&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 15),
+(829, 397, '2017-10-03 23:35:51', '&lt;p&gt;RPDK909873&lt;/p&gt;', 16),
+(830, 398, '2017-10-03 23:58:03', '&lt;p&gt;CONK9A43KQ&lt;/p&gt;\\n&lt;p&gt;CONK9A43L2&lt;/p&gt;\\n&lt;p&gt;CONK9A43LD&lt;/p&gt;\\n&lt;p&gt;CONK9A43LH&lt;/p&gt;\\n&lt;p&gt;CONK9A43M9&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 16),
+(831, 399, '2017-10-04 00:26:16', '&lt;p&gt;ATDK900489&lt;/p&gt;\\n&lt;p&gt;ATDK900530&lt;/p&gt;', 16),
+(832, 400, '2017-10-04 01:36:13', '&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;GTDK900416&lt;/p&gt;\\n&lt;p&gt;GTDK900418&lt;/p&gt;\\n&lt;p&gt;GTDK900420&lt;/p&gt;', 16),
+(833, 401, '2017-10-04 02:24:55', '&lt;p&gt;BWDK990552&lt;/p&gt;', 16),
+(834, 384, '2017-10-04 02:30:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(835, 384, '2017-10-04 03:14:01', 'Change has been set to Completed.', 22),
+(836, 390, '2017-10-04 04:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(837, 402, '2017-10-04 04:38:45', '&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;CONK9A43M7&lt;/p&gt;', 16),
+(838, 390, '2017-10-04 05:50:35', 'Change has been set to Completed.', 16),
+(839, 403, '2017-10-04 06:44:14', '&lt;p&gt;FRD/100&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0px;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;22.09.2017&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;&lt;strong&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;CRDR9A0TXP&lt;/span&gt;&lt;/strong&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Solu&amp;ccedil;&amp;atilde;o Jur&amp;iacute;dica byROFF - Workbench&amp;nbsp;&amp;nbsp;&amp;nbsp;Workbench&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0px;&quot;&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;22.09.2017&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;&lt;strong&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;CRDK9A0TVT&lt;/span&gt;&lt;/strong&gt;&lt;span style=&quot;font-family: Calibri; font-size: medium;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Solu&amp;ccedil;&amp;atilde;o Jur&amp;iacute;dica byROFF - Customizing&amp;nbsp;&amp;nbsp; Customizing&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 22),
+(840, 403, '2017-10-04 07:30:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(841, 404, '2017-10-04 10:39:48', '&lt;p&gt;N/A&lt;/p&gt;', 23),
+(842, 405, '2017-10-04 15:32:39', '&lt;p&gt;Start time to perfrom the trace is at 4:30AM PHT.&lt;/p&gt;', 27),
+(843, 406, '2017-10-04 16:54:46', '&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span lang=&quot;EN-AU&quot; style=&quot;color: #333333; font-size: 12pt; mso-ansi-language: EN-AU;&quot;&gt;&lt;span style=&quot;font-family: Calibri;&quot;&gt;Hi Team,&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span lang=&quot;EN-AU&quot; style=&quot;color: #333333; font-size: 12pt; mso-ansi-language: EN-AU;&quot;&gt;&lt;span style=&quot;font-family: Calibri;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span lang=&quot;EN-AU&quot; style=&quot;color: #333333; font-size: 12pt; mso-ansi-language: EN-AU;&quot;&gt;&lt;span style=&quot;font-family: Calibri;&quot;&gt;Please import the below TR&amp;rsquo;s to QC1 system.&amp;nbsp; HDC is raised for the same - &lt;/span&gt;&lt;a href=&quot;https://apj.svcs.hp.com/servicesportal/eua2/ie/index.html#/alerts/supportrequests&quot;&gt;&lt;span style=&quot;color: #333333; text-decoration: none; text-underline: none;&quot;&gt;&lt;span style=&quot;font-family: Calibri;&quot;&gt;AU-SD021820299&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot;font-family: Calibri;&quot;&gt;. Thank you.!!&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span lang=&quot;EN-AU&quot; style=&quot;color: #333333; font-size: 12pt; mso-ansi-language: EN-AU;&quot;&gt;&lt;span style=&quot;font-family: Calibri;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span lang=&quot;EN-AU&quot; style=&quot;font-size: 12pt; mso-ansi-language: EN-AU;&quot;&gt;&lt;span style=&quot;font-family: Calibri;&quot;&gt;IC1K918434&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span lang=&quot;EN-AU&quot; style=&quot;font-size: 12pt; mso-ansi-language: EN-AU;&quot;&gt;&lt;span style=&quot;font-family: Calibri;&quot;&gt;IC1K918436&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span lang=&quot;EN-AU&quot; style=&quot;font-family: &#039;Arial&#039;,sans-serif; font-size: 10pt; mso-ansi-language: EN-AU;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;span lang=&quot;EN-AU&quot; style=&quot;color: blue; font-family: &#039;Trebuchet MS&#039;,sans-serif; font-size: 10pt; mso-ansi-language: EN-AU;&quot;&gt;Regards,&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt;&quot;&gt;&lt;strong&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: #f36d00; letter-spacing: 0.2pt; font-family: &#039;Trebuchet MS&#039;,sans-serif; font-size: 10pt; mso-ansi-language: EN-US;&quot;&gt;Geetha Poojary&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p style=&quot;margin: 0in 0in 0pt; line-height: 12pt; mso-line-height-rule: exactly;&quot;&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: #555555; letter-spacing: 0.2pt; font-family: &#039;Trebuchet MS&#039;,sans-serif; font-size: 10pt; mso-ansi-language: EN-US;&quot;&gt;Wipro SAP CRM consultant&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&lt;strong&gt;&lt;span lang=&quot;EN-US&quot; style=&quot;color: #c10c1a; letter-spacing: 0.2pt; font-family: &#039;Trebuchet MS&#039;,sans-serif; font-size: 10pt; mso-ansi-language: EN-US; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-bidi-font-family: &#039;Times New Roman&#039;; mso-fareast-language: EN-GB; mso-bidi-language: AR-SA;&quot;&gt;&lt;br style=&quot;mso-special-character: line-break;&quot; /&gt; &lt;br style=&quot;mso-special-character: line-break;&quot; /&gt; &lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;', 37),
+(844, 407, '2017-10-04 18:08:54', '&lt;p&gt;N/A&lt;/p&gt;', 10),
+(845, 403, '2017-10-04 23:01:58', 'Unable to add to buffer. Waiting for Roberto&#039;s reply.', 26),
+(846, 403, '2017-10-04 23:02:13', 'Summary:&lt;br&gt;Secondary resources are now: &lt;b&gt;Katrina Carmela Sanoy, Hanna Jasmine Cervanez, Kethleen Hubahib&lt;/b&gt;.&lt;br&gt;Changed End Time from &lt;b&gt;Oct 04, 2017 (07:17 AM)&lt;/b&gt; to &lt;b&gt;Oct 05, 2017 (07:17 AM)&lt;/b&gt;.&lt;br&gt;Changed status from &lt;b&gt;Overdue&lt;/b&gt; to &lt;b&gt;In Progress&lt;/b&gt;.&lt;br&gt;', 26),
+(847, 405, '2017-10-05 05:25:15', 'Change has been set to Completed.', 22),
+(848, 302, '2017-10-05 05:34:24', 'Summary:&lt;br&gt;Secondary resources are now: &lt;b&gt;Kethleen Hubahib, Dennie Luis  Kalaw&lt;/b&gt;.&lt;br&gt;Changed Start Time from &lt;b&gt;Oct 06, 2017 (11:30 AM)&lt;/b&gt; to &lt;b&gt;Oct 14, 2017 (01:30 AM)&lt;/b&gt;.&lt;br&gt;Changed End Time from &lt;b&gt;Oct 06, 2017 (04:30 PM)&lt;/b&gt; to &lt;b&gt;Oct 14, 2017 (06:30 AM)&lt;/b&gt;.&lt;br&gt;Changed timezone from &lt;b&gt;UTC - 06:00 - Central Standard Time (US CST)&lt;/b&gt; to &lt;b&gt;UTC + 08:00 - Philippine Time (PHT)&lt;/b&gt;.&lt;br&gt;', 22),
+(849, 408, '2017-10-05 06:11:13', '&lt;p&gt;BMS normal:&lt;/p&gt;\\n&lt;p&gt;Security Change: 9000026714, CON: Update E:NP_SYS_MAINT_0001+&lt;/p&gt;\\n&lt;p&gt;Application Change: 9000026825, CON: Temporarily activate TP 799&lt;/p&gt;\\n&lt;p&gt;Security Change: 9000026835, CON E:BOTHELL1_GEN_AC_INQ&lt;/p&gt;\\n&lt;p&gt;Application Change: 9000026828, CON: Temporarily activate TP 302&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;PTP:&lt;/p&gt;\\n&lt;p&gt;Application Change: 9000026787, BWD:A&amp;amp;D Install latest content version&lt;/p&gt;', 22),
+(850, 403, '2017-10-05 07:30:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(851, 409, '2017-10-05 09:28:02', '&lt;p class=&quot;MsoListParagraph&quot; style=&quot;text-indent: -.25in; mso-list: l0 level1 lfo1;&quot;&gt;&lt;!-- [if !supportLists]--&gt;&lt;span style=&quot;mso-fareast-font-family: Calibri; mso-bidi-font-family: Calibri; color: #1f4e79;&quot;&gt;1.&lt;span style=&quot;font-variant-numeric: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &#039;Times New Roman&#039;;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp;Step1.&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;!--[endif]--&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;Join the conference call&lt;/span&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p class=&quot;MsoListParagraph&quot; style=&quot;text-indent: -.25in; mso-list: l0 level1 lfo1;&quot;&gt;&lt;!-- [if !supportLists]--&gt;&lt;span style=&quot;mso-fareast-font-family: Calibri; mso-bidi-font-family: Calibri; color: #1f4e79;&quot;&gt;2.&lt;span style=&quot;font-variant-numeric: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &#039;Times New Roman&#039;;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp;Step2.&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;!--[endif]--&gt;&lt;span style=&quot;color: #1f4e79;&quot;&gt;Start the ping test script (CBA to follow)&lt;/span&gt;&lt;/p&gt;', 23),
+(852, 358, '2017-10-05 10:19:52', 'Change has been set to Cancelled.', 278),
+(853, 410, '2017-10-05 12:23:11', '&lt;p&gt;RD2K926105&lt;/p&gt;', 7),
+(854, 411, '2017-10-05 12:24:52', '&lt;p&gt;RD2K926097&lt;/p&gt;', 7),
+(855, 412, '2017-10-05 12:26:03', '&lt;p&gt;RD2K926107&lt;/p&gt;\\n&lt;p&gt;RD2K926113&lt;/p&gt;\\n&lt;p&gt;RD2K926118&lt;/p&gt;', 7),
+(856, 413, '2017-10-05 12:27:34', '&lt;p&gt;RD2K926123&lt;/p&gt;', 7),
+(857, 414, '2017-10-05 13:08:06', '&lt;p&gt;See calendar invite for referece/details.&lt;/p&gt;', 27),
+(858, 415, '2017-10-05 16:15:49', '&lt;p&gt;&lt;strong&gt;EWDK903162&lt;/strong&gt;&amp;nbsp; &amp;nbsp;100&amp;nbsp; &amp;nbsp; &amp;nbsp; RMOHAMMED&amp;nbsp; &amp;nbsp; &amp;nbsp; EWM: Staging Area and Door Determination&lt;/p&gt;\\n&lt;p&gt;&lt;strong&gt;EWDK903160&lt;/strong&gt;&amp;nbsp; &amp;nbsp;100&amp;nbsp; &amp;nbsp; &amp;nbsp; RMOHAMMED&amp;nbsp; &amp;nbsp; &amp;nbsp; EWM: Loading Doors for P.Lot St. Type&lt;/p&gt;\\n&lt;p&gt;&lt;strong&gt;EWDK903158&lt;/strong&gt;&amp;nbsp; &amp;nbsp;100&amp;nbsp; &amp;nbsp; &amp;nbsp; RMOHAMMED&amp;nbsp; &amp;nbsp; &amp;nbsp; EWM: WOCR for PARK St. Type&lt;/p&gt;\\n&lt;p&gt;&lt;strong&gt;EWDK903156&lt;/strong&gt;&amp;nbsp; &amp;nbsp;100&amp;nbsp; &amp;nbsp; &amp;nbsp; RMOHAMMED&amp;nbsp; &amp;nbsp; &amp;nbsp; EWM: Activity Area for DC Shipments&lt;/p&gt;\\n&lt;p&gt;&lt;strong&gt;EWDK903154&amp;nbsp; &amp;nbsp;&lt;/strong&gt;100&amp;nbsp; &amp;nbsp; &amp;nbsp; RMOHAMMED&amp;nbsp; &amp;nbsp; &amp;nbsp; EWM: Storage Type for DC Shipments&lt;/p&gt;\\n&lt;p&gt;&lt;strong&gt;EWDK903152&amp;nbsp; &amp;nbsp;&lt;/strong&gt;100&amp;nbsp; &amp;nbsp; &amp;nbsp; RMOHAMMED&amp;nbsp; &amp;nbsp; &amp;nbsp; EWM: P.A.C.I - Receiving Strategy&lt;/p&gt;', 26),
+(859, 416, '2017-10-05 16:18:22', '&lt;p&gt;&lt;strong&gt;ECDK918732&lt;/strong&gt; / AU-IM011508131 - job&amp;nbsp; role ZEFI_0_GL_DISPLAY_0000&amp;nbsp;&lt;/p&gt;', 26),
+(860, 417, '2017-10-05 16:24:37', '&lt;p&gt;&lt;strong&gt;ECDK918724&lt;/strong&gt; &amp;ndash; SAP P2P MM AU-IM011525674 Request Variety Code entry&lt;/p&gt;', 26),
+(861, 417, '2017-10-05 16:45:30', 'Summary:&lt;br&gt;Changed ticket ID from &lt;b&gt;N-C01027263 -T004&lt;/b&gt; to &lt;b&gt;N-C01027263-T004&lt;/b&gt;.&lt;br&gt;', 26),
+(862, 418, '2017-10-05 19:01:19', '&lt;p&gt;Please transport the below TRs in &lt;strong&gt;sequence&lt;/strong&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;RD2K926101&lt;/p&gt;\\n&lt;p&gt;RD2K926109&lt;/p&gt;\\n&lt;p&gt;RD2K926103&lt;/p&gt;\\n&lt;p&gt;RD2K926115&lt;/p&gt;', 26),
+(863, 419, '2017-10-05 19:02:31', '&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;RD2K926125 200&amp;nbsp; &amp;nbsp;CZJ9LH&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;CR20043178 - Leave Averaging - schema ZAP0 comment ZLSLA v20&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 10),
+(864, 420, '2017-10-05 19:25:16', '&lt;p&gt;N/A&lt;/p&gt;', 10),
+(865, 421, '2017-10-05 19:29:18', '&lt;p&gt;N/A&lt;/p&gt;', 10),
+(866, 422, '2017-10-05 22:10:55', '&lt;p&gt;&lt;strong&gt;ECP&amp;nbsp;&amp;nbsp;&lt;/strong&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;ECDK918668 DMFI: Trade 2.0 COPA DS Delete - DS&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;&lt;strong&gt;BWP&amp;nbsp;&amp;nbsp;&lt;/strong&gt;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;BWDK907257 DMFI: Trade 2.0 COPA DS Regenerate - DS&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;BWDK907261 DMFI: Trade 2.0 COPA - IO&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;BWDK907263 DMFI: Trade 2.0 COPA - DSO&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;Stop and Inform Venkatesh 848-219-6166/ venkatesh.talari@delmonte.com&lt;/p&gt;\\n&lt;p&gt;Venkatesh to Run Remodeling of COPA ADSO&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;BWDK907265 DMFI: Trade 2.0 COPA - TRNF&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;BWDK907321 DMFI: Trade 2.0 COPA - TRNF 1&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;BWDK907299 DMFI: Trade 2.0 COPA - CP&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;BWDK907307 DMFI: Trade 2.0 COPA - CP 1&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;BWDK907309 DMFI: Trade 2.0 COPA - CP 2&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;BWDK907323 DMFI: BEx Query&lt;/p&gt;', 26),
+(867, 383, '2017-10-06 02:30:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(868, 423, '2017-10-06 02:33:09', '&lt;p&gt;BWDK907317&lt;/p&gt;', 16),
+(869, 424, '2017-10-06 02:35:21', '&lt;p&gt;ECDK918728&lt;/p&gt;', 16),
+(870, 418, '2017-10-06 03:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(871, 418, '2017-10-06 03:13:16', 'Change has been set to Completed.', 16),
+(873, 422, '2017-10-06 06:23:35', 'Summary:&lt;br&gt;Changed primary resource from &lt;b&gt;Kethleen Hubahib&lt;/b&gt; to &lt;b&gt;Michael Angelo Masas&lt;/b&gt;.&lt;br&gt;', 22),
+(874, 422, '2017-10-06 06:23:54', 'Summary:&lt;br&gt;Secondary resources are now: &lt;b&gt;Kethleen Hubahib&lt;/b&gt;.&lt;br&gt;', 22),
+(875, 422, '2017-10-06 06:24:06', 'Change has been set to Completed.', 22),
+(876, 425, '2017-10-06 06:28:37', '&lt;p&gt;Scheduled task&lt;/p&gt;', 13),
+(877, 426, '2017-10-06 06:29:18', '&lt;p&gt;ECDK918752&lt;/p&gt;', 22),
+(878, 427, '2017-10-06 06:32:34', '&lt;p&gt;ECDK918752&lt;/p&gt;', 22),
+(879, 426, '2017-10-06 06:39:16', 'ECDK918588\\nECDK918437\\nECDK918582\\nECDK918590\\nECDK918601\\nECDK918629\\nECDK918657\\nECDK918659\\nECDK918704\\nECDK918716', 22),
+(880, 426, '2017-10-06 06:40:35', 'TR ECDK918752 is not for this change task', 22),
+(881, 383, '2017-10-06 06:41:21', 'Summary:&lt;br&gt;', 22),
+(882, 383, '2017-10-06 06:41:51', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Overdue&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 22),
+(883, 382, '2017-10-06 07:27:47', 'From: Giles, Melinda \\nSent: Friday, October 06, 2017 7:11 AM\\nTo: EAO PH SAP Basis SAT2 Mailbox &lt;eao-ph-sap-basis-sat2-mb@hpe.com&gt;; EAO PH SAP Basis ChT SAT2 &lt;eao-ph-sap-basis-cht-sat2@hpe.com&gt;; Bonites, Geraldine Mag &lt;geraldine.mag.bonites@hpe.com&gt;; Hamodiong, Rico &lt;rico.hamodiong@hpe.com&gt;\\nCc: MNL SAP BUR RST &lt;mnl-sap-bup-l2@hpe.com&gt;; Balakas, Chris &lt;chris.balakas@hpe.com&gt;; Garcia, Bryan D &lt;bryan.garcia@hpe.com&gt;; Madlangsakay, Marvin O. &lt;marvin.o.madlangsakay@hpe.com&gt;\\nSubject: RE: SAP PRD ECC on Saturday 7th October between 18:00pm &ndash; Sunday 8th October 02:30am AEST (AU-C00404709 SAP Production, QA and Development systems to be shutdown (SAP and DB) / VPC- Change - Rheem physical servers need to updated to SPP 2016.10)\\n\\nHI Guys, \\nNew change request AU-C00406648 below has been approved with only dcsdsap16. Dcsqsap20 and dcspsap30 being shut-down for VPC outage.\\nHave added task for the backup team to perform full filesystem backup before VPC outage.\\n\\n', 7),
+(884, 425, '2017-10-06 08:16:56', 'Summary:&lt;br&gt;Changed status from &lt;b&gt;Open&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 23),
+(885, 414, '2017-10-06 09:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285);
+INSERT INTO `item_notes` (`note_id`, `item_id`, `note_date`, `note_details`, `note_uploader`) VALUES
+(886, 428, '2017-10-06 11:03:17', '&lt;p align=&quot;LEFT&quot;&gt;Please transport in the following order to PRD tonight .&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;1. DEVK949072 Percentage Restocking Fee&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p align=&quot;LEFT&quot;&gt;2. DEVK949092 Percentage Restocking Fee_2&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\\n&lt;p&gt;3. DEVK949112 Percentage Restocking Fee_3&lt;/p&gt;\\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 4),
+(887, 415, '2017-10-06 12:00:00', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(888, 416, '2017-10-06 12:00:03', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(889, 417, '2017-10-06 12:00:06', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(890, 424, '2017-10-06 12:00:09', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(891, 426, '2017-10-06 12:00:12', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(892, 427, '2017-10-06 12:00:14', 'Change has now passed scheduled end date/time and is now Overdue.', 285),
+(893, 423, '2017-10-06 12:16:32', 'Change has been set to Completed.', 7),
+(894, 424, '2017-10-06 12:16:58', 'Change has been set to Completed.', 7),
+(895, 426, '2017-10-06 12:17:29', 'Change has been set to Completed.', 7),
+(896, 415, '2017-10-06 12:17:47', 'Change has been set to Completed.', 7),
+(897, 416, '2017-10-06 12:17:58', 'Change has been set to Completed.', 7),
+(898, 417, '2017-10-06 12:18:17', 'Change has been set to Completed.', 7),
+(899, 427, '2017-10-06 12:18:34', 'Change has been set to Completed.', 7),
+(900, 420, '2017-10-06 16:56:18', 'Change has been set to Completed.', 10),
+(901, 421, '2017-10-06 16:56:44', 'Change has been set to Completed.', 10),
+(902, 428, '2017-10-06 17:15:15', 'Summary:&lt;br&gt;Changed primary resource from &lt;b&gt;Margielyn Cuizon&lt;/b&gt; to &lt;b&gt;Arvin Alcantara&lt;/b&gt;.&lt;br&gt;Changed status from &lt;b&gt;Open&lt;/b&gt; to &lt;b&gt;Completed&lt;/b&gt;.&lt;br&gt;', 37),
+(903, 409, '2017-10-06 17:23:21', 'Change has been set to Cancelled.', 10),
+(904, 429, '2017-10-06 17:50:05', '&lt;p&gt;[RHEEM] P4 - AU-IM011543132 | Request : transport&amp;nbsp; DEVK949086&lt;/p&gt;', 43),
+(905, 430, '2017-10-06 17:53:57', '&lt;p&gt;[RHEEM] P4 AU-IM011543145 | Request : transport&amp;nbsp; DEVK949159&lt;/p&gt;', 43);
 
 -- --------------------------------------------------------
 
@@ -2138,7 +2331,14 @@ INSERT INTO `item_os` (`io_id`, `item_id`, `os_id`) VALUES
 (163, 382, 3),
 (164, 383, 3),
 (165, 384, 3),
-(167, 386, 1);
+(167, 386, 1),
+(168, 396, 3),
+(169, 405, 2),
+(170, 407, 2),
+(171, 409, 2),
+(172, 414, 2),
+(173, 420, 3),
+(174, 421, 3);
 
 -- --------------------------------------------------------
 
@@ -2317,7 +2517,20 @@ INSERT INTO `item_sp` (`isp_id`, `item_id`, `sp_id`) VALUES
 (224, 382, 1),
 (225, 383, 1),
 (226, 384, 1),
-(228, 386, 4);
+(228, 386, 4),
+(229, 396, 4),
+(230, 405, 1),
+(231, 407, 12),
+(232, 409, 1),
+(233, 414, 1),
+(234, 420, 1),
+(235, 420, 2),
+(236, 420, 3),
+(237, 420, 7),
+(238, 421, 1),
+(239, 421, 2),
+(240, 421, 7),
+(241, 421, 10);
 
 -- --------------------------------------------------------
 
@@ -2336,14 +2549,28 @@ CREATE TABLE `manager_responsibility` (
 --
 
 INSERT INTO `manager_responsibility` (`mr_id`, `user_id`, `team_id`) VALUES
-(10, 6, 2),
-(11, 25, 2),
-(12, 25, 3),
-(13, 25, 5),
-(14, 25, 6),
-(15, 25, 1),
-(16, 25, 4),
-(17, 25, 7);
+(18, 6, 2),
+(21, 53, 4),
+(22, 54, 4),
+(23, 109, 4),
+(24, 183, 3),
+(25, 255, 6),
+(26, 256, 5),
+(27, 256, 7),
+(28, 110, 1),
+(29, 110, 2),
+(30, 110, 3),
+(31, 110, 4),
+(32, 110, 5),
+(33, 110, 6),
+(34, 110, 7),
+(35, 25, 1),
+(36, 25, 2),
+(37, 25, 3),
+(38, 25, 4),
+(39, 25, 5),
+(40, 25, 6),
+(41, 25, 7);
 
 -- --------------------------------------------------------
 
@@ -2512,8 +2739,8 @@ INSERT INTO `users` (`user_id`, `username`, `first_name`, `last_name`, `team_id`
 (50, 'alfie.serrano@hpe.com', 'Alfie', 'Serrano', 2),
 (51, 'elwood.sosuan@hpe.com', 'Elwood', 'Sosuan', 2),
 (52, 'carlo.zarate@hpe.com', 'Carlo', 'Zarate', 2),
-(53, 'bob.villangca@hpe.com', 'Bob', 'Villangca', 4),
-(54, 'alexander.pineda@hpe.com', 'Alexander', 'Pineda', 4),
+(53, 'bob.villangca@hpe.com', 'Bob', 'Villangca', 99),
+(54, 'alexander.pineda@hpe.com', 'Alexander', 'Pineda', 99),
 (55, 'robinson.ola.pabustan@hpe.com', 'Robinson Olano', 'Pabustan', 4),
 (56, 'maynard.santos@hpe.com', 'Mayn', 'Santos', 4),
 (57, 'judie-anne.gal.pillado@hpe.com', 'Judie Anne Galman', 'Pillado', 4),
@@ -2568,8 +2795,8 @@ INSERT INTO `users` (`user_id`, `username`, `first_name`, `last_name`, `team_id`
 (106, 'neil-gem.dim.daluz@hpe.com', 'Neil Gem', 'Daluz', 4),
 (107, 'neil-bryan.cardona.batabat@hpe.com', 'Neil Bryan', 'Batabat', 4),
 (108, 'mark-lester.yan@hpe.com', 'Mark', 'Yan', 4),
-(109, 'stephen-hipolito.nancho@hpe.com', 'Stephen', 'Nancho', 4),
-(110, 'cleif.chua@hpe.com', 'Cleif', 'Chua', 1),
+(109, 'stephen-hipolito.nancho@hpe.com', 'Stephen', 'Nancho', 99),
+(110, 'cleif.chua@hpe.com', 'Cleif', 'Chua', 99),
 (111, 'christopher.buzon@hpe.com', 'Christopher O', 'Buzon', 1),
 (112, 'michael.pedarse@hpe.com', 'Michael V', 'Pedarse', 1),
 (113, 'adrian-b.evasco@hpe.com', 'Adrian B', 'Evasco', 1),
@@ -2642,7 +2869,7 @@ INSERT INTO `users` (`user_id`, `username`, `first_name`, `last_name`, `team_id`
 (180, 'jesper.c.ricafort@hpe.com', 'Jesper Celestino', 'Ricafort', 1),
 (181, 'mark-paul.apo.lactaoen@hpe.com', 'Mark Paul Apoderado', 'Lactaoen', 1),
 (182, 'arvin.malabanan@hpe.com', 'Arvin', 'Malabanan', 1),
-(183, 'monina.evora@hpe.com', 'Monina', 'Evora', 3),
+(183, 'monina.evora@hpe.com', 'Monina', 'Evora', 99),
 (184, 'eli-dominique.desales@hpe.com', 'Eli Dominique L', 'Desales', 3),
 (185, 'jan-earl-vincent.aguyin@hpe.com', 'Jan Earl Vincent', 'Aguyin', 3),
 (186, 'karlojay.boco@hpe.com', 'Karlo Jay Boc', 'Boco', 3),
@@ -2714,8 +2941,8 @@ INSERT INTO `users` (`user_id`, `username`, `first_name`, `last_name`, `team_id`
 (252, 'john-bernie.vil.ramirez@hpe.com', 'John Bernie Villalon', 'Ramirez', 6),
 (253, 'marc-alison.de.estallo@hpe.com', 'Marc De Leon', 'Estallo', 6),
 (254, 'peter-darell.dav.miranda@hpe.com', 'Peter Darell', 'Miranda', 6),
-(255, 'roji.nulud@hpe.com', 'Roji', 'Nulud', 6),
-(256, 'rodella-m.gayoso@hpe.com', 'Rodella', 'Gayoso', 5),
+(255, 'roji.nulud@hpe.com', 'Roji', 'Nulud', 99),
+(256, 'rodella-m.gayoso@hpe.com', 'Rodella', 'Gayoso', 99),
 (257, 'gregory.cacho@hpe.com', 'Gregory A', 'Cacho', 5),
 (258, 'victor.bathan@hpe.com', 'Jeremy Carag', 'Bathan', 5),
 (259, 'luisito.benzon@hpe.com', 'Luisito', 'Benzon', 5),
@@ -2888,7 +3115,7 @@ ALTER TABLE `activity`
 -- AUTO_INCREMENT for table `activity_sec_resources`
 --
 ALTER TABLE `activity_sec_resources`
-  MODIFY `asr_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=665;
+  MODIFY `asr_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=732;
 --
 -- AUTO_INCREMENT for table `db_type`
 --
@@ -2898,12 +3125,12 @@ ALTER TABLE `db_type`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
+  MODIFY `item_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=431;
 --
 -- AUTO_INCREMENT for table `item_db`
 --
 ALTER TABLE `item_db`
-  MODIFY `idb_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `idb_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
 --
 -- AUTO_INCREMENT for table `item_kms`
 --
@@ -2913,22 +3140,22 @@ ALTER TABLE `item_kms`
 -- AUTO_INCREMENT for table `item_notes`
 --
 ALTER TABLE `item_notes`
-  MODIFY `note_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=816;
+  MODIFY `note_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=906;
 --
 -- AUTO_INCREMENT for table `item_os`
 --
 ALTER TABLE `item_os`
-  MODIFY `io_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `io_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
 --
 -- AUTO_INCREMENT for table `item_sp`
 --
 ALTER TABLE `item_sp`
-  MODIFY `isp_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
+  MODIFY `isp_id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=242;
 --
 -- AUTO_INCREMENT for table `manager_responsibility`
 --
 ALTER TABLE `manager_responsibility`
-  MODIFY `mr_id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `mr_id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT for table `operating_system`
 --
@@ -3019,7 +3246,7 @@ ALTER TABLE `item_sp`
 --
 ALTER TABLE `manager_responsibility`
   ADD CONSTRAINT `mr_fk1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `mr_fk2` FOREIGN KEY (`team_id`) REFERENCES `users` (`team_id`);
+  ADD CONSTRAINT `mr_fk2` FOREIGN KEY (`team_id`) REFERENCES `team` (`team_id`);
 
 --
 -- Constraints for table `team_workgroup`

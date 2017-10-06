@@ -317,6 +317,10 @@ textarea {
 	visibility: hidden;
 }
 
+.create_form_table #project_dropdown_td {
+	display: none;
+}
+
 .divider_tr hr{
 	margin: 0;
 
