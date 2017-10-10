@@ -1067,6 +1067,14 @@ td .acct_table_num {
 	margin-top: -0.5%;
 	font-size: 0.8vw;
 	float: right;
+	text-align: right;
+}
+
+#change-list_showlabel a {
+	color: rgb(000, 201, 255);
+	cursor: hand;
+	font-style: italic;
+	font-size: 0.65vw;
 }
 
 .sow_details_div {

@@ -134,11 +134,13 @@ function clickSaveBtn() {
 
 		if (chg[6] == 'Execute Change')
 			var chg_act = document.getElementById('activity_dropdown').value;
+		else if (chg[6] == 'Project')
+			var chg_act = document.getElementById('project_dropdown').value;
 		else
 			var chg_act = 0;
 
 		var chg_defined = false;
-		if ((chg[6] == 'Execute Change' && chg_act != "") || chg[6] != 'Execute Change')
+		if (((chg[6] == 'Execute Change' || chg[6] == 'Project') && chg_act != "") || (chg[6] != 'Execute Change' && chg[6] != 'Project'))
 			chg_defined = true;
 
 		if (checkDate() && confirmComplete(chg) && chg_defined && confirmSubmit()) {
@@ -616,6 +618,9 @@ $(document).ready(function() {
 
 		$('.loading').css("display", "block");
 		filterColumn(9);
+		setTimeout(function(){
+			$('#change-list_showlabel').append("<br><a onclick=\"downloadView('status', '" + stat + "')\">Export this view to an Excel file</a>");
+		}, 2000);
 	});
 
 	$('.change-list-view-date-btn').on('click', function() {
@@ -650,6 +655,7 @@ $(document).ready(function() {
 				}
 				else {
 					displayChangeList(changes);
+					$('#change-list_showlabel').append("<br><a onclick=\"downloadView('date', '" + date_filter + "')\">Export this view to an Excel file</a>");
 				}
 				$('.loading').css("display", "none");
 			});
@@ -798,6 +804,7 @@ function filterColumn(id) {
 			$('.loading').css("display", "none");
 		});
 	}, 1000);
+
 }
 
 function convertTimezone() {
@@ -956,4 +963,12 @@ function accountModalFilter(acct, filter) {
 			displayChangeList(data);
 		}
 	});
+}
+
+function downloadView(type, view_filter) {
+	$('#download-view_form #filter_type').val(type);
+	$('#download-view_form #filter').val(view_filter);
+
+	$('#download-view_form').submit();
+	
 }

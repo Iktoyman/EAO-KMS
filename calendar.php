@@ -14,6 +14,10 @@
 			$action = 'Execute Change';
 			$eventlimit_flag = false;
 		}
+		else if ($_GET['activities'] == 'projects') {
+			$action = 'Project';
+			$eventlimit_flag = true;
+		}
 		else {
 			$action = 'Import Transport';
 			$eventlimit_flag = true;

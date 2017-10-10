@@ -23,6 +23,7 @@
 			<ul id='header_add-list'>
 			<?php
 				if (strpos($_SERVER['PHP_SELF'], 'calendar.php') !== false) {
+					echo "<li><a href='calendar.php?activities=projects'> Projects </a></li>";
 					echo "<li><a href='calendar.php?activities=changes'> Change Activities </a></li>";
 					echo "<li><a href='calendar.php?activities=transports'> Transports </a></li>";
 				}

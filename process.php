@@ -16,15 +16,16 @@
 		if ($_POST['action'] == 'create_item') {
 			$title = htmlentities(mysqli_real_escape_string($ch_conn, $_POST['chg_desc']), ENT_QUOTES, 'UTF-8');
 			$notes = htmlentities(mysqli_real_escape_string($ch_conn, $_POST['notes']), ENT_QUOTES, 'UTF-8');
+			$reference = htmlentities(mysqli_real_escape_string($ch_conn, $_POST['reference']), ENT_QUOTES, 'UTF-8');
 
 			if ($_POST['sids'] == "")
 				$_POST['sids'] = "N/A";
 			if ($_POST['servers'] == "" || $_POST['servers'] == " ")
 				$_POST['servers'] = "N/A";
 			if ($_POST['chg_act'] == 0)
-				$qry = "INSERT INTO items(uploader_id, upload_date, change_ticket_id, change_type, description, account_id, sys_id, server, actions, activity_id, primary_resource, pht_start_datetime, pht_end_datetime, customer_start_datetime, customer_end_datetime, customer_timezone, reference, status, is_approved) VALUES(".$_SESSION['ct_uid'].", NOW(), '".$_POST['chg_id']."', '".$_POST['chg_type']."', '".$title."', ".$_POST['acct'].", '".$_POST['sids']."', '".$_POST['servers']."', '".$_POST['chg_action']."', NULL, ".$_POST['primary_res'].", '".$_POST['date1']." ".$_POST['time1']."', '".$_POST['date2']." ".$_POST['time2']."', '".$_POST['date3']." ".$_POST['time3']."', '".$_POST['date4']." ".$_POST['time4']."', '".$_POST['timezone']."', '".$_POST['reference']."', '".$_POST['status']."', ".$_POST['approved'].")";
+				$qry = "INSERT INTO items(uploader_id, upload_date, change_ticket_id, change_type, description, account_id, sys_id, server, actions, activity_id, primary_resource, pht_start_datetime, pht_end_datetime, customer_start_datetime, customer_end_datetime, customer_timezone, reference, status, is_approved) VALUES(".$_SESSION['ct_uid'].", NOW(), '".$_POST['chg_id']."', '".$_POST['chg_type']."', '".$title."', ".$_POST['acct'].", '".$_POST['sids']."', '".$_POST['servers']."', '".$_POST['chg_action']."', NULL, ".$_POST['primary_res'].", '".$_POST['date1']." ".$_POST['time1']."', '".$_POST['date2']." ".$_POST['time2']."', '".$_POST['date3']." ".$_POST['time3']."', '".$_POST['date4']." ".$_POST['time4']."', '".$_POST['timezone']."', '".$reference."', '".$_POST['status']."', ".$_POST['approved'].")";
 			else
-				$qry = "INSERT INTO items(uploader_id, upload_date, change_ticket_id, change_type, description, account_id, sys_id, server, actions, activity_id, primary_resource, pht_start_datetime, pht_end_datetime, customer_start_datetime, customer_end_datetime, customer_timezone, reference, status, is_approved) VALUES(".$_SESSION['ct_uid'].", NOW(), '".$_POST['chg_id']."', '".$_POST['chg_type']."', '".$title."', ".$_POST['acct'].", '".$_POST['sids']."', '".$_POST['servers']."', '".$_POST['chg_action']."', ".$_POST['chg_act'].", ".$_POST['primary_res'].", '".$_POST['date1']." ".$_POST['time1']."', '".$_POST['date2']." ".$_POST['time2']."', '".$_POST['date3']." ".$_POST['time3']."', '".$_POST['date4']." ".$_POST['time4']."', '".$_POST['timezone']."', '".$_POST['reference']."', '".$_POST['status']."', ".$_POST['approved'].")";
+				$qry = "INSERT INTO items(uploader_id, upload_date, change_ticket_id, change_type, description, account_id, sys_id, server, actions, activity_id, primary_resource, pht_start_datetime, pht_end_datetime, customer_start_datetime, customer_end_datetime, customer_timezone, reference, status, is_approved) VALUES(".$_SESSION['ct_uid'].", NOW(), '".$_POST['chg_id']."', '".$_POST['chg_type']."', '".$title."', ".$_POST['acct'].", '".$_POST['sids']."', '".$_POST['servers']."', '".$_POST['chg_action']."', ".$_POST['chg_act'].", ".$_POST['primary_res'].", '".$_POST['date1']." ".$_POST['time1']."', '".$_POST['date2']." ".$_POST['time2']."', '".$_POST['date3']." ".$_POST['time3']."', '".$_POST['date4']." ".$_POST['time4']."', '".$reference."', '".$_POST['reference']."', '".$_POST['status']."', ".$_POST['approved'].")";
 
 			mysqli_query($ch_conn, $qry);
 			$item_id = mysqli_insert_id($ch_conn);
@@ -35,14 +36,20 @@
 			foreach ($_POST['sec_res'] as $sr) 
 				mysqli_query($ch_conn, "INSERT INTO activity_sec_resources(user_id, item_id) VALUES(".$sr.", ".$item_id.")");
 
-			foreach ($_POST['os'] as $os) 
-				mysqli_query($ch_conn, "INSERT INTO item_os(item_id, os_id) VALUES(".$item_id.", ".$os.")");
+			if (isset ($_POST['os'])) {
+				foreach ($_POST['os'] as $os) 
+					mysqli_query($ch_conn, "INSERT INTO item_os(item_id, os_id) VALUES(".$item_id.", ".$os.")");
+			}
 
-			foreach ($_POST['db'] as $db) 
-				mysqli_query($ch_conn, "INSERT INTO item_db(item_id, db_id) VALUES(".$item_id.", ".$db.")");
+			if (isset($_POST['db'])) {
+				foreach ($_POST['db'] as $db) 
+					mysqli_query($ch_conn, "INSERT INTO item_db(item_id, db_id) VALUES(".$item_id.", ".$db.")");
+			}
 
-			foreach ($_POST['sp'] as $sp) 
-				mysqli_query($ch_conn, "INSERT INTO item_sp(item_id, sp_id) VALUES(".$item_id.", ".$sp.")");
+			if (isset($_POST['sp'])) {
+				foreach ($_POST['sp'] as $sp) 
+					mysqli_query($ch_conn, "INSERT INTO item_sp(item_id, sp_id) VALUES(".$item_id.", ".$sp.")");
+			}
 
 			if ($_POST['kms_id'] != "")
 				mysqli_query($ch_conn, "INSERT INTO item_kms(item_id, document_id) VALUES(".$item_id.", '".$_POST['kms_id']."')");

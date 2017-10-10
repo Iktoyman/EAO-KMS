@@ -387,4 +387,8 @@
 
 <!-- END MY ACCOUNTS MODAL -->
 
+<form id='download-view_form' method="POST" action='export_view.php'>
+	<input id='filter_type' name='filter_type' type='hidden' value=''>
+	<input id='filter' name='filter' type='hidden' value=''>
+</form>
 

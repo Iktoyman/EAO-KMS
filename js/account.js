@@ -77,7 +77,8 @@ function showDetails(id) {
 			document.getElementById('det_ph_time').innerHTML = data['pht_start_datetime'] + " to " + data['pht_end_datetime'];
 			document.getElementById('det_cu_time').innerHTML = data['customer_start_datetime'] + " to " + data['customer_end_datetime'] + " - " + data['customer_timezone'];
 		}
-		document.getElementById('det_reference').innerHTML = data['reference'];
+		var reference = _.unescape(data['reference']);
+		document.getElementById('det_reference').innerHTML = reference;
 		document.getElementById('det_status').innerHTML = data['status'];
 		var note = _.unescape(data['note']);
 		document.getElementById('det_notes').innerHTML = note;
