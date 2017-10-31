@@ -787,7 +787,7 @@ function resetModal() {
 					sr.push(resources[data][a]['name']);
 				}
 			}
-			$('#det_resources').html(primary_res + "(Primary)<br>" + sr.join('; '));
+			$('#det_resources').html(primary_res + " (Primary)<br>" + sr.join('; '));
 		});
 
 		if ($('#opened_note_ph_sdate').val() == '2999-12-31 00:00:00') {

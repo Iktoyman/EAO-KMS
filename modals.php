@@ -301,6 +301,18 @@
 						</tr> 
 
 						<tr>
+							<td> </td>
+							<td>
+								Is this change <b>Approved</b> and <b>Ready for Implementation</b>?&nbsp;&nbsp;
+								<input type='checkbox' name='change_ready' id='change_ready'>
+							</td>
+							<td colspan=2>
+								Has this change been <b>Pre-checked</b> before Execution by the resource?&nbsp;&nbsp;
+								<input type='checkbox' name='change_prechecked' id='change_prechecked' disabled>
+							</td>
+						</tr>
+
+						<tr>
 							<td>
 								Status <span class="asterisk">*</span>&nbsp;&nbsp;
 							</td>
@@ -313,10 +325,7 @@
 										<option value="Failed"> Failed </option>
 									</select>
 							</td>
-							<td colspan=2>
-								Is this change <b>Approved</b> and <b>Ready for Implementation</b>?&nbsp;&nbsp;
-								<input type='checkbox' name='change_ready' id='change_ready'>
-							</td>
+							<td colspan=2></td>
 						</tr>
 
 					</table>

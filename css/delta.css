@@ -244,7 +244,7 @@ textarea {
 	list-style: none;
 }
 
-.sec_res_dropdown #sec_res_chkbox, .sec_res_dropdown2 #sec_res_chkbox, #edit-sec_res_chkbox, .os_dropdown #os_chkbox, .db_dropdown #db_chkbox, .sp_dropdown #sp_chkbox, #edit-pipeline, #change_ready, #edit-change_ready {
+.sec_res_dropdown #sec_res_chkbox, .sec_res_dropdown2 #sec_res_chkbox, #edit-sec_res_chkbox, .os_dropdown #os_chkbox, .db_dropdown #db_chkbox, .sp_dropdown #sp_chkbox, #edit-pipeline, #change_ready, #edit-change_ready, #change_prechecked, #edit-change_prechecked {
 	margin-top: 7.5px;
 	margin-right: 2%;
 	line-height: 1vw;
