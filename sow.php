@@ -6,8 +6,12 @@
 	require "establish_user.php";
 
 	// Set team
-	if (!isset($_GET['team']))
-		$team = $_SESSION['ct_team'];
+	if (!isset($_GET['team'])) {
+		if ($_SESSION['ct_team'] != 99)
+			$team = $_SESSION['ct_team'];
+		else
+			$team = 1;
+	}
 	else
 		$team = $_GET['team'];
 
@@ -82,33 +86,15 @@
 </head>
 
 <body>
-	<div class="sidebar-div-container">
-		<div class="sidebar-div">
-			<div class="sidebar-header-div">
-				<a id='header-sidebar-btnlink-open'><span class="glyphicon glyphicon-menu-hamburger header-sidebar-btn"></span></a>
-				<span class="header-title"> PROJECT DELTA </span>	
-			</div>
-			<div class="sidebar-body-div">
-				<ul>
-					<li> <a id='new-item_link' onclick='triggerHomeEvent("new_item")'> NEW ITEM </a> </li>
-					<li> <a id='my-accounts_link' onclick='triggerHomeEvent("my_accounts")'> MY ACCOUNTS </a> </li>
-					<li> <a href='calendar.php'> CHANGE CALENDAR </a> </li>
-					<li> <a href='sow.php'> START OF WEEK </a> </li>
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	<div class="header_div">
-		<?php
+	<?php
+		require "sidebar.php";
 		require "navbar.php";
-		?>
-	</div>	
+	?>
 
 	</div>
 
 	<div class="body_div">
-		<h3 style='font-family: "Montserrat"'> Start of Week </h3><hr>
+		<h3 style='font-family: "Montserrat"'> Start of Week - <?php echo $teams[$team - 1]['team_name']; ?></h3><hr>
 			<span style='font-size: 0.9vw; font-weight: bold'> Summary of Changes </span><br>
 			<div class='sow_details_div'>
 			<?php

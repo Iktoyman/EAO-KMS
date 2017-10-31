@@ -1,4 +1,5 @@
 var status_buffer = "";
+var approved_buffer = false;
 var edit_sec_resources = [];
 var edit_flag = false;
 
@@ -76,10 +77,12 @@ function showDetails(id) {
 			document.getElementById('det_ph_time').innerHTML = data['pht_start_datetime'] + " to " + data['pht_end_datetime'];
 			document.getElementById('det_cu_time').innerHTML = data['customer_start_datetime'] + " to " + data['customer_end_datetime'] + " - " + data['customer_timezone'];
 		}
-		document.getElementById('det_reference').innerHTML = data['reference'];
+		var reference = _.unescape(data['reference']);
+		document.getElementById('det_reference').innerHTML = reference;
 		document.getElementById('det_status').innerHTML = data['status'];
 		var note = _.unescape(data['note']);
 		document.getElementById('det_notes').innerHTML = note;
+		document.getElementById('det_approved').innerHTML = data['is_approved'];
 
 		$('#opened_note_chg_id').val(data['change_ticket_id']);
 		$('#opened_note_title').val(data['description']);
@@ -274,6 +277,19 @@ $(document).ready(function() {
 			+ "<option value='Overdue'> Overdue </option>"
 			+ "</select>";
 		$('#edit-status_select').val(status);
+
+		var approved = $('#det_approved').html();
+		$('#det_approved').html("Approved and Ready for Implementation?&nbsp;&nbsp;");
+		$('#det_approved').append($('<input>', {
+			type: 'checkbox',
+			id: 'edit-change_ready',
+			name: 'edit-change_ready'
+		}));
+		if (approved == 'Yes') {
+			$('#edit-change_ready').prop("checked", true);
+			approved_buffer = true;
+		}
+
 		// Dropdowns
 		/*
 		var chg_type = $('#det_chg_type').html();
@@ -295,29 +311,41 @@ $(document).ready(function() {
 		}
 		$('#det_account_select').val($('#opened_note_acct_id').val());
 		*/
+		$.ajax({
+			type: "POST",
+			url: "acct_queries.php",
+			data: {
+				id: $('#opened_note_id').val(),
+				action: 'retrieve_team'
+			},
+			dataType: 'json'
+		})
+		.done(function(data) {
+			$('#det_resources_td').html("<select class='show_details_table_input' name='det_presource_select' id='det_presource_select'></select>");
+			for (var c = 0; c < resources[data].length; c++) {
+				$('#det_presource_select').append($('<option>', {
+					value: resources[data][c]['user_id'],
+					text: resources[data][c]['name']
+				}));
+			} 
+			$('#det_presource_select').val($('#opened_note_presource').val());
 
-		$('#det_resources_td').html("<select class='show_details_table_input' name='det_presource_select' id='det_presource_select'></select>");
-		for (var c = 0; c < resources.length; c++) {
-			$('#det_presource_select').append($('<option>', {
-				value: resources[c]['user_id'],
-				text: resources[c]['name']
-			}));
-		} 
-		$('#det_presource_select').val($('#opened_note_presource').val());
+			$('#det_resources_td2').html('<button name="secondary_res2" id="secondary_res2" onclick="toggleSecResDropdown()"> <span class="create_modal_dropdown_text" id="edit-sr_dropdown_text"> -- Select Secondary Resource(s) -- </span><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></button>');
+			$('#det_resources_td2').append('<div class="sec_res_dropdown2"><ul></ul></div>');
+			$('.sec_res_dropdown2').hide();
+			var secondary_resource_ids = $('#opened_note_sresource').val().split(';');
+			edit_sec_resources = secondary_resource_ids;
+			for (var c = 0; c < resources[data].length; c++) {
+				if (resources[data][c]['user_id'] == $('#det_presource_select').val())
+					continue;
 
-		$('#det_resources_td2').html('<button name="secondary_res2" id="secondary_res2" onclick="toggleSecResDropdown()"> <span class="create_modal_dropdown_text" id="edit-sr_dropdown_text"> -- Select Secondary Resource(s) -- </span><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></button>');
-		$('#det_resources_td2').append('<div class="sec_res_dropdown2"><ul></ul></div>');
-		$('.sec_res_dropdown2').hide();
-		var secondary_resource_ids = $('#opened_note_sresource').val().split(';');
-		edit_sec_resources = secondary_resource_ids;
-		for (var c = 0; c < resources.length; c++) {
-			if (resources[c]['user_id'] == $('#det_presource_select').val())
-				continue;
+				$('.sec_res_dropdown2 ul').append("<li><input type='checkbox' class='sec_res_chkbox' id='edit-sec_res_chkbox' value=" + resources[data][c]['user_id'] + " onchange='edit_checkBoxes_resources()'>"  + resources[data][c]['name'] + " </li>");
+				if (secondary_resource_ids.indexOf(resources[data][c]['user_id']) > -1)
+					$('.sec_res_chkbox[value=' + resources[data][c]['user_id'] + ']').prop("checked", true);
+					edit_checkBoxes_resources();
+			}
+		});
 
-			$('.sec_res_dropdown2 ul').append("<li><input type='checkbox' class='sec_res_chkbox' id='edit-sec_res_chkbox' value=" + resources[c]['user_id'] + " onchange='edit_checkBoxes_resources()'>"  + resources[c]['name'] + " </li>");
-			if (secondary_resource_ids.indexOf(resources[c]['user_id']) > -1)
-				$('.sec_res_chkbox[value=' + resources[c]['user_id'] + ']').prop("checked", true);
-		}
 
 		$('#det_ph_time_td').html("<input type='text' class='datepicker-here' id='edit-datepicker1' data-language='en' name='ph_sdate' placeholder='MM/DD/YYYY' disabled/> <input type='text' name='ph_stime' id='edit-timepicker1' placeholder='HH:SS' disabled /> &nbsp;");
 		$('#det_ph_time_td2').html("<input type='text' class='datepicker-here' id='edit-datepicker2' data-language='en' name='ph_edate' placeholder='MM/DD/YYYY' disabled/> <input type='text' name='ph_etime' id='edit-timepicker2' placeholder='HH:SS' disabled />");
@@ -380,6 +408,10 @@ $(document).ready(function() {
 		var title = $('#det_chg_desc_input').val();
 		var primary_res = $('#det_presource_select').val();
 		var status = $('#edit-status_select').val();
+		if ($('#edit-change_ready').is(":checked"))
+			var is_approved = 1;
+		else
+			var is_approved = 0;
 
 		var time1 = convertTo24($('#edit-timepicker1').val());
 		var time2 = convertTo24($('#edit-timepicker2').val());
@@ -413,7 +445,8 @@ $(document).ready(function() {
 					date3: cu_start,
 					date4: cu_end,
 					timezone: timezone,
-					status: status
+					status: status,
+					is_approved: is_approved
 				}
 			})
 			.done(function() {
@@ -535,6 +568,65 @@ $(document).ready(function() {
 			$('.sidebar-div-container').css("display", "none");
 		}, 500);
 		$('#my_accounts').modal('toggle');
+	});
+
+	$('.account_details_item_number').on('click', function() {
+		if ($(this).hasClass('stat')) {
+			$('.nav-tabs a[href="#stat"]').tab('show');
+			$('#sort_by_status').val($(this).attr('id'));
+			$('#cur_status').html("(" + $(this).attr('id') + ")");
+			switchStatus();
+		}
+		else if ($(this).hasClass('mont')) {
+			$('.nav-tabs a[href="#mont"]').tab('show');
+		}
+		else if ($(this).hasClass('week')) {
+			$('.nav-tabs a[href="#week"]').tab('show');
+		}
+		else if ($(this).hasClass('type')) {
+			$('.nav-tabs a[href="#type"]').tab('show');
+			$('#sort_by_type').val($(this).attr('id'));
+			$('#cur_type').html("(" + $(this).attr('id') + ")");
+			switchType();
+		}
+		else if ($(this).hasClass('custom')) {
+			if ($(this).attr('id') == "All") {
+				$('.nav-tabs a[href="#custom"]').tab('show');
+				$('.nav-tabs li').removeClass('active');
+			}
+			else if ($(this).attr('id') == "Transports") {
+				$('.nav-tabs a[href="#trans"]').tab('show');
+				$('.nav-tabs li').removeClass('active');
+			}
+		}
+	});
+
+	$('.all-acct-list_li').on('click', function() {
+		var acct_str = $(this).attr('id').substring(4);
+		
+		$.ajax({
+			type: "POST",
+			url: "process.php",
+			data: {
+				action: 'all_changes_filter',
+				acct: acct_str
+			},
+			dataType: 'json'
+		})
+		.done(function(data) {
+			$('.sidebar-div').animate({"margin-left": '-=22.5%'});
+			setTimeout(function(){
+				$('.sidebar-div-container').css("display", "none");
+			}, 500);
+			$('#change-list-tbody').html("");
+			if (data.length == 0) {
+				$('#change-list_showlabel').html("");
+				document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=9> No change items found </td></tr>";
+			}
+			else {
+				displayChangeList(data);
+			}
+		});
 	});
 });
 
@@ -677,15 +769,26 @@ function resetModal() {
 		$('#det_resources_td').html("<span id='det_resources'></span>");
 		$('#det_resources_td2').html("");
 
-		for (var a = 0; a < resources.length; a++) {
-			if (resources[a]['user_id'] == $('#opened_note_presource').val()) {
-				var primary_res = resources[a]['name'];
+		$.ajax({
+			type: "POST",
+			url: "acct_queries.php",
+			data: {
+				id: $('#opened_note_id').val(),
+				action: 'retrieve_team'
+			},
+			dataType: 'json'
+		})
+		.done(function(data) {
+			for (var a = 0; a < resources[data].length; a++) {
+				if (resources[data][a]['user_id'] == $('#opened_note_presource').val()) {
+					var primary_res = resources[data][a]['name'];
+				}
+				if (secondary_resource_ids.indexOf(resources[data][a]['user_id']) > -1) {
+					sr.push(resources[data][a]['name']);
+				}
 			}
-			if (secondary_resource_ids.indexOf(resources[a]['user_id']) > -1) {
-				sr.push(resources[a]['name']);
-			}
-		}
-		$('#det_resources').html(primary_res + "(Primary)<br>" + sr.join('; '));
+			$('#det_resources').html(primary_res + " (Primary)<br>" + sr.join('; '));
+		});
 
 		if ($('#opened_note_ph_sdate').val() == '2999-12-31 00:00:00') {
 			$('#det_ph_time_td').html("<span id='det_ph_time'>No schedule yet: Tentatively planned for the future</span>");
@@ -704,6 +807,10 @@ function resetModal() {
 		}
 
 		$('#det_status_td').html("<span id='det_status'>" + status_buffer + "</span>");
+		if (approved_buffer)
+			$('#det_approved').html("Yes");
+		else
+			$('#det_approved').html("No");
 
 		$('#save-change_btn').parent().css('display', 'none');
 		$('#edit-change_btn').parent().css('display', 'table-cell');

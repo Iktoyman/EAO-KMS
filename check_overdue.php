@@ -7,8 +7,14 @@
 		mysqli_query($ch_conn, "UPDATE items SET status = 'Overdue' WHERE item_id = " . $row['item_id']);
 		mysqli_query($ch_conn, "INSERT INTO item_notes(item_id, note_date, note_details, note_uploader) VALUES(".$row['item_id'].", NOW(), 'Change has now passed scheduled end date/time and is now Overdue.', 285)");
 
-		$usr_qry = "SELECT CONCAT(u.username, ', ', u2.username) AS recipients FROM users u, users u2, items i WHERE i.uploader_id = u.user_id AND i.primary_resource = u2.user_id AND i.item_id = " . $row['item_id'];
-		$to = mysqli_fetch_assoc(mysqli_query($ch_conn, $usr_qry))['recipients'];
+		$usr_qry = "SELECT u.username AS recipient1, u2.username AS recipient2 FROM users u, users u2, items i WHERE i.uploader_id = u.user_id AND i.primary_resource = u2.user_id AND i.item_id = " . $row['item_id'];
+		$to_row = mysqli_fetch_row(mysqli_query($ch_conn, $usr_qry));
+		if ($to_row[0] == $to_row[1]) {
+			$to = $to_row[0];
+		}
+		else {
+			$to = implode(', ', $to_row);
+		}
 		//$to2 = 'eric-xavier.car.rosales@hpe.com';
 		$subj = "[DELTA] Reminder to Complete: " . $row['change_ticket_id'];
 		$headers = "From: ito-dcs-phils-eao-kms@hpe.com\r\nReply-To: ito-dcs-phils-eao-kms@hpe.com\r\nCC: eric-xavier.car.rosales@hpe.com, ito-dcs-phils-eao-kms@hpe.com";
@@ -16,13 +22,14 @@
 
 		//$body = "Sent to: " . $to;
 		$body = "<p style='font-family: Calibri'>Good day!</p>";
-		$body .= "<p style='font-family: Calibri'>This is to remind you, as the person(s) responsible for the following change item, that the following has now passed its Scheduled End Date/Time with its status still marked as Open / In Progress. Kindly update the change item in <a href='http://eao-kms.phl.hp.com:8088/delta/'>the tracker</a>:</p><br>";
+		$body .= "<p style='font-family: Calibri'>This is to remind you, as the person(s) responsible for the following change item, that the following has now passed its Scheduled End Date/Time with its status still marked as Open / In Progress. Kindly update the change item in <a href='http://eao-kms.phl.hp.com:8088/delta/'>the tracker</a>, and if the ticket can now be closed, do not forget to close it in its respective workflow tool.</p><br>";
 		$body .= "<span style='font-family: Calibri'>Change ID: <b>" . $row['change_ticket_id']. "</b></span><br>";
 		$body .= "<span style='font-family: Calibri'>Title / Description: <b>" . $row['description']. "</b></span><br><br>";
 		$body .= "<p style='font-family: Calibri; font-size: 11px; font-style: italic'>This is an automated e-mail, please do not reply to this e-mail.<br>Regards,<br>THE EAO-KMS Team</p>";
 
 		ini_set("SMTP", "smtp1.hp.com");
 		mail($to, $subj, $body, $headers);
+		//echo $to . "<br>";
 		//echo $subj . "<br>";
 	}
 ?>

@@ -13,19 +13,35 @@
 	else
 		$event = '';
 
-	// GET ALL ACCOUNT ARRAY
-	$get_all_accounts = mysqli_query($ch_conn, "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY acct_abbrev");
-	$all_accounts = array();
-	while ($acct_row = mysqli_fetch_array($get_all_accounts)) {
-		$all_accounts[] = $acct_row; 
+	// GET TEAM ACCOUNT ARRAY
+	$managed_teams_ids = array();
+	$managed_teams_names = array();
+	if ($_SESSION['ct_team'] == 99) {
+		$managed_teams_res = mysqli_query($ch_conn, "SELECT mr.team_id, t.team_name FROM manager_responsibility mr, team t WHERE mr.team_id = t.team_id AND mr.user_id = " . $_SESSION['ct_uid'] . " ORDER BY mr.team_id");
+		while ($mt_id = mysqli_fetch_array($managed_teams_res)) {
+			$managed_teams_ids[] = $mt_id['team_id'];
+			$managed_teams_names[] = $mt_id['team_name'];
+		}
+		$get_team_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $managed_teams_ids[0] . " ORDER BY acct_abbrev";
+	}
+	else {
+		$get_team_accounts_qry = "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY acct_abbrev";
+		$managed_teams_ids[] = $_SESSION['ct_team'];
+	}
+	$get_team_accounts = mysqli_query($ch_conn, $get_team_accounts_qry);
+	$team_accounts = array();
+	while ($acct_row = mysqli_fetch_array($get_team_accounts)) {
+		$team_accounts[] = $acct_row; 
 	}
 
 	// GET ACCOUNTS WITH CHANGES ARRAY
-	$get_accounts = mysqli_query($ch_conn, "SELECT acct_id, acct_abbrev, acct_name FROM account WHERE team_id = " . $_SESSION['ct_team'] . " AND acct_id IN (SELECT DISTINCT account_id FROM items) ORDER BY acct_abbrev");
+	$get_accounts_qry = "SELECT a.acct_abbrev, a.acct_name FROM account a, items i WHERE a.acct_id = i.account_id AND a.team_id IN (" . implode(', ', $managed_teams_ids) . ") AND a.acct_id IN (SELECT DISTINCT account_id FROM items) GROUP BY a.acct_abbrev ORDER BY a.acct_abbrev";
+	$get_accounts = mysqli_query($ch_conn, $get_accounts_qry);
 	$accounts = array();
 	while ($acct_row = mysqli_fetch_array($get_accounts)) {
 		$accounts[] = $acct_row; 
 	}
+
 
 	// GET TIMEZONES ARRAY
 	$timezones = array();
@@ -35,8 +51,11 @@
 
 	// Get Changes
 	$changes = array();
-	//$chg_res = mysqli_query($ch_conn, "SELECT i.item_id, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.status FROM items i, account a WHERE i.account_id = a.acct_id ORDER BY i.pht_start_datetime DESC");
-	$chg_res = mysqli_query($ch_conn, "SELECT i.item_id, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u WHERE i.account_id = a.acct_id AND i.primary_resource = u.user_id AND a.team_id = " . $_SESSION['ct_team'] . " ORDER BY i.pht_start_datetime DESC");
+	if ($_SESSION['ct_team'] == 99)
+		$chg_qry = "SELECT i.item_id, i.change_ticket_id, t.team_name, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE i.account_id = a.acct_id AND a.team_id = t.team_id AND i.primary_resource = u.user_id AND a.team_id IN (" . implode(', ', $managed_teams_ids) . ") ORDER BY i.pht_start_datetime DESC";
+	else 
+		$chg_qry = "SELECT i.item_id, i.change_ticket_id, t.team_name, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE i.account_id = a.acct_id AND a.team_id = t.team_id AND i.primary_resource = u.user_id AND a.team_id = " . $_SESSION['ct_team'] . " ORDER BY i.pht_start_datetime DESC";
+	$chg_res = mysqli_query($ch_conn, $chg_qry);
 	$a = 0;
 	while ($chg_row = mysqli_fetch_array($chg_res)) {
 		$changes[$a] = $chg_row;
@@ -62,9 +81,11 @@
 		include "head.php";
 	?>
 	<script>
+		var managed_teams = <?php echo json_encode($managed_teams_ids); ?>;
 		var changes = <?php echo json_encode($changes); ?>;
 		var trigger_event = <?php echo json_encode($event); ?>;
-		//console.log(changes);
+		var accounts = <?php echo json_encode($accounts); ?>;
+		console.log("Event: " + trigger_event);
 	</script>
 	<script type="text/javascript" src="js/tinymce/tinymce.min.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
@@ -86,7 +107,19 @@
 			<div class="sidebar-body-div">
 				<ul>
 					<li> <a id='new-item_link'> NEW ITEM </a> </li>
-					<li> <a id='my-accounts_link'> MY ACCOUNTS </a> </li>
+					<li> <a data-toggle="collapse" href="#acct_collapse" aria-expanded="false" aria-controls="acct_collapse"> ALL ACCOUNT CHANGES </a></li>
+						<div class='collapse acct_collapse' id='acct_collapse'>
+							<div class="inner_acct-collapse">
+							<?php
+								echo "<ul>";
+								for ($x = 0; $x < sizeof($all_accounts); $x++) {
+									echo "<li> <a class='all-acct-list_li' id='all-" . $all_accounts[$x]['acct_abbrev'] . "'> " . $all_accounts[$x]['acct_abbrev'] . " - " . $all_accounts[$x]['acct_name'] . "</a></li>";
+								}
+								echo "</ul>";
+							?>
+							</div>
+						</div>
+					<li> <a id='my-accounts_link'> TEAM ACCOUNT CHANGES </a> </li>
 					<li> <a href='calendar.php'> CHANGE CALENDAR </a> </li>
 					<li> <a href='sow.php'> START OF WEEK </a> </li>
 				</ul>
@@ -133,22 +166,24 @@
 				<th class='change-list-th' id='1' width=8.5%> <span id='1-label'>Change ID</span> 
 					<input type="text" class="change-list-filter" id='chg-list-th-1' onkeyup='filterColumn(1)'>
 					<a class='glyphicon glyphicon-search filter-btn'></a></th>
-				<th class='change-list-th' id='2' width=16.5%> <span id='2-label'>Account</span>
-					<input type="text" class="change-list-filter" id='chg-list-th-2' onkeyup='filterColumn(2)'>
+				<th class='change-list-th' width=6.5%> Team </th>
+
+				<th class='change-list-th' id='3' width=14%> <span id='3-label'>Account</span>
+					<input type="text" class="change-list-filter" id='chg-list-th-3' onkeyup='filterColumn(3)'>
 					<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
 					<a class="glyphicon glyphicon-filter filter-btn"></a></th>
-				<th class='change-list-th' id='4' width=24.75%> <span id='4-label'>Title</span> 
-					<input type="text" class="change-list-filter" id='chg-list-th-4' onkeyup='filterColumn(4)'>
+				<th class='change-list-th' id='5' width=24.75%> <span id='5-label'>Title</span> 
+					<input type="text" class="change-list-filter" id='chg-list-th-5' onkeyup='filterColumn(5)'>
 					<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
 					<a class="glyphicon glyphicon-filter filter-btn"></a></th>
-				<th class='change-list-th' id='8' width=15%> <span id='8-label'> Resources </span>
+				<th class='change-list-th' id='6' width=13.5%> <span id='6-label'> Resources </span>
 						
-				<th class='change-list-th' id='5' width=12.5%> Planned Start 
+				<th class='change-list-th' id='7' width=10%> Planned Start 
 					<a class="glyphicon glyphicon-sort-by-attributes sort-btn"></th>
-				<th class='change-list-th' id='6' width=12.5%> Planned End 
+				<th class='change-list-th' id='8' width=10%> Planned End 
 					<a class="glyphicon glyphicon-sort-by-attributes sort-btn"></th>
-				<th class='change-list-th' id='7' > <span id='7-label'>Status</span> 
-					<input type="text" class="change-list-filter" id='chg-list-th-7' onkeyup='filterColumn(7)'>
+				<th class='change-list-th' id='9' > <span id='9-label'>Status</span> 
+					<input type="text" class="change-list-filter" id='chg-list-th-9' onkeyup='filterColumn(9)'>
 					<a class="glyphicon glyphicon-sort-by-alphabet sort-btn"></a>
 					<a class="glyphicon glyphicon-filter filter-btn"></a></th>
 			</tr>
@@ -163,17 +198,18 @@
 				for ($x = 0; $x < sizeof($changes); $x++) {
 					echo "<tr>";
 					echo "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" . $changes[$x]['item_id'] .")'>" . $changes[$x]['change_ticket_id'] . "</a></td>";
+					echo "<td width=6.5%>" . $changes[$x]['team_name'] . "</td>";
 					echo "<td width=6% id='chg_list-aa'>" . $changes[$x]['acct_abbrev'] . "</td>";
-					echo "<td width=10.5% id='chg_list-an'>" . $changes[$x]['acct_name'] . "</td>";
+					echo "<td width=8% id='chg_list-an'>" . $changes[$x]['acct_name'] . "</td>";
 					//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
 					echo "<td width=25% id='chg_list-cd'>" . $changes[$x]['description'] . "</td>";
-					echo "<td width=15% id='chg_list-res'>" . $changes[$x]['name'] . "</td>";
+					echo "<td width=13.5% id='chg_list-res'>" . $changes[$x]['name'] . "</td>";
 					if ($changes[$x]['pht_start_datetime'] == 'Dec 31, 2999 - 12:00AM' && $changes[$x]['pht_end_datetime'] == 'Dec 31, 2999 - 11:59PM') {
 						echo "<td width=25.5% colspan=2 id='chg_list-st'> - No schedule yet: Tentatively planned for the future - </td>";
 					}
 					else {
-						echo "<td width=12.75% id='chg_list-st'>" . $changes[$x]['pht_start_datetime'] . "</td>";
-						echo "<td width=12.75% id='chg_list-et'>" . $changes[$x]['pht_end_datetime'] . "</td>";
+						echo "<td width=10.25% id='chg_list-st'>" . $changes[$x]['pht_start_datetime'] . "</td>";
+						echo "<td width=10.25% id='chg_list-et'>" . $changes[$x]['pht_end_datetime'] . "</td>";
 					}
 					if ($changes[$x]['status'] == 'In Progress')
 						$stat_hl = "status-inprogress";
@@ -189,7 +225,7 @@
 					echo "</tr>";
 					if ($x == $row_limit) {
 						$next_row = $x + 1;
-						echo "<tr><td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" . $next_row . ")'>Show more</a></td></tr>";
+						echo "<tr><td colspan=9 id='show-more_row'> <a onclick='showMoreChanges(" . $next_row . ")'>Show more</a></td></tr>";
 						break;
 					}
 				}

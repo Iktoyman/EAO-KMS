@@ -97,6 +97,28 @@ body {
 	font-family: 'Montserrat', 'Lato', sans-serif;
 }
 
+.acct_collapse {
+	direction: rtl;
+	padding: 1%;
+	max-height: 30%;
+	overflow: auto;
+	width: 90%;
+}
+
+.inner_acct-collapse {
+	text-align: left;
+	background-color: #666;
+	width: 90%;
+}
+
+.inner_acct-collapse ul > li {
+	font-size: 0.65vw !important;
+}
+
+.acct_collapse a {
+	font-family: 'Lato', sans-serif !important;
+}
+
 a {
 	color: yellow;
 }
@@ -222,7 +244,7 @@ textarea {
 	list-style: none;
 }
 
-.sec_res_dropdown #sec_res_chkbox, .sec_res_dropdown2 #sec_res_chkbox, #edit-sec_res_chkbox, .os_dropdown #os_chkbox, .db_dropdown #db_chkbox, .sp_dropdown #sp_chkbox, #edit-pipeline {
+.sec_res_dropdown #sec_res_chkbox, .sec_res_dropdown2 #sec_res_chkbox, #edit-sec_res_chkbox, .os_dropdown #os_chkbox, .db_dropdown #db_chkbox, .sp_dropdown #sp_chkbox, #edit-pipeline, #change_ready, #edit-change_ready, #change_prechecked, #edit-change_prechecked {
 	margin-top: 7.5px;
 	margin-right: 2%;
 	line-height: 1vw;
@@ -295,18 +317,14 @@ textarea {
 	visibility: hidden;
 }
 
+.create_form_table #project_dropdown_td {
+	display: none;
+}
+
 .divider_tr hr{
 	margin: 0;
 
 }
-
-#form_status_div {
-	text-align: center;
-}
-
-#form_status_dropdown {
-	width: 25%;
-} 
 
 #save_btn {
 	position: absolute;
@@ -354,6 +372,7 @@ textarea {
 	background-color: #666;
 	color: white;
 	font-weight: bold;
+	cursor: hand;
 }
 
 .my_accounts_table td {
@@ -373,9 +392,10 @@ textarea {
 }
 
 
-td #acct_table_num {
+td .acct_table_num {
 	display: block;
 	margin: 0 auto;
+	cursor: hand;
 }
 
 .my_accounts_table thead .account_col {
@@ -661,10 +681,11 @@ td #acct_table_num {
 	line-height: 1vw;
 }
 
-.account_details_item #account_details_item_number {
+.account_details_item .account_details_item_number {
 	margin-top: 20%;
 	font-size: 2vw;
 	text-align: center;
+	cursor: hand;
 }
 
 .account_details_table td {
@@ -714,7 +735,7 @@ td #acct_table_num {
 
 .show_details_table {
 	font-style: italic;
-	font-size: 0.8vw;
+	font-size: 0.7vw;
 	text-align: left;
 	/*text-decoration: underline;*/
 	width: 16.5% !important;
@@ -822,6 +843,10 @@ td #acct_table_num {
 	color: rgb(000, 201, 255);
 	font-size: 0.8vw;
 	font-weight: bold
+}
+
+.fc-more:hover {
+	color: black;
 }
 
 .fc-popover .fc-header {
@@ -1042,6 +1067,14 @@ td #acct_table_num {
 	margin-top: -0.5%;
 	font-size: 0.8vw;
 	float: right;
+	text-align: right;
+}
+
+#change-list_showlabel a {
+	color: rgb(000, 201, 255);
+	cursor: hand;
+	font-style: italic;
+	font-size: 0.65vw;
 }
 
 .sow_details_div {
@@ -1094,4 +1127,9 @@ td #acct_table_num {
     background-color: white;
     border-radius: 6px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.9); 
+}
+
+#word-wrap-td {
+	word-wrap: break-word;
+	word-break: break-all;
 }

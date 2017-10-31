@@ -13,273 +13,7 @@ $(function() {
 	$('#sched_timepicker4').timepicker();
 });
 
-// Secondary resources dropdown
-function checkBoxes_resources() {
-	sec_resources = [];
-	document.getElementById('sr_dropdown_text').innerHTML = "";
-	$('input[name="sec_resources[]"]:checked').each(function() {
-		sec_resources.push($(this).val());
-		document.getElementById('sr_dropdown_text').innerHTML += $(this).parent().text();
-	});
-	if ($('input[name="sec_resources[]"]:checked').length == 0)
-		document.getElementById('sr_dropdown_text').innerHTML = " -- Select Secondary Resource(s) -- ";
-	else if ($('input[name="sec_resources[]"]:checked').length > 1)
-		document.getElementById('sr_dropdown_text').innerHTML = sec_resources.length + " selected";
-}
-
-// OS dropdown
-function checkBoxes_os() {
-	os = [];
-	document.getElementById('os_dropdown_text').innerHTML = "";
-	$('input[name="os[]"]:checked').each(function() {
-		os.push($(this).val());
-		document.getElementById('os_dropdown_text').innerHTML += $(this).parent().text() + ", ";
-	});
-	if ($('input[name="os[]"]:checked').length == 0)
-		document.getElementById('os_dropdown_text').innerHTML = " -- Select Operating System(s) -- ";
-}
-
-// Databases dropdown
-function checkBoxes_db() {
-	db = [];
-	document.getElementById('db_dropdown_text').innerHTML = "";
-	$('input[name="db[]"]:checked').each(function() {
-		db.push($(this).val());
-		document.getElementById('db_dropdown_text').innerHTML += $(this).parent().text() + ", ";
-	});
-	if ($('input[name="db[]"]:checked').length == 0)
-		document.getElementById('db_dropdown_text').innerHTML = " -- Select Database(s) -- ";
-}
-
-// SAP Products dropdown
-function checkBoxes_sp() {
-	sp = [];
-	document.getElementById('sp_dropdown_text').innerHTML = "";
-	$('input[name="sp[]"]:checked').each(function() {
-		sp.push($(this).val());
-		document.getElementById('sp_dropdown_text').innerHTML += $(this).parent().text() + ", ";
-	});
-	if ($('input[name="sp[]"]:checked').length == 0)
-		document.getElementById('sp_dropdown_text').innerHTML = " -- Select SAP Product(s) -- ";
-}
-
-function checkKMS() {
-	var doc_id = document.getElementById('kms_id').value;
-	check_kms_result = false;
-	if (doc_id != "") {
-		$.ajax({
-			type: "POST",
-			url: "process.php",
-			data: {
-				action: 'check_kms',
-				doc_id: doc_id
-			},
-			dataType: 'json'
-		})
-		.done(function(data) {
-			if (data) {
-				$('#kms_id').css("border", "1px solid #aaa");
-				check_kms_result = true;
-			}
-			else {
-				$('#kms_id').css("border", "2px solid red");
-				//alert("Invalid KMS document ID! Please check if the document ID is correct and try again.");
-				check_kms_result = false;
-			}
-			console.log(check_kms_result);
-		});
-	}
-}
-
-function removeName() {
-	var val = $('#primary_res').val();
-	$('.sec_res_chkbox').parent().each(function() {
-		$(this).show();
-	});
-	$('.sec_res_chkbox[value=' + val + ']').parent().hide();
-}
-
-// Get data
-function clickSaveBtn() {
-	var kms_id = document.getElementById('kms_id').value;
-
-	if ((kms_id != "" && check_kms_result) || kms_id == '') {
-		var chg = new Array();
-		chg[0] = document.getElementById('chg_ticket_id').value;
-		chg[1] = document.getElementById('chg_type').value;
-		chg[2] = document.getElementById('chg_desc').value;
-		chg[3] = document.getElementById('account').value;
-		chg[4] = document.getElementById('sids').value;
-		chg[5] = document.getElementById('servers').value;
-		chg[6] = document.getElementById('actions').value;
-		chg[7] = document.getElementById('datepicker1').value;
-		chg[8] = document.getElementById('sched_timepicker1').value;
-		chg[9] = document.getElementById('datepicker2').value;
-		chg[10] = document.getElementById('sched_timepicker2').value;
-		chg[11] = document.getElementById('datepicker3').value;
-		chg[12] = document.getElementById('sched_timepicker3').value;
-		chg[13] = document.getElementById('datepicker4').value;
-		chg[14] = document.getElementById('sched_timepicker4').value;
-		chg[15] = document.getElementById('cust_timezone').value;
-		chg[16] = document.getElementById('reference').value;
-		chg[17] = document.getElementById('form_status_dropdown').value;
-		chg[18] = tinymce.activeEditor.getContent();
-		//chg[18] = document.getElementById('notes').value;
-		chg[19] = document.getElementById('primary_res').value;
-		chg[20] = kms_id;
-
-		if (chg[6] == 'Execute Change')
-			var chg_act = document.getElementById('activity_dropdown').value;
-		else
-			var chg_act = 0;
-
-		var chg_defined = false;
-		if ((chg[6] == 'Execute Change' && chg_act != "") || chg[6] != 'Execute Change')
-			chg_defined = true;
-
-		if (checkDate() && confirmComplete(chg) && chg_defined && confirmSubmit()) {
-			var time1 = convertTo24(chg[8]);
-			var time2 = convertTo24(chg[10]);
-			var time3 = convertTo24(chg[12]);
-			var time4 = convertTo24(chg[14]);
-
-			var date1 = chg[7].replace(/(..).(..).(....)/, "$3-$1-$2");
-			var date2 = chg[9].replace(/(..).(..).(....)/, "$3-$1-$2");
-			var date3 = chg[11].replace(/(..).(..).(....)/, "$3-$1-$2");
-			var date4 = chg[13].replace(/(..).(..).(....)/, "$3-$1-$2");
-
-			$.ajax({
-				type: "POST",
-				url: "process.php",
-				data: {
-					action: "create_item",
-					chg_id: chg[0],
-					chg_type: chg[1],
-					chg_desc: chg[2],
-					acct: chg[3],
-					sids: chg[4],
-					servers: chg[5],
-					chg_action: chg[6],
-					chg_act: chg_act,
-					date1: date1,
-					time1: time1,
-					date2: date2,
-					time2: time2,
-					date3: date3,
-					time3: time3,
-					date4: date4,
-					time4: time4,
-					timezone: chg[15],
-					reference: chg[16],
-					status: chg[17],
-					notes: chg[18],
-					primary_res: chg[19],
-					sec_res: sec_resources,
-					os: os,
-					db: db,
-					sp: sp,
-					kms_id: chg[20]
-				}
-			})
-			.done(function(msg) {
-				alert("New item added!");
-				window.location.href = "/delta/";
-			});
-		}
-		else if (!chg_defined) {
-			alert("You must choose what change activity is being done!");
-			$('#activity_dropdown').addClass("required-field");
-			setTimeout(function() {$('#activity_dropdown').removeClass("required-field");}, 1500);
-		}
-	}
-	else if (kms_id != '' && !check_kms_result) {
-		alert("Invalid KMS document ID! Please check if the document ID is correct and try again.");
-	}
-}
-
-// Confirm complete
-function confirmComplete(chg_ar) {
-	var conf = true;
-	for (var a = 0; a < chg_ar.length; a++) {
-		console.log(chg_ar[a]);
-		if (a == 4 || a == 5 || a == 20)
-			continue;
-		else {
-			if (chg_ar[a] == "") {
-				alert("Fields marked with a red asterisk are required!");
-				conf = false;
-				break;	
-			}
-		}
-	}
-
-	var num_os = $('input[name="os[]"]:checked').length;
-	var num_db = $('input[name="db[]"]:checked').length;
-	var num_sp = $('input[name="sp[]"]:checked').length;
-	var num_sr = $('input[name="sec_resources[]"]:checked').length;
-
-	if ((chg_ar[6] == 'Execute Change' && (num_os == 0 || num_db == 0 || num_sp == 0)) || num_sr == 0)
-		conf = false;
-
-	return conf;
-}
-
-// Confirm submit
-function confirmSubmit() {
-	return confirm("Save this change item to the tracker?");
-}
-
-// Check actions field
-function checkAction() {
-	var act = document.getElementById('actions').value;
-	if (act == 'Execute Change') {
-		$('#activity_dropdown').css("visibility", "visible");
-		$('.db_os_sp_tr').css("display", "table-row");
-	}
-	else {
-		$('#activity_dropdown').css("visibility", "hidden");
-		if ($('#pipeline').is(':checked')) {
-			document.getElementById('pipeline').checked = false;
-			$('#pipeline').trigger("change");
-		}
-		$('.db_os_sp_tr').css("display", "none");
-	}
-
-	if (act == 'Import Transport') {
-		$('.time_options_tr').css("display", "table-row");
-	}
-	else {
-		if ($('#immediate').is(":checked")) {
-			document.getElementById('immediate').checked = false;
-			$('#immediate').trigger("change");
-		}
-		$('.time_options_tr').css("display", "none");
-	}
-
-}
-
-function checkDate() {
-	var start_d = $('#datepicker3').val().replace(/(..).(..).(....)/, "$3-$1-$2");
-	var start_t = convertTo24($('#sched_timepicker3').val());
-	var startstr = start_d + " " + start_t;
-	var end_d = $('#datepicker4').val().replace(/(..).(..).(....)/, "$3-$1-$2");
-	var end_t = convertTo24($('#sched_timepicker4').val());
-	var endstr = end_d + " " + end_t;
-	
-	var conf = moment(startstr).isBefore(endstr);
-
-	if (!conf) {
-		alert("Invalid date! End date and time must be after Start date and time!");
-		$('#datepicker4').addClass("required-field");
-		$('#sched_timepicker4').addClass("required-field");
-		setTimeout(function() {$('#datepicker4').removeClass("required-field");}, 1500);
-		setTimeout(function() {$('#sched_timepicker4').removeClass("required-field");}, 1500);
-	}
-
-	return conf;
-}
-
-// Dropdown behavior
+// ON LOAD FUNCTIONS
 $(document).ready(function() {
 	if (trigger_event == 'new_item') {
 		setTimeout(function() {
@@ -294,6 +28,12 @@ $(document).ready(function() {
 	else if (trigger_event == 'my_uploads') {
 		setTimeout(function() {
 			filterColumn(0);
+		}, 500);
+	}
+	else if (trigger_event.indexOf('all-') > -1) {
+		setTimeout(function() {
+			$('.sidebar-div').animate({"margin-left": '+=22.5%'});
+			$('.all-acct-list_li#' + trigger_event).trigger('click');
 		}, 500);
 	}
 
@@ -555,10 +295,13 @@ $(document).ready(function() {
 		else if (id == 'chg-view-overdue')
 			var stat = 'Overdue';
 
-		$('#chg-list-th-7').val(stat);
+		$('#chg-list-th-9').val(stat);
 
 		$('.loading').css("display", "block");
-		filterColumn(7);
+		filterColumn(9);
+		setTimeout(function(){
+			$('#change-list_showlabel').append("<br><a onclick=\"downloadView('status', '" + stat + "')\">Export this view to an Excel file</a>");
+		}, 2000);
 	});
 
 	$('.change-list-view-date-btn').on('click', function() {
@@ -589,41 +332,11 @@ $(document).ready(function() {
 				$('#change-list-tbody').html("");
 				if (changes.length == 0) {
 					$('#change-list_showlabel').html("");
-					document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=8> No change items found </td></tr>";
+					document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=9> No change items found </td></tr>";
 				}
 				else {
-					for (var x = 0; x < changes.length; x++) {
-						$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
-						if (changes[x]['status'] == 'In Progress')
-							var stat_hl = "status-inprogress";
-						else if (changes[x]['status'] == 'Completed')
-							var stat_hl = "status-completed";
-						else if (changes[x]['status'] == 'Failed')
-							var stat_hl = "status-failed";
-						else if (changes[x]['status'] == 'Overdue')
-							var stat_hl = "status-overdue";
-						else 
-							var stat_hl = "";
-						document.getElementById('change-list-tbody').innerHTML += "<tr>"
-						+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-						+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-						+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
-								//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
-						+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-						+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-						+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-						+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
-						+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
-						+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
-						+ "</tr>";
-						if (x == row_limit) {
-							var next_row = x + 1;
-							document.getElementById('change-list-tbody').innerHTML += "<tr>"
-							+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
-							+ "</tr>";
-							break;
-						}
-					}
+					displayChangeList(changes);
+					$('#change-list_showlabel').append("<br><a onclick=\"downloadView('date', '" + date_filter + "')\">Export this view to an Excel file</a>");
 				}
 				$('.loading').css("display", "none");
 			});
@@ -633,22 +346,364 @@ $(document).ready(function() {
 	$('#new_item').on('show.bs.modal', function() {
 
 	});
+
+	$('.acct_table_th').on('click', function() {
+		var column = $(this).attr('id');
+		$('#my_accounts_tbody').html("");
+
+		if (column == 'acct_abbrev') {
+			accounts.sort(function(a, b) {
+				if (a[column] == b[column])
+					return 0;
+				if (a[column] > b[column])
+					return 1;
+				if (a[column] < b[column])
+					return -1;
+			});
+		} 
+		else {
+			accounts.sort(function(a, b) {
+				if (parseInt(a[column]) == parseInt(b[column]))
+					return 0;
+				if (parseInt(a[column]) > parseInt(b[column]))
+					return 1;
+				if (parseInt(a[column]) < parseInt(b[column]))
+					return -1;
+			});
+		}
+
+		$('.acct-col-sorted').each(function() {
+			if ($(this).attr('id') != column) {
+				$(this).removeClass('acct-col-sorted');
+				$(this).removeClass('acct-col-rev-sorted');
+			}
+		});
+
+		if ($(this).hasClass('acct-col-sorted')) {
+			$(this).removeClass('acct-col-sorted');
+			$(this).addClass('acct-col-rev-sorted');
+		}
+		else {
+			$(this).removeClass('acct-col-rev-sorted');	
+			$(this).addClass('acct-col-sorted');
+		}
+
+		if ($(this).hasClass('acct-col-rev-sorted'))
+			accounts.reverse();
+
+		for (var i = 0; i < accounts.length; i++) {
+			document.getElementById('my_accounts_tbody').innerHTML += "<tr>"
+			+ "<td class='account_col'> <span id='acct_abbreviation'> <a href=account.php?id=" + accounts[i]['acct_abbrev'] + "><b>" + accounts[i]['acct_abbrev'] + " </b></a></span><br>"
+			+ "<span id='acct_name'><i> " + accounts[i]['acct_name'] + " </i></span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'All')\">" + accounts[i]['total'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Open')\">" + accounts[i]['open'] + "</span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'In Progress')\">" + accounts[i]['inpr'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Completed')\">" + accounts[i]['comp'] + "</span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Cancelled')\">" + accounts[i]['canc'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Failed')\">" + accounts[i]['fail'] + "</span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Week')\">" + accounts[i]['week'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Month')\">" + accounts[i]['mont'] + "</span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Normal')\">" + accounts[i]['norm'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Standard')\">" + accounts[i]['stnd'] + "</span></td>"
+			+ "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Import Transport')\">" + accounts[i]['tran'] + "</span></td>"
+			+ "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" + accounts[i]['acct_abbrev'] + "', 'Emergency')\">" + accounts[i]['emer'] + "</span></td>"
+			+ "</tr>";
+		}
+
+	});
+
+	$('#change_prechecked').on('click', function() {
+		alert("Prompt user for notes");
+	});
 });
 
-function sortColumn(id) {
-	$('#change-list-tbody').html("");
-	changes.sort(function(a,b) {
-		if (a[id] == b[id])
-			return 0;
-		if (a[id] > b[id])
-			return 1;
-		if (a[id] < b[id])
-			return -1;
+// Secondary resources dropdown
+function checkBoxes_resources() {
+	sec_resources = [];
+	document.getElementById('sr_dropdown_text').innerHTML = "";
+	$('input[name="sec_resources[]"]:checked').each(function() {
+		sec_resources.push($(this).val());
+		document.getElementById('sr_dropdown_text').innerHTML += $(this).parent().text();
 	});
-	if ($('#' + id).hasClass("rev-sorted")) {
-		changes.reverse();
+	if ($('input[name="sec_resources[]"]:checked').length == 0)
+		document.getElementById('sr_dropdown_text').innerHTML = " -- Select Secondary Resource(s) -- ";
+	else if ($('input[name="sec_resources[]"]:checked').length > 1)
+		document.getElementById('sr_dropdown_text').innerHTML = sec_resources.length + " selected";
+}
+
+// OS dropdown
+function checkBoxes_os() {
+	os = [];
+	document.getElementById('os_dropdown_text').innerHTML = "";
+	$('input[name="os[]"]:checked').each(function() {
+		os.push($(this).val());
+		document.getElementById('os_dropdown_text').innerHTML += $(this).parent().text() + ", ";
+	});
+	if ($('input[name="os[]"]:checked').length == 0)
+		document.getElementById('os_dropdown_text').innerHTML = " -- Select Operating System(s) -- ";
+}
+
+// Databases dropdown
+function checkBoxes_db() {
+	db = [];
+	document.getElementById('db_dropdown_text').innerHTML = "";
+	$('input[name="db[]"]:checked').each(function() {
+		db.push($(this).val());
+		document.getElementById('db_dropdown_text').innerHTML += $(this).parent().text() + ", ";
+	});
+	if ($('input[name="db[]"]:checked').length == 0)
+		document.getElementById('db_dropdown_text').innerHTML = " -- Select Database(s) -- ";
+}
+
+// SAP Products dropdown
+function checkBoxes_sp() {
+	sp = [];
+	document.getElementById('sp_dropdown_text').innerHTML = "";
+	$('input[name="sp[]"]:checked').each(function() {
+		sp.push($(this).val());
+		document.getElementById('sp_dropdown_text').innerHTML += $(this).parent().text() + ", ";
+	});
+	if ($('input[name="sp[]"]:checked').length == 0)
+		document.getElementById('sp_dropdown_text').innerHTML = " -- Select SAP Product(s) -- ";
+}
+
+function checkKMS() {
+	var doc_id = document.getElementById('kms_id').value;
+	check_kms_result = false;
+	if (doc_id != "") {
+		$.ajax({
+			type: "POST",
+			url: "process.php",
+			data: {
+				action: 'check_kms',
+				doc_id: doc_id
+			},
+			dataType: 'json'
+		})
+		.done(function(data) {
+			if (data) {
+				$('#kms_id').css("border", "1px solid #aaa");
+				check_kms_result = true;
+			}
+			else {
+				$('#kms_id').css("border", "2px solid red");
+				//alert("Invalid KMS document ID! Please check if the document ID is correct and try again.");
+				check_kms_result = false;
+			}
+			console.log(check_kms_result);
+		});
 	}
+}
+
+function removeName() {
+	var val = $('#primary_res').val();
+	$('.sec_res_chkbox').parent().each(function() {
+		$(this).show();
+	});
+	$('.sec_res_chkbox[value=' + val + ']').parent().hide();
+
+	$('#change_prechecked').prop('disabled', !(val == my_id));
+}
+
+// Get data
+function clickSaveBtn() {
+	var kms_id = document.getElementById('kms_id').value;
+
+	if ((kms_id != "" && check_kms_result) || kms_id == '') {
+		var chg = new Array();
+		chg[0] = document.getElementById('chg_ticket_id').value;
+		chg[1] = document.getElementById('chg_type').value;
+		chg[2] = document.getElementById('chg_desc').value;
+		chg[3] = document.getElementById('account').value;
+		chg[4] = document.getElementById('sids').value;
+		chg[5] = document.getElementById('servers').value;
+		chg[6] = document.getElementById('actions').value;
+		chg[7] = document.getElementById('datepicker1').value;
+		chg[8] = document.getElementById('sched_timepicker1').value;
+		chg[9] = document.getElementById('datepicker2').value;
+		chg[10] = document.getElementById('sched_timepicker2').value;
+		chg[11] = document.getElementById('datepicker3').value;
+		chg[12] = document.getElementById('sched_timepicker3').value;
+		chg[13] = document.getElementById('datepicker4').value;
+		chg[14] = document.getElementById('sched_timepicker4').value;
+		chg[15] = document.getElementById('cust_timezone').value;
+		chg[16] = document.getElementById('reference').value;
+		chg[17] = document.getElementById('form_status_dropdown').value;
+		chg[18] = tinymce.activeEditor.getContent();
+		//chg[18] = document.getElementById('notes').value;
+		chg[19] = document.getElementById('primary_res').value;
+		chg[20] = kms_id;
+		if ($('#change_ready').is(":checked"))
+			var is_approved = 1;
+		else
+			var is_approved = 0;
+
+		if (chg[6] == 'Execute Change')
+			var chg_act = document.getElementById('activity_dropdown').value;
+		else if (chg[6] == 'Project')
+			var chg_act = document.getElementById('project_dropdown').value;
+		else
+			var chg_act = 0;
+
+		var chg_defined = false;
+		if (((chg[6] == 'Execute Change' || chg[6] == 'Project') && chg_act != "") || (chg[6] != 'Execute Change' && chg[6] != 'Project'))
+			chg_defined = true;
+
+		if (checkDate() && confirmComplete(chg) && chg_defined && confirmSubmit()) {
+			var time1 = convertTo24(chg[8]);
+			var time2 = convertTo24(chg[10]);
+			var time3 = convertTo24(chg[12]);
+			var time4 = convertTo24(chg[14]);
+
+			var date1 = chg[7].replace(/(..).(..).(....)/, "$3-$1-$2");
+			var date2 = chg[9].replace(/(..).(..).(....)/, "$3-$1-$2");
+			var date3 = chg[11].replace(/(..).(..).(....)/, "$3-$1-$2");
+			var date4 = chg[13].replace(/(..).(..).(....)/, "$3-$1-$2");
+
+			$.ajax({
+				type: "POST",
+				url: "process.php",
+				data: {
+					action: "create_item",
+					chg_id: chg[0],
+					chg_type: chg[1],
+					chg_desc: chg[2],
+					acct: chg[3],
+					sids: chg[4],
+					servers: chg[5],
+					chg_action: chg[6],
+					chg_act: chg_act,
+					date1: date1,
+					time1: time1,
+					date2: date2,
+					time2: time2,
+					date3: date3,
+					time3: time3,
+					date4: date4,
+					time4: time4,
+					timezone: chg[15],
+					reference: chg[16],
+					status: chg[17],
+					notes: chg[18],
+					primary_res: chg[19],
+					sec_res: sec_resources,
+					os: os,
+					db: db,
+					sp: sp,
+					kms_id: chg[20],
+					approved: is_approved
+				}
+			})
+			.done(function(msg) {
+				alert("New item added!");
+				window.location.href = "/delta/";
+			});
+		}
+		else if (!chg_defined) {
+			alert("You must choose what change activity is being done!");
+			$('#activity_dropdown').addClass("required-field");
+			setTimeout(function() {$('#activity_dropdown').removeClass("required-field");}, 1500);
+		}
+		else {
+			alert("Fields with an asterisk are required! Fill in all required fields before proceeding.");
+		}
+	}
+	else if (kms_id != '' && !check_kms_result) {
+		alert("Invalid KMS document ID! Please check if the document ID is correct and try again.");
+	}
+}
+
+// Confirm complete
+function confirmComplete(chg_ar) {
+	var conf = true;
+	for (var a = 0; a < chg_ar.length; a++) {
+		console.log(chg_ar[a]);
+		if (a == 4 || a == 5 || a == 20)
+			continue;
+		else {
+			if (chg_ar[a] == "") {
+				alert("Fields marked with a red asterisk are required!");
+				conf = false;
+				break;	
+			}
+		}
+	}
+
+	var num_os = $('input[name="os[]"]:checked').length;
+	var num_db = $('input[name="db[]"]:checked').length;
+	var num_sp = $('input[name="sp[]"]:checked').length;
+	var num_sr = $('input[name="sec_resources[]"]:checked').length;
+
+	if ((chg_ar[6] == 'Execute Change' && (num_os == 0 || num_db == 0 || num_sp == 0)) || num_sr == 0)
+		conf = false;
+
+	return conf;
+}
+
+// Confirm submit
+function confirmSubmit() {
+	return confirm("Save this change item to the tracker?");
+}
+
+// Check actions field
+function checkAction() {
+	var act = document.getElementById('actions').value;
+	if (act == 'Execute Change') {
+		$('#project_dropdown_td').css('display', 'none');
+		$('#activity_dropdown_td').css('display', 'table-cell');
+		$('#activity_dropdown').css("visibility", "visible");
+		$('.db_os_sp_tr').css("display", "table-row");
+	}
+	else if (act == 'Project') {
+		$('#project_dropdown_td').css('display', 'table-cell');
+		$('#activity_dropdown_td').css('display', 'none');
+	}
+	else {
+		$('#activity_dropdown_td').css('display', 'table-cell');
+		$('#project_dropdown_td').css('display', 'none');
+		$('#activity_dropdown').css("visibility", "hidden");
+		if ($('#pipeline').is(':checked')) {
+			document.getElementById('pipeline').checked = false;
+			$('#pipeline').trigger("change");
+		}
+		$('.db_os_sp_tr').css("display", "none");
+	}
+
+	if (act == 'Import Transport') {
+		$('.time_options_tr').css("display", "table-row");
+	}
+	else {
+		if ($('#immediate').is(":checked")) {
+			document.getElementById('immediate').checked = false;
+			$('#immediate').trigger("change");
+		}
+		$('.time_options_tr').css("display", "none");
+	}
+
+}
+
+function checkDate() {
+	var start_d = $('#datepicker3').val().replace(/(..).(..).(....)/, "$3-$1-$2");
+	var start_t = convertTo24($('#sched_timepicker3').val());
+	var startstr = start_d + " " + start_t;
+	var end_d = $('#datepicker4').val().replace(/(..).(..).(....)/, "$3-$1-$2");
+	var end_t = convertTo24($('#sched_timepicker4').val());
+	var endstr = end_d + " " + end_t;
 	
+	var conf = moment(startstr).isBefore(endstr);
+
+	if (!conf) {
+		alert("Invalid date! End date and time must be after Start date and time!");
+		$('#datepicker4').addClass("required-field");
+		$('#sched_timepicker4').addClass("required-field");
+		setTimeout(function() {$('#datepicker4').removeClass("required-field");}, 1500);
+		setTimeout(function() {$('#sched_timepicker4').removeClass("required-field");}, 1500);
+	}
+
+	return conf;
+}
+
+function displayChangeList(changes) {
 	for (var x = 0; x < changes.length; x++) {
 		$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
 		if (changes[x]['status'] == 'In Progress')
@@ -662,25 +717,59 @@ function sortColumn(id) {
 		else 
 			var stat_hl = "";
 		document.getElementById('change-list-tbody').innerHTML += "<tr>"
-		+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-		+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-		+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
-				//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
+		+ "<td width=8.5% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
+		+ "<td width=6.5%>" + changes[x]['team_name'] + "</td>"
+		+ "<td width=6% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
+		+ "<td width=8% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
 		+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-		+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-		+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-		+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
+		+ "<td width=13.5% id='chg_list-res'>" + changes[x]['name'] + "</td>"
+		+ "<td width=10.25% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
+		+ "<td width=10.25% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
 		+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
 		+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
 		+ "</tr>";
 		if (x == row_limit) {
 			var next_row = x + 1;
 			document.getElementById('change-list-tbody').innerHTML += "<tr>"
-			+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+			+ "<td colspan=9 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
 			+ "</tr>";
 			break;
 		}
 	}
+}
+
+function sortColumn(id) {
+	$('.loading').css("display", "block");
+	$('#change-list-tbody').html("");
+	if (id == 7 || id == 8) {
+		changes.sort(function(a,b) {
+			var date_a = moment(a[id], 'MMM DD, YYYY - hh:mmA');
+			var date_b = moment(b[id], 'MMM DD, YYYY - hh:mmA');
+			
+			if (moment(date_a).isSame(date_b))
+				return 0;
+			if (moment(date_a).isAfter(date_b))
+				return 1;
+			if (moment(date_a).isBefore(date_b))
+				return -1;
+		});
+	}
+	else {
+		changes.sort(function(a,b) {
+			if (a[id] == b[id])
+				return 0;
+			if (a[id] > b[id])
+				return 1;
+			if (a[id] < b[id])
+				return -1;
+		});
+	}
+	if ($('#' + id).hasClass("rev-sorted")) {
+		changes.reverse();
+	}
+	
+	displayChangeList(changes);
+	$('.loading').css("display", "none");
 }
 
 function filterColumn(id) {
@@ -691,11 +780,11 @@ function filterColumn(id) {
 		var action = 'filter_uploader';
 	else if (id == 1)
 		var action = 'filter_id';
-	else if (id == 2)
+	else if (id == 3)
 		var action = 'filter_acct';
-	else if (id == 4)
+	else if (id == 5)
 		var action = 'filter_title';
-	else if (id == 7)
+	else if (id == 9)
 		var action = 'filter_status';
 
 	setTimeout(function() {
@@ -713,45 +802,15 @@ function filterColumn(id) {
 			$('#change-list-tbody').html("");
 			if (changes.length == 0) {
 				$('#change-list_showlabel').html("");
-				document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=8> No change items found </td></tr>";
+				document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=9> No change items found </td></tr>";
 			}
 			else {
-				for (var x = 0; x < changes.length; x++) {
-					$('#change-list_showlabel').html("Showing " + (x + 1) + " of " + changes.length);
-					if (changes[x]['status'] == 'In Progress')
-						var stat_hl = "status-inprogress";
-					else if (changes[x]['status'] == 'Completed')
-						var stat_hl = "status-completed";
-					else if (changes[x]['status'] == 'Failed')
-						var stat_hl = "status-failed";
-					else if (changes[x]['status'] == 'Overdue')
-						var stat_hl = "status-overdue";
-					else 
-						var stat_hl = "";
-					document.getElementById('change-list-tbody').innerHTML += "<tr>"
-					+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-					+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-					+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
-							//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
-					+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-					+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-					+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-					+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
-					+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
-					+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
-					+ "</tr>";
-					if (x == row_limit) {
-						var next_row = x + 1;
-						document.getElementById('change-list-tbody').innerHTML += "<tr>"
-						+ "<td colspan=8 id='show-more_row'> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
-						+ "</tr>";
-						break;
-					}
-				}
+				displayChangeList(changes);
 			}
 			$('.loading').css("display", "none");
 		});
 	}, 1000);
+
 }
 
 function convertTimezone() {
@@ -808,22 +867,114 @@ function showMoreChanges(row_num) {
 			var stat_hl = "";
 		document.getElementById('change-list-tbody').innerHTML += "<tr>"
 		+ "<td width=8.25% id='chg_list-id'><a onclick='showDetails(" + changes[x]['item_id'] + ")'>" + changes[x]['change_ticket_id'] + "</a></td>"
-		+ "<td width=6.5% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
-		+ "<td width=10.5% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
-				//echo "<td width=25%>" . $changes[$x]['actions'] . "</td>";
+		+ "<td width=6.5%>" + changes[x]['team_name'] + "</td>"
+		+ "<td width=6% id='chg_list-aa'>" + changes[x]['acct_abbrev'] + "</td>"
+		+ "<td width=8% id='chg_list-an'>" + changes[x]['acct_name'] + "</td>"
 		+ "<td width=24.75% id='chg_list-cd'>" + changes[x]['description'] + "</td>"
-		+ "<td width=15% id='chg_list-res'>" + changes[x]['name'] + "</td>"
-		+ "<td width=12.75% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
-		+ "<td width=12.75% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
+		+ "<td width=13.5% id='chg_list-res'>" + changes[x]['name'] + "</td>"
+		+ "<td width=10.25% id='chg_list-st'>" + changes[x]['pht_start_datetime'] + "</td>"
+		+ "<td width=10.25% id='chg_list-et'>" + changes[x]['pht_end_datetime'] + "</td>"
 		+ "<td class='" + stat_hl + "' id='chg_list-status'>" + changes[x]['status'] 
 		+ "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(" + changes[x]['item_id'] + ")'>View Notes</a></i></td>"
 		+ "</tr>";
 		if (x == row_limit) {
 			var next_row = x + 1;
 			document.getElementById('change-list-tbody').innerHTML += "<tr id='show-more_row'>"
-			+ "<td colspan=8> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
+			+ "<td colspan=9> <a onclick='showMoreChanges(" + next_row + ")'>Show more</a></td>"
 			+ "</tr>";
 			break;
 		}
 	}
+}
+
+function selectTeam() {
+	var team = $('#team').val();
+	$('#account').find('option').remove().end().append('<option value=""> -- Select Account -- </option>').val('');
+	$('#primary_res').find('option').remove().end().append('<option value=""> -- Select Primary Resource -- </option>').val('');
+	$('.sec_res_dropdown ul').html("");
+	$('#sr_dropdown_text').html(" -- Select Secondary Resource(s) -- ");
+
+	$.ajax({
+		type: "POST",
+		url: "process.php",
+		data: {
+			action: 'get_accounts_by_team',
+			team: team
+		},
+		dataType: 'json'
+	})
+	.done(function(data) {
+		for (var x = 0; x < data.length; x++) {
+			$('#account').append($('<option>', {
+				value: data[x][0],
+				text: data[x][1] + " - " + data[x][2]
+			}));
+		}
+	});
+
+	$.ajax({
+		type: "POST",
+		url: "process.php",
+		data: {
+			action: 'get_resources_by_team',
+			team: team
+		},
+		dataType: 'json'
+	})
+	.done(function(data) {
+		for (var x = 0; x < data.length; x++) {
+			$('#primary_res').append($('<option>', {
+				value: data[x][0],
+				text: data[x][1]
+			}));
+
+			$('.sec_res_dropdown ul').append("<li><input type='checkbox' class='sec_res_chkbox' id='sec_res_chkbox' name='sec_resources[]' value=" + data[x][0] + " onchange='checkBoxes_resources()'>" + data[x][1] + " </li>");
+		}
+	});
+}
+
+function accountModalFilter(acct, filter) {
+	var action = "acct_modal_filter";
+
+	$('#my_accounts').modal('toggle');
+	if (filter == 'All') 
+		var condition = '';		
+	else if (filter == 'Open' || filter == 'In Progress' || filter == 'Completed' || filter == 'Cancelled' || filter == 'Failed')
+		var condition = " AND i.status = '" + filter + "'";
+	else if (filter == 'Normal' || filter == 'Standard' || filter == 'Emergency')
+		var condition = " AND i.change_type LIKE '" + filter + "%'";
+	else if (filter == 'Import Transport')
+		var condition = " AND i.actions = '" + filter + "'";
+	else if (filter == 'Week')
+		var condition = " AND WEEK(i.pht_start_datetime, 1) = WEEK(NOW(), 1) AND YEAR(i.pht_start_datetime) = YEAR(NOW())";
+	else if (filter == 'Month')
+		var condition = " AND MONTH(i.pht_start_datetime) = MONTH(NOW()) AND YEAR(i.pht_start_datetime) = YEAR(NOW())";
+	$.ajax({
+		type: "POST",
+		url: "process.php",
+		data: {
+			acct: acct,
+			action: action,
+			condition: condition
+		},
+		dataType: 'json'
+	})
+	.done(function(data) {
+		$('#change-list-tbody').html("");
+		if (data.length == 0) {
+			$('#change-list_showlabel').html("");
+			document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=9> No change items found </td></tr>";
+		}
+		else {
+			displayChangeList(data);
+		}
+	});
+}
+
+function downloadView(type, view_filter) {
+	$('#download-view_form #filter_type').val(type);
+	$('#download-view_form #filter').val(view_filter);
+
+	$('#download-view_form').submit();
+	
 }

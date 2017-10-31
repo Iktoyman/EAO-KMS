@@ -1,11 +1,21 @@
 <?php
 	$activities = array();
-	$act_res = mysqli_query($ch_conn, "SELECT activity_id, activity_name FROM activity WHERE activity_id != 99 ORDER BY activity_name");
+	$act_res = mysqli_query($ch_conn, "SELECT activity_id, activity_name FROM activity WHERE activity_classification = 'Execute Change' AND activity_id != 99 ORDER BY activity_name");
 	while ($act_row = mysqli_fetch_array($act_res)) 
 		$activities[] = $act_row;
 
+	$projects = array();
+	$proj_res = mysqli_query($ch_conn, "SELECT activity_id, activity_name FROM activity WHERE activity_classification = 'Project' AND activity_id != 99 ORDER BY activity_id");
+	while ($proj_row = mysqli_fetch_array($proj_res))
+		$projects[] = $proj_row;
+
 	$resources = array();
-	$res_res = mysqli_query($ch_conn, "SELECT user_id, CONCAT(last_name, ', ', first_name) AS name FROM users WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY last_name");
+	$resources[0]['user_id'] = $_SESSION['ct_uid'];
+	$resources[0]['name'] = $_SESSION['last_name'] . ", " . $_SESSION['first_name'];
+	if ($_SESSION['ct_team'] == 99)
+		$res_res = mysqli_query($ch_conn, "SELECT user_id, CONCAT(last_name, ', ', first_name) AS name FROM users WHERE team_id = " . $managed_teams_ids[0] . " ORDER BY last_name");
+	else
+		$res_res = mysqli_query($ch_conn, "SELECT user_id, CONCAT(last_name, ', ', first_name) AS name FROM users WHERE team_id = " . $_SESSION['ct_team'] . " ORDER BY last_name");
 	while ($res_row = mysqli_fetch_array($res_res)) 
 		$resources[] = $res_row;
 
@@ -65,18 +75,30 @@
 							<td> 
 								<select name="actions" id="actions" onchange="checkAction()">
 									<option value=""> -- Select Action -- </option>
+									<option value="Project"> Projects </option>
 									<option value="Execute Change"> Execute Change </option>
 									<option value="Import Transport"> Import Transport </option>
 									<option value="Start / Stop"> Start / Stop </option>
 									<option value="Health Check"> Health Check </option>
 								</select>
 							</td>
-							<td colspan=2>
+							<td colspan=2 id='activity_dropdown_td'>
 								<select name="activity_type" id="activity_dropdown">
 									<option value=""> -- Select Activity -- </option>
 									<?php
 										for ($a = 0; $a < sizeof($activities); $a++) {
 											echo "<option value=" . $activities[$a]['activity_id'] . "> " . $activities[$a]['activity_name'] . "</option>";
+										}
+									?>
+									<option value=99> Others... (Indicate in Notes) </option>
+								</select>
+							</td>
+							<td colspan=2 id='project_dropdown_td'>
+								<select name='project_type' id='project_dropdown'>
+									<option value=''> -- Select Project -- </option>
+									<?php
+										for ($b = 0; $b < sizeof($projects); $b++) {
+											echo "<option value=" . $projects[$b]['activity_id'] . "> " . $projects[$b]['activity_name'] . "</option>";
 										}
 									?>
 									<option value=99> Others... (Indicate in Notes) </option>
@@ -88,14 +110,31 @@
 							<td colspan=4 style="text-align: center;"> <hr> </td>
 						</tr>
 
+						<?php
+							if ($_SESSION['ct_team'] != 99 || sizeof($managed_teams_ids) <= 1) {
+								echo "<tr style='display:none'>";
+							}
+							else
+								echo "<tr>";
+							echo "<td> Team </td>";
+							echo "<td>";
+								echo "<select name='team' id='team' onchange='selectTeam()'>";
+									for ($i = 0; $i < sizeof($managed_teams_ids); $i++) {
+										echo "<option value=" . $managed_teams_ids[$i] . "> " . $managed_teams_names[$i] . "</option>";
+									}
+								echo "</select>";
+							echo "</td>";
+							echo "</tr>";
+						?>
+
 						<tr>
 							<td> Account <span class="asterisk">*</span></td>
 							<td> 
 								<select name="account" id="account">
 									<option value=""> -- Select Account -- </option>
 									<?php
-										for ($i = 0; $i < sizeof($all_accounts); $i++) {
-											echo "<option value=" . $all_accounts[$i]['acct_id'] . "> " . $all_accounts[$i]['acct_abbrev'] . " - " . $all_accounts[$i]['acct_name'] . " </option>";
+										for ($i = 0; $i < sizeof($team_accounts); $i++) {
+											echo "<option value=" . $team_accounts[$i]['acct_id'] . "> " . $team_accounts[$i]['acct_abbrev'] . " - " . $team_accounts[$i]['acct_name'] . " </option>";
 										}
 									?>
 								</select>
@@ -262,19 +301,31 @@
 						</tr> 
 
 						<tr>
-							<td colspan=4> 
-								<div id="form_status_div">
-									Status <span class="asterisk">*</span>&nbsp;&nbsp;
+							<td> </td>
+							<td>
+								Is this change <b>Approved</b> and <b>Ready for Implementation</b>?&nbsp;&nbsp;
+								<input type='checkbox' name='change_ready' id='change_ready'>
+							</td>
+							<td colspan=2>
+								Has this change been <b>Pre-checked</b> before Execution by the resource?&nbsp;&nbsp;
+								<input type='checkbox' name='change_prechecked' id='change_prechecked' disabled>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								Status <span class="asterisk">*</span>&nbsp;&nbsp;
+							</td>
+							<td>
 									<select name="status" id="form_status_dropdown">
-										<!-- <option value=""> -- Select Status -- </option> -->
 										<option value="Open"> Open </option>
 										<option value="In Progress"> In Progress </option>
 										<option value="Completed"> Completed </option>
 										<option value="Cancelled"> Cancelled </option>
 										<option value="Failed"> Failed </option>
 									</select>
-								</div>
 							</td>
+							<td colspan=2></td>
 						</tr>
 
 					</table>
@@ -283,7 +334,7 @@
 				</form>
 			</div>
 		</div>
-	</div>
+	</div>F
 </div>
 <!-- END CREATE NEW ITEM MODAL -->
 
@@ -300,39 +351,39 @@
 			<div class="modal-body" style="color: black;">
 				<table class="table table-hover my_accounts_table">
 					<thead><tr>
-						<td class='account_col'> Account </td>
-						<td> Total # of Changes </td>
-						<td> Open Changes</td>
-						<td> Changes in Progress </td>
-						<td> Completed Changes </td>
-						<td> Cancelled Changes </td>
-						<td> Failed Changes </td>
-						<td> Changes this Week </td>
-						<td> Changes this Month</td>
-						<td> Normal Changes </td>
-						<td> Standard Changes </td>
-						<td> Transports </td>
-						<td> Emergency Changes </td>
+						<td class='acct_table_th account_col' id='acct_abbrev'> Account </td>
+						<td class='acct_table_th' id='total'> Total # of Changes </td>
+						<td class='acct_table_th' id='open'> Open Changes</td>
+						<td class='acct_table_th' id='inpr'> Changes in Progress </td>
+						<td class='acct_table_th' id='comp'> Completed Changes </td>
+						<td class='acct_table_th' id='canc'> Cancelled Changes </td>
+						<td class='acct_table_th' id='fail'> Failed Changes </td>
+						<td class='acct_table_th' id='week'> Changes this Week </td>
+						<td class='acct_table_th' id='mont'> Changes this Month</td>
+						<td class='acct_table_th' id='norm'> Normal Changes </td>
+						<td class='acct_table_th' id='stnd'> Standard Changes </td>
+						<td class='acct_table_th' id='tran'> Transports </td>
+						<td class='acct_table_th' id='emer'> Emergency Changes </td>
 					</tr></thead>
 					
-					<tbody>
+					<tbody id='my_accounts_tbody'>
 					<?php
 						for($a = 0; $a < sizeof($accounts); $a++) {
 							echo "<tr>";
-							echo "<td class='account_col'> <span id='acct_abbreviation'> <a href=account.php?id=" . $accounts[$a]['acct_id'] . "><b>" . $accounts[$a]['acct_abbrev'] . " </b></a></span><br>";
+							echo "<td class='account_col'> <span id='acct_abbreviation'> <a href=account.php?id=" . $accounts[$a]['acct_abbrev'] . "><b>" . $accounts[$a]['acct_abbrev'] . " </b></a></span><br>";
 							echo "<span id='acct_name'><i> " . $accounts[$a]['acct_name'] . " </i></span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['total'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['open'] . "</span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['inpr'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['comp'] . "</span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['canc'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['fail'] . "</span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['week'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['mont'] . "</span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['norm'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['stnd'] . "</span></td>";
-							echo "<td id='acct_table_td1'><span id='acct_table_num'>" . $summ[$a]['tran'] . "</span></td>";
-							echo "<td id='acct_table_td2'><span id='acct_table_num'>" . $summ[$a]['emer'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'All')\">" . $accounts[$a]['total'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Open')\">" . $accounts[$a]['open'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'In Progress')\">" . $accounts[$a]['inpr'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Completed')\">" . $accounts[$a]['comp'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Cancelled')\">" . $accounts[$a]['canc'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Failed')\">" . $accounts[$a]['fail'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Week')\">" . $accounts[$a]['week'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Month')\">" . $accounts[$a]['mont'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Normal')\">" . $accounts[$a]['norm'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Standard')\">" . $accounts[$a]['stnd'] . "</span></td>";
+							echo "<td id='acct_table_td1'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Import Transport')\">" . $accounts[$a]['tran'] . "</span></td>";
+							echo "<td id='acct_table_td2'><span class='acct_table_num' onclick=\"accountModalFilter('" . $accounts[$a]['acct_abbrev'] . "', 'Emergency')\">" . $accounts[$a]['emer'] . "</span></td>";
 							echo "</tr>";
 						}
 					?>
@@ -345,4 +396,8 @@
 
 <!-- END MY ACCOUNTS MODAL -->
 
+<form id='download-view_form' method="POST" action='export_view.php'>
+	<input id='filter_type' name='filter_type' type='hidden' value=''>
+	<input id='filter' name='filter' type='hidden' value=''>
+</form>
 

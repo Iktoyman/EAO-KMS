@@ -23,3 +23,12 @@
     }
   </style>
   <![endif]-->
+
+<?php  
+  // GET ALL ACCOUNTS REGARDLESS OF TEAM
+  $get_all_accounts_qry = "SELECT acct_abbrev, acct_name FROM account GROUP BY acct_abbrev ORDER BY acct_abbrev";
+  $get_all_accounts = mysqli_query($ch_conn, $get_all_accounts_qry);
+  $all_accounts = array();
+  while ($acct_row = mysqli_fetch_array($get_all_accounts))
+    $all_accounts[] = $acct_row;
+?>
