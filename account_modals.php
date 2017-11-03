@@ -224,6 +224,25 @@
 
 <!-- END ADD NOTES MODAL -->
 
+<!-- EDIT PRECHECK NOTES MODAL -->
+<div class="modal fade" id="edit_precheck_notes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content add_notes_modal"> 
+			<div class="modal-body" style="color: black;">
+				<h4> Pre-check Details </h4>
+				<span><i>Kindly detail what pre-checks have been done prior to executing the change, preferably in paragraph form.</i></span>
+				<textarea id='edit-precheck-note_textarea'></textarea>
+			</div>
+      <div class="modal-footer">
+        <button type="button" id="edit-precheck-note_save" class="btn btn-primary">Save Pre-check Details Note</button> 
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+		</div>
+	</div>
+</div>
+
+<!-- END EDIT PRECHECK NOTES MODAL -->
+
 <form action='set_trigger.php' method='POST' id='trigger_event_form'>
 	<input type='hidden' name='e' id='trigger_e' value=''>
 </form> 

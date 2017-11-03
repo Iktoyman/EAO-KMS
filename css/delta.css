@@ -797,13 +797,22 @@ td .acct_table_num {
 	height: 40%;
 }
 
-.add_notes_modal #add-note_textarea {
+#add-precheck-notes .modal-dialog, #add-notes .modal-dialog {
+	background-color: rgba(20, 20, 20, 0.5);
+}
+
+.add_notes_modal #add-note_textarea, .add_notes_modal #add-precheck-note_textarea, .add_notes_modal #edit-precheck-note_textarea {
 	width: 98%;
 	height: 60%;
 	margin-top: 2%;
 	line-height: 1.25vw;
 	font-size: 0.75vw;
 	padding: 1%;
+	white-space: pre;
+}
+
+.add_notes_modal #add-precheck-note_textarea, .add_notes_modal #edit-precheck-note_textarea {
+	height: 50%;
 }
 
 .add_notes_modal .modal-footer {
@@ -1038,6 +1047,12 @@ td .acct_table_num {
 .change-list .status-overdue {
 	color: orange;
 	font-weight: bold;
+}
+
+.change-list .status-cancelled {
+	color: rgb(187, 50, 11);
+	font-weight: bold;
+	font-style: italic;
 }
 
 #change-list-thead {
