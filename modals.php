@@ -396,6 +396,25 @@
 
 <!-- END MY ACCOUNTS MODAL -->
 
+<!-- ADD PRE-CHECK NOTES MODAL -->
+<div class="modal fade" id="add-precheck-notes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content add_notes_modal"> 
+			<div class="modal-body" style="color: black;">
+				<h4> Pre-check Details </h4>
+				<span><i>Kindly detail what pre-checks have been done prior to executing the change, preferably in paragraph form.</i></span>
+				<textarea id='add-precheck-note_textarea'></textarea>
+			</div>
+      <div class="modal-footer">
+        <button type="button" id="add-precheck-note_save" class="btn btn-primary">Add to Notes</button> 
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+		</div>
+	</div>
+</div>
+
+<!-- END ADD PRE-CHECK NOTES MODAL -->
+
 <form id='download-view_form' method="POST" action='export_view.php'>
 	<input id='filter_type' name='filter_type' type='hidden' value=''>
 	<input id='filter' name='filter' type='hidden' value=''>

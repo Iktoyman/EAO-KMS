@@ -1,4 +1,5 @@
 var status_buffer = "";
+var precheck_buffer = false;
 var approved_buffer = false;
 var edit_sec_resources = [];
 var edit_flag = false;
@@ -83,6 +84,7 @@ function showDetails(id) {
 		var note = _.unescape(data['note']);
 		document.getElementById('det_notes').innerHTML = note;
 		document.getElementById('det_approved').innerHTML = data['is_approved'];
+		document.getElementById('det_prechecked').innerHTML = data['is_prechecked'];
 
 		$('#opened_note_chg_id').val(data['change_ticket_id']);
 		$('#opened_note_title').val(data['description']);
@@ -290,6 +292,21 @@ $(document).ready(function() {
 			approved_buffer = true;
 		}
 
+		if ($('#opened_note_presource').val() == my_id) {
+			var prechecked = $('#det_prechecked').html();
+			$('#det_prechecked').html("Pre-checked before Execution?&nbsp;&nbsp;");
+			$('#det_prechecked').append($('<input>', {
+				type: 'checkbox',
+				id: 'edit-change_prechecked',
+				name: 'edit-change_prechecked',
+				onchange: 'togglePrecheck()'
+			}));
+			if (prechecked == 'Yes') {
+				$('#edit-change_prechecked').prop("checked", true);
+				precheck_buffer = true;
+			}
+		}
+
 		// Dropdowns
 		/*
 		var chg_type = $('#det_chg_type').html();
@@ -413,6 +430,11 @@ $(document).ready(function() {
 		else
 			var is_approved = 0;
 
+		if ($('#edit-change_prechecked').is(':checked'))
+			var is_prechecked = 1;
+		else
+			var is_prechecked = 0;
+ 
 		var time1 = convertTo24($('#edit-timepicker1').val());
 		var time2 = convertTo24($('#edit-timepicker2').val());
 		var time3 = convertTo24($('#edit-timepicker3').val());
@@ -446,7 +468,8 @@ $(document).ready(function() {
 					date4: cu_end,
 					timezone: timezone,
 					status: status,
-					is_approved: is_approved
+					is_approved: is_approved,
+					is_prechecked: is_prechecked
 				}
 			})
 			.done(function() {
@@ -480,6 +503,31 @@ $(document).ready(function() {
 	$('#cancel-changes_btn').on('click', function() {
 		if (confirm("Are you sure you wish to discard edited changes?"))
 			resetModal();
+	});
+
+	$('#edit-precheck-note_save').on('click', function() {
+		var note = $('#edit-precheck-note_textarea').val();
+		var item_id = $('#opened_note_id').val();
+
+		$.ajax({
+			type: "POST",
+			url: "acct_queries.php",
+			data: {
+				action: 'add_precheck_note',
+				id: item_id,
+				note: note
+			},
+			dataType: 'json'
+		})
+		.done(function(data) {
+			if (data) {
+				alert("Pre-check notes added!");
+				$('#edit_precheck_notes').modal('toggle');
+			}
+			else {
+				alert("Error, pre-check details not added to notes.");
+			}
+		});
 	});
 
 	$('#delete_btn').on('click', function() {
@@ -628,6 +676,7 @@ $(document).ready(function() {
 			}
 		});
 	});
+
 });
 
 function toggleSecResDropdown() {
@@ -708,6 +757,12 @@ function editPipeline() {
 		$('#edit-timepicker3').val(moment($('#opened_note_cu_sdate').val()).utcOffset('+0800').format('hh:mma'));
 		$('#edit-datepicker4').val(moment($('#opened_note_cu_edate').val()).utcOffset('+0800').format('MM/DD/YYYY'));
 		$('#edit-timepicker4').val(moment($('#opened_note_cu_edate').val()).utcOffset('+0800').format('hh:mma'));
+	}
+}
+
+function togglePrecheck() {
+	if ($('#edit-change_prechecked').is(':checked')) {
+		$('#edit_precheck_notes').modal('toggle');
 	}
 }
 

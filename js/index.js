@@ -412,8 +412,19 @@ $(document).ready(function() {
 
 	});
 
-	$('#change_prechecked').on('click', function() {
-		alert("Prompt user for notes");
+	$('#change_prechecked').change(function() {
+		if ($(this).is(':checked')) {
+			$('#add-precheck-notes').modal('toggle');
+		}
+	});
+
+	$('#add-precheck-note_save').on('click', function() {
+		var precheck_details = $('#add-precheck-note_textarea').val();
+
+		var notes_text = tinymce.activeEditor.getContent();
+		$('#add-precheck-notes').modal('toggle');
+		tinymce.activeEditor.setContent(precheck_details + '<hr>' + notes_text);
+		console.log(tinymce.activeEditor.getContent());
 	});
 });
 
@@ -503,6 +514,8 @@ function removeName() {
 	$('.sec_res_chkbox[value=' + val + ']').parent().hide();
 
 	$('#change_prechecked').prop('disabled', !(val == my_id));
+	if ($('#change_prechecked').is(':checked'))
+		$('#change_prechecked').attr('checked', (val == my_id));
 }
 
 // Get data
@@ -537,6 +550,11 @@ function clickSaveBtn() {
 			var is_approved = 1;
 		else
 			var is_approved = 0;
+
+		if ($('#change_prechecked').is(':checked'))
+			var is_prechecked = 1;
+		else
+			var is_prechecked = 0;
 
 		if (chg[6] == 'Execute Change')
 			var chg_act = document.getElementById('activity_dropdown').value;
@@ -591,7 +609,8 @@ function clickSaveBtn() {
 					db: db,
 					sp: sp,
 					kms_id: chg[20],
-					approved: is_approved
+					approved: is_approved,
+					prechecked: is_prechecked
 				}
 			})
 			.done(function(msg) {

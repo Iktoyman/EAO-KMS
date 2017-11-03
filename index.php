@@ -219,6 +219,8 @@
 						$stat_hl = "status-failed";
 					else if ($changes[$x]['status'] == 'Overdue')
 						$stat_hl = "status-overdue";
+					else if ($changes[$x]['status'] == 'Cancelled')
+						$stat_hl = "status-cancelled";
 					else 
 						$stat_hl = "";
 					echo "<td class='".$stat_hl."' id='chg_list-status'>" . $changes[$x]['status'] . "<br><br><i><a data-toggle='modal' data-target='#show_ticket_notes' onclick='showNotes(".$changes[$x]['item_id'].")'>View Notes</a></i></td>";
