@@ -52,6 +52,7 @@
 				<li style="padding: 0"> Welcome, <?php echo $_SESSION['user_fullname']; ?>! </li>
 				<li><hr></li>
 				<li><a onclick='triggerHomeEvent("my_uploads")'> My Uploads </a></li>
+				<li><a onclick='triggerHomeEvent("my_changes")'> My Change Activities </a></li>
 				<li><a href='../logout.php'> Logout </a></li>
 			</ul>
 		</div>
