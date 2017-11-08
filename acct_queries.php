@@ -65,15 +65,8 @@
 		$note_row = mysqli_fetch_array($note_qry);
 		$chg['note'] = date("[M d, Y - h:i A]", strtotime($note_row['note_date'])) . " by " . $note_row['name'] . "<br><br>" . $note_row['note_details'];
 
-		if ($chg['is_approved'] == 1)
-			$chg['is_approved'] = 'Yes';
-		else
-			$chg['is_approved'] = 'No';
-
-		if ($chg['is_prechecked'])
-			$chg['is_prechecked'] = 'Yes';
-		else
-			$chg['is_prechecked'] = 'No';
+		$chg['is_approved'] = $chg['is_approved'] ? 'Yes' : 'No';
+		$chg['is_prechecked'] = $chg['is_prechecked'] ? 'Yes' : 'No';
 
 		/*
 		$chg['can_edit'] = 0;
@@ -201,7 +194,7 @@
 
 		mysqli_query($ch_conn, "INSERT INTO item_notes(item_id, note_date, note_details, note_uploader) VALUES(" . $id . ", NOW(), '" . $note . "', " . $_SESSION['ct_uid'] . ")");
 
-		mysqli_query($ch_conn, "UPDATE items SET change_ticket_id = '" . $_POST['chg_id'] . "', description = '" . $title . "', primary_resource = " . $_POST['primary_res'] . ", pht_start_datetime = '" . $_POST['date1'] . "', pht_end_datetime = '" . $_POST['date2'] . "', customer_start_datetime = '" . $_POST['date3'] . "', customer_end_datetime = '" . $_POST['date4'] . "', customer_timezone = '" . $_POST['timezone'] . "', status = '" . $_POST['status'] . "', is_approved = " . $_POST['is_approved'] . " WHERE item_id = " . $id);
+		mysqli_query($ch_conn, "UPDATE items SET change_ticket_id = '" . $_POST['chg_id'] . "', description = '" . $title . "', primary_resource = " . $_POST['primary_res'] . ", pht_start_datetime = '" . $_POST['date1'] . "', pht_end_datetime = '" . $_POST['date2'] . "', customer_start_datetime = '" . $_POST['date3'] . "', customer_end_datetime = '" . $_POST['date4'] . "', customer_timezone = '" . $_POST['timezone'] . "', status = '" . $_POST['status'] . "', is_approved = " . $_POST['is_approved'] . ", is_prechecked = " . $_POST['is_prechecked'] . " WHERE item_id = " . $id);
 		mysqli_query($ch_conn, "DELETE FROM activity_sec_resources WHERE item_id = " . $id);
 
 		foreach($_POST['sec_res'] as $selected) {

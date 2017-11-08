@@ -145,6 +145,7 @@
 			<li style="padding: 0"> Welcome, <?php echo $_SESSION['user_fullname']; ?>! </li>
 			<li><hr></li>
 			<li><a id='my-uploads_link'> My Uploads </a></li>
+			<li><a id='my-changes-link'> My Change Activities </a></li>
 			<li><a href='../logout.php'> Logout </a></li>
 		</ul>
 	</div>

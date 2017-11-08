@@ -30,6 +30,11 @@ $(document).ready(function() {
 			filterColumn(0);
 		}, 500);
 	}
+	else if (trigger_event == 'my_changes') {
+		setTimeout(function() {
+			$('#my-changes-link').trigger('click');
+		}, 500);
+	}
 	else if (trigger_event.indexOf('all-') > -1) {
 		setTimeout(function() {
 			$('.sidebar-div').animate({"margin-left": '+=22.5%'});
@@ -114,6 +119,12 @@ $(document).ready(function() {
 		$('.loading').css("display", "block");
 		filterColumn(0);
 		$('#header_user-dropdown-div').hide();
+	});
+
+	$('#my-changes-link').on('click', function() {
+		$('.loading').css("display", "block");
+		$('#header_user-dropdown-div').hide();
+		myChangesFilter();
 	});
 
 	tinymce.init({
@@ -988,6 +999,32 @@ function accountModalFilter(acct, filter) {
 			displayChangeList(data);
 		}
 	});
+}
+
+function myChangesFilter() {
+	var action = "my_changes_filter";
+
+	setTimeout(function() {
+		$.ajax({
+			type: "POST",
+			url: "process.php",
+			data: {
+				action: action
+			},
+			dataType: 'json'
+		})
+		.done(function(data) {
+			$('#change-list-tbody').html("");
+			if (data.length == 0) {
+				$('#change-list_showlabel').html("");
+				document.getElementById('change-list-tbody').innerHTML += "<tr><td colspan=9> No change items found </td></tr>";
+			}
+			else {
+				displayChangeList(data);
+			}
+			$('.loading').css("display", "none");
+		});
+	}, 750);
 }
 
 function downloadView(type, view_filter) {
