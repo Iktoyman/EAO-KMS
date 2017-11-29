@@ -154,6 +154,7 @@
 			<li align=center><b> TOOLS </b></li>
 			<li><hr></li>
 			<li><a href='../'> EAO - KMS </a></li>
+			<li><a href='../observer-test'> OBServer </a></li>
 			<li><a href='http://16.146.6.254:7080/apollo/home.php'> Apollo </a></li>
 			<li><a href='https://ent302.sharepoint.hpe.com/teams/EAOPH-Quality/Shared%20Documents/Forms/AllItems.aspx?RootFolder=%2fteams%2fEAOPH%2dQuality%2fShared%20Documents%2f40%20EAO%20RST%20Scorecard%20Tools&FolderCTID=0x012000877D17965246E0459CBE002116CCE1F8'> AQUA </a></li>
 		</ul>
@@ -206,7 +207,13 @@
 					echo "<td width=25% id='chg_list-cd'>" . $changes[$x]['description'] . "</td>";
 					echo "<td width=13.5% id='chg_list-res'>" . $changes[$x]['name'] . "</td>";
 					if ($changes[$x]['pht_start_datetime'] == 'Dec 31, 2999 - 12:00AM' && $changes[$x]['pht_end_datetime'] == 'Dec 31, 2999 - 11:59PM') {
-						echo "<td width=25.5% colspan=2 id='chg_list-st'> - No schedule yet: Tentatively planned for the future - </td>";
+						if ($changes[$x]['status'] == 'Completed') {
+							$completion_date_res = mysqli_query($ch_conn, "SELECT DATE_FORMAT(note_date, '%b %d, %Y - %h:%i%p') AS note_date FROM item_notes WHERE item_id = " . $changes[$x]['item_id'] . " AND (note_details = 'Change has been set to Completed.' OR note_date = (SELECT note_date FROM item_notes WHERE item_id = " . $changes[$x]['item_id'] . " ORDER BY note_date DESC LIMIT 1))");
+							$completion_date = mysqli_fetch_assoc($completion_date_res)['note_date'];
+							echo "<td width=25.5% colspan=2 id='chg_list-st'> Completed on $completion_date </td>";
+						}
+						else
+							echo "<td width=25.5% colspan=2 id='chg_list-st'> - No schedule yet: Tentatively planned for the future - </td>";
 					}
 					else {
 						echo "<td width=10.25% id='chg_list-st'>" . $changes[$x]['pht_start_datetime'] . "</td>";
