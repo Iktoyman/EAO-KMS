@@ -28,37 +28,45 @@
 			if ($_POST['servers'] == "" || $_POST['servers'] == " ")
 				$_POST['servers'] = "N/A";
 			if ($_POST['chg_act'] == 0)
-				$qry = "INSERT INTO items(uploader_id, upload_date, change_ticket_id, change_type, description, account_id, sys_id, server, actions, activity_id, primary_resource, pht_start_datetime, pht_end_datetime, customer_start_datetime, customer_end_datetime, customer_timezone, reference, status, is_prechecked, is_approved) VALUES(".$_SESSION['ct_uid'].", NOW(), '".$_POST['chg_id']."', '".$_POST['chg_type']."', '".$title."', ".$_POST['acct'].", '".$_POST['sids']."', '".$_POST['servers']."', '".$_POST['chg_action']."', NULL, ".$_POST['primary_res'].", '".$_POST['date1']." ".$_POST['time1']."', '".$_POST['date2']." ".$_POST['time2']."', '".$_POST['date3']." ".$_POST['time3']."', '".$_POST['date4']." ".$_POST['time4']."', '".$_POST['timezone']."', '".$reference."', '".$_POST['status']."', ".$_POST['prechecked'].", ".$_POST['approved'].")";
+				$qry = "INSERT INTO items(uploader_id, upload_date, change_ticket_id, change_type, description, account_id, sys_id, server, actions, activity_id, primary_resource, pht_start_datetime, pht_end_datetime, customer_start_datetime, customer_end_datetime, customer_timezone, reference, status, is_prechecked, is_approved, is_foureye) VALUES(".$_SESSION['ct_uid'].", NOW(), '".$_POST['chg_id']."', '".$_POST['chg_type']."', '".$title."', ".$_POST['acct'].", '".$_POST['sids']."', '".$_POST['servers']."', '".$_POST['chg_action']."', NULL, ".$_POST['primary_res'].", '".$_POST['date1']." ".$_POST['time1']."', '".$_POST['date2']." ".$_POST['time2']."', '".$_POST['date3']." ".$_POST['time3']."', '".$_POST['date4']." ".$_POST['time4']."', '".$_POST['timezone']."', '".$reference."', '".$_POST['status']."', ".$_POST['prechecked'].", ".$_POST['approved'].", 0)";
 			else
-				$qry = "INSERT INTO items(uploader_id, upload_date, change_ticket_id, change_type, description, account_id, sys_id, server, actions, activity_id, primary_resource, pht_start_datetime, pht_end_datetime, customer_start_datetime, customer_end_datetime, customer_timezone, reference, status, is_prechecked, is_approved) VALUES(".$_SESSION['ct_uid'].", NOW(), '".$_POST['chg_id']."', '".$_POST['chg_type']."', '".$title."', ".$_POST['acct'].", '".$_POST['sids']."', '".$_POST['servers']."', '".$_POST['chg_action']."', ".$_POST['chg_act'].", ".$_POST['primary_res'].", '".$_POST['date1']." ".$_POST['time1']."', '".$_POST['date2']." ".$_POST['time2']."', '".$_POST['date3']." ".$_POST['time3']."', '".$_POST['date4']." ".$_POST['time4']."', '".$_POST['timezone']."', '".$reference."', '".$_POST['status']."', ".$_POST['prechecked'].", ".$_POST['approved'].")";
+				$qry = "INSERT INTO items(uploader_id, upload_date, change_ticket_id, change_type, description, account_id, sys_id, server, actions, activity_id, primary_resource, pht_start_datetime, pht_end_datetime, customer_start_datetime, customer_end_datetime, customer_timezone, reference, status, is_prechecked, is_approved, is_foureye) VALUES(".$_SESSION['ct_uid'].", NOW(), '".$_POST['chg_id']."', '".$_POST['chg_type']."', '".$title."', ".$_POST['acct'].", '".$_POST['sids']."', '".$_POST['servers']."', '".$_POST['chg_action']."', ".$_POST['chg_act'].", ".$_POST['primary_res'].", '".$_POST['date1']." ".$_POST['time1']."', '".$_POST['date2']." ".$_POST['time2']."', '".$_POST['date3']." ".$_POST['time3']."', '".$_POST['date4']." ".$_POST['time4']."', '".$_POST['timezone']."', '".$reference."', '".$_POST['status']."', ".$_POST['prechecked'].", ".$_POST['approved'].", 0)";
 
-			mysqli_query($ch_conn, $qry);
-			$item_id = mysqli_insert_id($ch_conn);
+			if (mysqli_query($ch_conn, $qry)) {
+				$item_id = mysqli_insert_id($ch_conn);
 
-			$notes_qry = "INSERT INTO item_notes(item_id, note_date, note_details, note_uploader) VALUES(".$item_id.", NOW(), '".$notes."', " . $_SESSION['ct_uid'] . ")";
-			mysqli_query($ch_conn, $notes_qry);
+				$notes_qry = "INSERT INTO item_notes(item_id, note_date, note_details, note_uploader) VALUES(".$item_id.", NOW(), '".$notes."', " . $_SESSION['ct_uid'] . ")";
+				mysqli_query($ch_conn, $notes_qry);
 
-			foreach ($_POST['sec_res'] as $sr) 
-				mysqli_query($ch_conn, "INSERT INTO activity_sec_resources(user_id, item_id) VALUES(".$sr.", ".$item_id.")");
+				foreach ($_POST['sec_res'] as $sr) 
+					mysqli_query($ch_conn, "INSERT INTO activity_sec_resources(user_id, item_id) VALUES(".$sr.", ".$item_id.")");
 
-			if (isset ($_POST['os'])) {
-				foreach ($_POST['os'] as $os) 
-					mysqli_query($ch_conn, "INSERT INTO item_os(item_id, os_id) VALUES(".$item_id.", ".$os.")");
+				if (isset ($_POST['os'])) {
+					foreach ($_POST['os'] as $os) 
+						mysqli_query($ch_conn, "INSERT INTO item_os(item_id, os_id) VALUES(".$item_id.", ".$os.")");
+				}
+
+				if (isset($_POST['db'])) {
+					foreach ($_POST['db'] as $db) 
+						mysqli_query($ch_conn, "INSERT INTO item_db(item_id, db_id) VALUES(".$item_id.", ".$db.")");
+				}
+
+				if (isset($_POST['sp'])) {
+					foreach ($_POST['sp'] as $sp) 
+						mysqli_query($ch_conn, "INSERT INTO item_sp(item_id, sp_id) VALUES(".$item_id.", ".$sp.")");
+				}
+
+				if ($_POST['kms_id'] != "")
+					mysqli_query($ch_conn, "INSERT INTO item_kms(item_id, document_id) VALUES(".$item_id.", '".$_POST['kms_id']."')");
+
+				$result = 1;
+			}
+			else {
+				$result = 0;
 			}
 
-			if (isset($_POST['db'])) {
-				foreach ($_POST['db'] as $db) 
-					mysqli_query($ch_conn, "INSERT INTO item_db(item_id, db_id) VALUES(".$item_id.", ".$db.")");
-			}
-
-			if (isset($_POST['sp'])) {
-				foreach ($_POST['sp'] as $sp) 
-					mysqli_query($ch_conn, "INSERT INTO item_sp(item_id, sp_id) VALUES(".$item_id.", ".$sp.")");
-			}
-
-			if ($_POST['kms_id'] != "")
-				mysqli_query($ch_conn, "INSERT INTO item_kms(item_id, document_id) VALUES(".$item_id.", '".$_POST['kms_id']."')");
-			var_dump($qry);
+			echo json_encode($result);
+			//var_dump($qry);
 		}
 		else if ($_POST['action'] == 'check_kms') {
 			$doc_id = $_POST['doc_id'];
@@ -132,7 +140,7 @@
 				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id 	AND a.acct_abbrev = '" . $_POST['acct'] . "' AND a.team_id IN (" . implode(', ', $handled_teams) . ")" . $_POST['condition'] . " ORDER BY i.pht_start_datetime DESC");
 			}
 			else if ($_POST['action'] == 'my_changes_filter') {
-				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND i.primary_resource = " . $_SESSION['ct_uid'] . " ORDER BY i.pht_start_datetime DESC");
+				$res = mysqli_query($ch_conn, "SELECT DISTINCT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t, activity_sec_resources asr WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id AND i.item_id = asr.item_id AND a.team_id IN (" . implode(', ', $handled_teams) . ") AND (i.primary_resource = " . $_SESSION['ct_uid'] . " OR asr.user_id = " . $_SESSION['ct_uid'] . ") ORDER BY i.pht_start_datetime DESC");
 			}
 			else if ($_POST['action'] == 'all_changes_filter') {
 				$res = mysqli_query($ch_conn, "SELECT i.item_id, t.team_name, i.change_ticket_id, a.acct_abbrev, a.acct_name, i.description, CONCAT(u.first_name, ' ', u.last_name) AS name, DATE_FORMAT(i.pht_start_datetime, '%b %d, %Y - %h:%i%p') AS pht_start_datetime, DATE_FORMAT(i.pht_end_datetime, '%b %d, %Y - %h:%i%p') AS pht_end_datetime, i.status FROM items i, account a, users u, team t WHERE a.team_id = t.team_id AND i.primary_resource = u.user_id AND i.account_id = a.acct_id 	AND a.acct_abbrev = '" . $_POST['acct'] . "' ORDER BY i.pht_start_datetime DESC");

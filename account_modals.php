@@ -138,8 +138,9 @@
 					<tr>
 						<td class="show_details_table_label"> Status </td>
 						<td colspan=2 class="show_details_table" id='det_status_td'><span id="det_status"> </span></td>
-						<td colspan=3> </td>
-					</tr>
+						<td class="show_details_table_label"> Four-eye Checked? </td>
+						<td colspan=2 class="show_details_table" id='det_foureye_td'><span id='det_foureye'> </span></td>
+ 					</tr>
 
 					<tr>
 						<td class="show_details_table_label"> Most Recent Note </td>

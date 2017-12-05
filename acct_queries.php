@@ -4,19 +4,25 @@
 	session_start();
 
 	if ($_POST['action'] == 'show_details') {
-		$chg = mysqli_fetch_array(mysqli_query($ch_conn, "SELECT i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, a.acct_id, CONCAT(a.acct_abbrev, ' - ', a.acct_name) AS account, i.primary_resource, CONCAT(u.last_name, ', ', u.first_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference, i.status, i.is_prechecked, i.is_approved FROM users u, items i, account a WHERE i.account_id = a.acct_id AND i.primary_resource = u.user_id AND i.item_id = " . $_POST['id']));
+		$chg = mysqli_fetch_array(mysqli_query($ch_conn, "SELECT i.change_ticket_id, i.change_type, i.description, i.sys_id, i.server, a.acct_id, CONCAT(a.acct_abbrev, ' - ', a.acct_name) AS account, i.primary_resource, CONCAT(u.last_name, ', ', u.first_name) AS primary_res, i.actions, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.reference, i.status, i.is_prechecked, i.is_approved, i.is_foureye FROM users u, items i, account a WHERE i.account_id = a.acct_id AND i.primary_resource = u.user_id AND i.item_id = " . $_POST['id']));
 
 		$sec_res = mysqli_query($ch_conn, "SELECT CONCAT(u.last_name, ', ', u.first_name) AS name FROM users u, activity_sec_resources asr WHERE u.user_id = asr.user_id AND asr.item_id = " . $_POST['id']);
-		while ($sr_row = mysqli_fetch_assoc($sec_res))
-			$sec_ar[] = $sr_row['name'];
-		$sec = implode('; ', $sec_ar);
-		$chg['resources'] = $chg['primary_res'] . " (Primary)<br>" . $sec;
+		if (mysqli_num_rows($sec_res)) {
+			while ($sr_row = mysqli_fetch_assoc($sec_res))
+				$sec_ar[] = $sr_row['name'];
+			$sec = implode('; ', $sec_ar);
 
-		$sec_res = mysqli_query($ch_conn, "SELECT user_id FROM activity_sec_resources WHERE item_id = " . $_POST['id']);
-		while ($sr_row = mysqli_fetch_assoc($sec_res))
-			$sec_ids_ar[] = $sr_row['user_id'];
-		$sec = implode(';', $sec_ids_ar);
-		$chg['sec_ids'] = $sec; 
+			$sec_res = mysqli_query($ch_conn, "SELECT user_id FROM activity_sec_resources WHERE item_id = " . $_POST['id']);
+			while ($sr_row = mysqli_fetch_assoc($sec_res))
+				$sec_ids_ar[] = $sr_row['user_id'];
+			$chg['sec_ids'] = implode(';', $sec_ids_ar); 
+		}
+		else {
+			$sec = '';
+			$chg['sec_ids'] = '';
+		}
+
+		$chg['resources'] = $chg['primary_res'] . " (Primary)<br>" . $sec;
 
 		$os_res = mysqli_query($ch_conn, "SELECT o.os_name FROM operating_system o, item_os i WHERE i.os_id = o.os_id AND i.item_id = " . $_POST['id']);
 		if (mysqli_num_rows($os_res) > 0) {
@@ -67,6 +73,7 @@
 
 		$chg['is_approved'] = $chg['is_approved'] ? 'Yes' : 'No';
 		$chg['is_prechecked'] = $chg['is_prechecked'] ? 'Yes' : 'No';
+		$chg['is_foureye'] = $chg['is_foureye'] ? 'Yes' : 'No';
 
 		/*
 		$chg['can_edit'] = 0;
@@ -138,7 +145,7 @@
 			$note = "Change has been set to Completed.";
 		}
 
-		if (mysqli_query($ch_conn, "UPDATE items SET status = '" . $result . "' WHERE item_id = " . $id))
+		if (mysqli_query($ch_conn, "UPDATE items SET status = '" . $result . "' WHERE item_id = " . $id)) 
 			mysqli_query($ch_conn, "INSERT INTO item_notes(item_id, note_date, note_details, note_uploader) VALUES(" . $id . ", NOW(), '" . $note . "', " . $_SESSION['ct_uid'] . ")");
 
 		echo json_encode($result);
@@ -150,7 +157,7 @@
 		$sr = array();
 
 		$chg_summary = "Summary:<br>";
-		$res = mysqli_query($ch_conn, "SELECT i.change_ticket_id, i.description, i.primary_resource, CONCAT(u.first_name, ' ', u.last_name) AS name, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.status, i.is_approved, i.is_prechecked FROM items i, users u WHERE i.primary_resource = u.user_id AND i.item_id = " . $id);
+		$res = mysqli_query($ch_conn, "SELECT i.change_ticket_id, i.description, i.primary_resource, CONCAT(u.first_name, ' ', u.last_name) AS name, i.pht_start_datetime, i.pht_end_datetime, i.customer_start_datetime, i.customer_end_datetime, i.customer_timezone, i.status, i.is_approved, i.is_prechecked, i.is_foureye FROM items i, users u WHERE i.primary_resource = u.user_id AND i.item_id = " . $id);
 		$chg = mysqli_fetch_array($res);
 		if (html_entity_decode($chg['change_ticket_id']) != $_POST['chg_id'])
 			$chg_summary .= "Changed ticket ID from <b>" . $chg['change_ticket_id'] . "</b> to <b>" . $_POST['chg_id'] . "</b>.<br>";
@@ -178,8 +185,9 @@
 			if ($chg['customer_timezone'] != $_POST['timezone'])
 				$chg_summary .= "Changed timezone from <b>" . $chg['customer_timezone'] . "</b> to <b>" . $_POST['timezone'] . "</b>.<br>";
 		}
-		if ($chg['status'] != $_POST['status'])
+		if ($chg['status'] != $_POST['status']) {
 			$chg_summary .= "Changed status from <b>" . $chg['status'] . "</b> to <b>" . $_POST['status'] . "</b>.<br>";
+		}
 		if ($chg['is_approved'] != $_POST['is_approved'] && $_POST['is_approved'])
 			$chg_summary .= "Change has been marked as <b>Approved and Ready for Implementation</b><br>";	
 		else if ($chg['is_approved'] != $_POST['is_approved'] && !$_POST['is_approved'])
@@ -190,15 +198,30 @@
 		else if ($chg['is_prechecked'] != $_POST['is_prechecked'] && !$_POST['is_prechecked'])
 			$chg_summary .= "Change has been marked as <b>Not Pre-checked</b> by the Executor.<br>";
 
+		$current_processor_name = mysqli_fetch_assoc(mysqli_query($ch_conn, "SELECT CONCAT(first_name, ' ', last_name) AS name FROM users WHERE user_id = " . $_SESSION['ct_uid']))['name'];
+		if ($chg['is_foureye'] != $_POST['is_foureye'] && $_POST['is_foureye'])
+			$chg_summary .= "Change has been <b>Four-Eye Checked</b> by $current_processor_name.<br>";
+		else if ($chg['is_foureye'] != $_POST['is_foureye'] && !$_POST['is_foureye'])
+			$chg_summary .= "Change has been marked as <b>Not Four-Eye Checked</b> by $current_processor_name.<br>";
+
 		$note = htmlentities(mysqli_real_escape_string($ch_conn, $chg_summary), ENT_QUOTES, 'UTF-8');
 
 		mysqli_query($ch_conn, "INSERT INTO item_notes(item_id, note_date, note_details, note_uploader) VALUES(" . $id . ", NOW(), '" . $note . "', " . $_SESSION['ct_uid'] . ")");
 
-		mysqli_query($ch_conn, "UPDATE items SET change_ticket_id = '" . $_POST['chg_id'] . "', description = '" . $title . "', primary_resource = " . $_POST['primary_res'] . ", pht_start_datetime = '" . $_POST['date1'] . "', pht_end_datetime = '" . $_POST['date2'] . "', customer_start_datetime = '" . $_POST['date3'] . "', customer_end_datetime = '" . $_POST['date4'] . "', customer_timezone = '" . $_POST['timezone'] . "', status = '" . $_POST['status'] . "', is_approved = " . $_POST['is_approved'] . ", is_prechecked = " . $_POST['is_prechecked'] . " WHERE item_id = " . $id);
+		mysqli_query($ch_conn, "UPDATE items SET change_ticket_id = '" . $_POST['chg_id'] . "', description = '" . $title . "', primary_resource = " . $_POST['primary_res'] . ", pht_start_datetime = '" . $_POST['date1'] . "', pht_end_datetime = '" . $_POST['date2'] . "', customer_start_datetime = '" . $_POST['date3'] . "', customer_end_datetime = '" . $_POST['date4'] . "', customer_timezone = '" . $_POST['timezone'] . "', status = '" . $_POST['status'] . "', is_approved = " . $_POST['is_approved'] . ", is_prechecked = " . $_POST['is_prechecked'] . ", is_foureye = " . $_POST['is_foureye'] . " WHERE item_id = " . $id);
 		mysqli_query($ch_conn, "DELETE FROM activity_sec_resources WHERE item_id = " . $id);
 
 		foreach($_POST['sec_res'] as $selected) {
 			mysqli_query($ch_conn, "INSERT INTO activity_sec_resources(user_id, item_id) VALUES(" . $selected . ", " . $id . ")");
+		}
+
+		if (date("Y", strtotime($_POST['date1'])) == '2999' && $_POST['status'] == 'Completed') {
+			// Check if in pipeline, then change start and end datetimes
+			$check_qry = "SELECT item_id FROM items WHERE item_id = $id AND YEAR(pht_start_datetime) = 2999 AND status = 'Completed'";
+			if (mysqli_num_rows(mysqli_query($ch_conn, $check_qry))) {
+				$update_dates_query = "UPDATE items SET pht_start_datetime = NOW(), pht_end_datetime = DATE_ADD(NOW(), INTERVAL 1 HOUR), customer_start_datetime = NOW(), customer_end_datetime = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE item_id = $id";
+				mysqli_query($ch_conn, $update_dates_query);
+			}
 		}
 	}
 	else if ($_POST['action'] == 'change_status') {
@@ -208,6 +231,13 @@
 
 		if (mysqli_query($ch_conn, "UPDATE items SET status = '" . $status . "' WHERE item_id = " . $id)) {
 			mysqli_query($ch_conn, "INSERT INTO item_notes(item_id, note_date, note_details, note_uploader) VALUES(" . $id . ", NOW(), '" . $note . "', " . $_SESSION['ct_uid'] . ")");
+
+			// Check if in pipeline, then change start and end datetimes
+			$check_qry = "SELECT item_id FROM items WHERE item_id = $id AND YEAR(pht_start_datetime) = 2999 AND status = 'Completed'";
+			if (mysqli_num_rows(mysqli_query($ch_conn, $check_qry))) {
+				$update_dates_query = "UPDATE items SET pht_start_datetime = NOW(), pht_end_datetime = DATE_ADD(NOW(), INTERVAL 1 HOUR), customer_start_datetime = NOW(), customer_end_datetime = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE item_id = $id";
+				mysqli_query($ch_conn, $update_dates_query);
+			}
 			$result = 1;
 		}
 		else

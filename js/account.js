@@ -1,6 +1,7 @@
 var status_buffer = "";
 var precheck_buffer = false;
 var approved_buffer = false;
+var foureye_buffer = false;
 var edit_sec_resources = [];
 var edit_flag = false;
 
@@ -85,6 +86,7 @@ function showDetails(id) {
 		document.getElementById('det_notes').innerHTML = note;
 		document.getElementById('det_approved').innerHTML = data['is_approved'];
 		document.getElementById('det_prechecked').innerHTML = data['is_prechecked'];
+		document.getElementById('det_foureye').innerHTML = data['is_foureye'];
 
 		$('#opened_note_chg_id').val(data['change_ticket_id']);
 		$('#opened_note_title').val(data['description']);
@@ -228,6 +230,7 @@ $(document).ready(function() {
 		}
 	});
 
+	/*
 	$('#change-status_btn').on('click', function(event) {
 		var status = $('#det_status').html();
 		var id = $('#opened_note_id').val();
@@ -258,6 +261,7 @@ $(document).ready(function() {
 			});
 		}
 	});
+	*/
 
 	$('#edit-change_btn').on('click', function() {
 		edit_flag = true;
@@ -361,6 +365,20 @@ $(document).ready(function() {
 					$('.sec_res_chkbox[value=' + resources[data][c]['user_id'] + ']').prop("checked", true);
 					edit_checkBoxes_resources();
 			}
+
+			if (secondary_resource_ids.indexOf(my_id) > -1) {
+				var foureye = $('#det_foureye').html();
+				$('#det_foureye').html("Change four-eye checked?&nbsp;&nbsp;");
+				$('#det_foureye').append($('<input>', {
+					type: 'checkbox',
+					id: 'edit-change_foureye',
+					name: 'edit-change_foureye'
+				}));
+				if (foureye == 'Yes') {
+					$('#edit-change_foureye').prop("checked", true);
+					foureye_buffer = true;
+				}
+			}
 		});
 
 
@@ -434,6 +452,11 @@ $(document).ready(function() {
 			var is_prechecked = 1;
 		else
 			var is_prechecked = 0;
+
+		if ($('#edit-change_foureye').is(':checked'))
+			var is_foureye = 1;
+		else
+			var is_foureye = 0;
  
 		var time1 = convertTo24($('#edit-timepicker1').val());
 		var time2 = convertTo24($('#edit-timepicker2').val());
@@ -469,7 +492,8 @@ $(document).ready(function() {
 					timezone: timezone,
 					status: status,
 					is_approved: is_approved,
-					is_prechecked: is_prechecked
+					is_prechecked: is_prechecked,
+					is_foureye: is_foureye
 				}
 			})
 			.done(function() {
@@ -866,6 +890,16 @@ function resetModal() {
 			$('#det_approved').html("Yes");
 		else
 			$('#det_approved').html("No");
+
+		if (precheck_buffer)
+			$('#det_prechecked').html("Yes");
+		else
+			$('#det_prechecked').html("No");
+
+		if (foureye_buffer)
+			$('#det_foureye').html("Yes");
+		else
+			$('#det_foureye').html("No");
 
 		$('#save-change_btn').parent().css('display', 'none');
 		$('#edit-change_btn').parent().css('display', 'table-cell');

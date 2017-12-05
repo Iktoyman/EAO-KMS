@@ -624,9 +624,14 @@ function clickSaveBtn() {
 					prechecked: is_prechecked
 				}
 			})
-			.done(function(msg) {
-				alert("New item added!");
-				window.location.href = "/delta/";
+			.done(function(data) {
+				if (data) {
+					alert("New item added!");
+					window.location.href = "/delta/";	
+				}
+				else {
+					alert("Error! Check if input given is valid and complete and try again.");
+				}
 			});
 		}
 		else if (!chg_defined) {
@@ -744,6 +749,8 @@ function displayChangeList(changes) {
 			var stat_hl = "status-failed";
 		else if (changes[x]['status'] == 'Overdue')
 			var stat_hl = "status-overdue";
+		else if (changes[x]['status'] == 'Cancelled')
+			var stat_hl = "status-cancelled";
 		else 
 			var stat_hl = "";
 		document.getElementById('change-list-tbody').innerHTML += "<tr>"
@@ -893,6 +900,8 @@ function showMoreChanges(row_num) {
 			var stat_hl = "status-failed";
 		else if (changes[x]['status'] == 'Overdue')
 			var stat_hl = "status-overdue";
+		else if (changes[x]['status'] == 'Cancelled')
+			var stat_hl = "status-cancelled";
 		else 
 			var stat_hl = "";
 		document.getElementById('change-list-tbody').innerHTML += "<tr>"

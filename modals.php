@@ -49,6 +49,23 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<form method="POST" action="" id="create_change_item">
 					<table class="table create_form_table">
+						<?php
+							if ($_SESSION['ct_team'] != 99 || sizeof($managed_teams_ids) <= 1) {
+								echo "<tr style='display:none'>";
+							}
+							else
+								echo "<tr>";
+							echo "<td> Team </td>";
+							echo "<td>";
+								echo "<select name='team' id='team' onchange='selectTeam()'>";
+									for ($i = 0; $i < sizeof($managed_teams_ids); $i++) {
+										echo "<option value=" . $managed_teams_ids[$i] . "> " . $managed_teams_names[$i] . "</option>";
+									}
+								echo "</select>";
+							echo "</td>";
+							echo "</tr>";
+						?>
+						
 						<tr>
 							<td width=15%> Change Ticket ID <span class="asterisk">*</span></td>
 							<td width=32.5%> <input type="text" name="chg_ticket_id" id="chg_ticket_id" /> </td>
@@ -109,23 +126,6 @@
 						<tr class="divider_tr">
 							<td colspan=4 style="text-align: center;"> <hr> </td>
 						</tr>
-
-						<?php
-							if ($_SESSION['ct_team'] != 99 || sizeof($managed_teams_ids) <= 1) {
-								echo "<tr style='display:none'>";
-							}
-							else
-								echo "<tr>";
-							echo "<td> Team </td>";
-							echo "<td>";
-								echo "<select name='team' id='team' onchange='selectTeam()'>";
-									for ($i = 0; $i < sizeof($managed_teams_ids); $i++) {
-										echo "<option value=" . $managed_teams_ids[$i] . "> " . $managed_teams_names[$i] . "</option>";
-									}
-								echo "</select>";
-							echo "</td>";
-							echo "</tr>";
-						?>
 
 						<tr>
 							<td> Account <span class="asterisk">*</span></td>

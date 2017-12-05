@@ -7,29 +7,33 @@
 
 	if (!isset($_GET['activities'])) {
 		$action = 'Execute Change';
+		$addact = " OR actions = 'Start / Stop' OR actions = 'Health Check'";
 		$eventlimit_flag = false;
 	}
 	else {
 		if ($_GET['activities'] == 'changes') {
 			$action = 'Execute Change';
+			$addact = " OR actions = 'Start / Stop' OR actions = 'Health Check'";
 			$eventlimit_flag = false;
 		}
 		else if ($_GET['activities'] == 'projects') {
 			$action = 'Project';
+			$addact = '';
 			$eventlimit_flag = true;
 		}
 		else {
 			$action = 'Import Transport';
+			$addact = '';
 			$eventlimit_flag = true;
 		}
 	}
 
 	$month_activities = array();
-	$get_dates = mysqli_query($ch_conn, "SELECT DISTINCT DATE(pht_start_datetime) AS dates FROM items WHERE actions = '$action' ORDER BY dates ASC");
+	$get_dates = mysqli_query($ch_conn, "SELECT DISTINCT DATE(pht_start_datetime) AS dates FROM items WHERE (actions = '$action'".$addact.") ORDER BY dates ASC");
 	$a = 0;
 	while ($date_row = mysqli_fetch_array($get_dates)) {
 		$reference_date = $date_row['dates'];
-		$get_activities = mysqli_query($ch_conn, "SELECT item_id, description, pht_start_datetime, pht_end_datetime, status FROM items WHERE actions = '$action' AND DATE(pht_start_datetime) = '$reference_date' ORDER BY pht_start_datetime, description ASC");
+		$get_activities = mysqli_query($ch_conn, "SELECT item_id, description, pht_start_datetime, pht_end_datetime, status FROM items WHERE (actions = '$action'".$addact.") AND DATE(pht_start_datetime) = '$reference_date' ORDER BY pht_start_datetime, description ASC");
 		$disp = 0;
 		while ($row = mysqli_fetch_array($get_activities)) {
 			$month_activities[$a]['id'] = $row['item_id'];
@@ -76,6 +80,7 @@
 		var events = <?php echo json_encode($month_activities); ?>;
 		var limit = <?php echo json_encode($eventlimit_flag); ?>;
 		var action = '<?php echo $action; ?>';
+		console.log(events);
 
 		$(document).ready(function() {
 			$('#chg_calendar').fullCalendar({

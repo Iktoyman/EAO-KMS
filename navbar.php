@@ -61,6 +61,7 @@
 				<li align=center><b> TOOLS </b></li>
 				<li><hr></li>
 				<li><a href='../'> EAO - KMS </a></li>
+				<li><a href='../observer-test'> OBServer </a></li>
 				<li><a href='http://16.146.6.254:7080/apollo/home.php'> Apollo </a></li>
 				<li><a href='https://ent302.sharepoint.hpe.com/teams/EAOPH-Quality/Shared%20Documents/Forms/AllItems.aspx?RootFolder=%2fteams%2fEAOPH%2dQuality%2fShared%20Documents%2f40%20EAO%20RST%20Scorecard%20Tools&FolderCTID=0x012000877D17965246E0459CBE002116CCE1F8'> AQUA </a></li>
 			</ul>
