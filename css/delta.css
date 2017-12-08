@@ -699,6 +699,21 @@ td .acct_table_num {
 	cursor: hand;
 }
 
+.show_details .glyphicon-question-sign {
+	color: #159bc4;
+	cursor: pointer;
+}
+
+.popover {
+	color: black;
+	font-size: 0.6vw;
+	font-style: italic;
+}
+
+.popover .popover-title {
+	font-weight: bold;
+}
+
 #det_notes_td p, #det_notes_td td, #notes_tbody td {
 	line-height: 150%;
 	color: black !important;

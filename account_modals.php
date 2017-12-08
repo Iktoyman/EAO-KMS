@@ -129,16 +129,22 @@
 					</tr>
 
 					<tr>
-						<td class="show_details_table_label"> Change Pre-checked? </td>
+						<td class="show_details_table_label"> Change Pre-checked? 
+							&nbsp;<i class='glyphicon glyphicon-question-sign' data-container="body" data-toggle="popover" data-placement="top" data-title="What is Pre-check?" data-content="Has this change been Pre-checked by the primary resource prior to execution?"></i>
+						</td>
 						<td colspan=2 class="show_details_table" id='det_prechecked_td'><span id='det_prechecked'> </span></td>
-						<td class="show_details_table_label"> Ready for Implementation? </td>
+						<td class="show_details_table_label"> Ready for Implementation? 
+							&nbsp;<i class='glyphicon glyphicon-question-sign' data-container="body" data-toggle="popover" data-placement="top" data-title="Is it ready for Implementation?" data-content="Has this change been Approved by the Change Owner as Ready for Implementation?"></i>
+						</td>
 						<td colspan=2 class="show_details_table" id='det_approved_td'><span id='det_approved'> </span></td>
 					</tr>
 
 					<tr>
 						<td class="show_details_table_label"> Status </td>
 						<td colspan=2 class="show_details_table" id='det_status_td'><span id="det_status"> </span></td>
-						<td class="show_details_table_label"> Four-eye Checked? </td>
+						<td class="show_details_table_label"> Four-eye Checked? 
+							&nbsp;<i class='glyphicon glyphicon-question-sign' data-container="body" data-toggle="popover" data-placement="top" data-title="What is Four-eye Check?" data-content="Has the implementation and execution of this change been double-checked by the secondary resource(s)?"></i>
+						</td>
 						<td colspan=2 class="show_details_table" id='det_foureye_td'><span id='det_foureye'> </span></td>
  					</tr>
 

@@ -121,6 +121,16 @@ function showDetails(id) {
 }
 
 $(document).ready(function() {
+	$('[data-toggle="popover"]').popover();
+
+	$('.show_details .glyphicon-question-sign').on('mouseover', function() {
+		$(this).popover('show');
+	});
+
+	$('.show_details .glyphicon-question-sign').on('mouseout', function() {
+		$(this).popover('hide');
+	});
+
 	$('#show_notes_link').on('click', function() {
 		var id = $('#opened_note_id').val();
 		var action = 'show_notes';
@@ -296,8 +306,10 @@ $(document).ready(function() {
 			approved_buffer = true;
 		}
 
+		var prechecked = $('#det_prechecked').html();
+		if (prechecked == 'Yes')
+			precheck_buffer = true;
 		if ($('#opened_note_presource').val() == my_id) {
-			var prechecked = $('#det_prechecked').html();
 			$('#det_prechecked').html("Pre-checked before Execution?&nbsp;&nbsp;");
 			$('#det_prechecked').append($('<input>', {
 				type: 'checkbox',
@@ -307,7 +319,6 @@ $(document).ready(function() {
 			}));
 			if (prechecked == 'Yes') {
 				$('#edit-change_prechecked').prop("checked", true);
-				precheck_buffer = true;
 			}
 		}
 
@@ -366,8 +377,9 @@ $(document).ready(function() {
 					edit_checkBoxes_resources();
 			}
 
+			var foureye = $('#det_foureye').html();
+			foureye_buffer = (foureye == 'Yes') ? true : false;
 			if (secondary_resource_ids.indexOf(my_id) > -1) {
-				var foureye = $('#det_foureye').html();
 				$('#det_foureye').html("Change four-eye checked?&nbsp;&nbsp;");
 				$('#det_foureye').append($('<input>', {
 					type: 'checkbox',
@@ -443,20 +455,17 @@ $(document).ready(function() {
 		var title = $('#det_chg_desc_input').val();
 		var primary_res = $('#det_presource_select').val();
 		var status = $('#edit-status_select').val();
-		if ($('#edit-change_ready').is(":checked"))
-			var is_approved = 1;
-		else
-			var is_approved = 0;
 
-		if ($('#edit-change_prechecked').is(':checked'))
-			var is_prechecked = 1;
-		else
-			var is_prechecked = 0;
+		var is_approved = $('#edit-change_ready').is(":checked") ? 1 : 0;
 
-		if ($('#edit-change_foureye').is(':checked'))
-			var is_foureye = 1;
-		else
-			var is_foureye = 0;
+		if ($('#opened_note_presource').val() == my_id) {
+			var is_prechecked = $('#edit-change_prechecked').is(':checked') ? 1 : 0;
+		}
+		else {
+			var is_prechecked = precheck_buffer ? 1 : 0;
+		}
+
+		var is_foureye = $('#edit-change_foureye').is(':checked') ? 1 : 0;
  
 		var time1 = convertTo24($('#edit-timepicker1').val());
 		var time2 = convertTo24($('#edit-timepicker2').val());
@@ -498,7 +507,7 @@ $(document).ready(function() {
 			})
 			.done(function() {
 				alert("Changes saved!");
-				window.location.href = window.location.href;
+				window.location.reload();
 			}); 
 		}
 		else if (chg_id == '' || title == '') {
